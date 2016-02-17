@@ -1,5 +1,7 @@
 package main;
 
+import java.io.File;
+
 import algorithms.PlyGraphGenerator;
 import gateway.GraphConverter;
 import gateway.Importer;
@@ -8,9 +10,11 @@ import maxclique.MaxClique;
 
 public class Main {
 
-	public static void main(String[] args) {	
+	public static void main(String[] args) throws Exception {	
+		
+		File inputGraphFileName = new File("test.gml");
 
-		Graph inputGraph = Importer.testGraph();
+		Graph inputGraph = Importer.readInput(inputGraphFileName);
 		
 		PlyGraphGenerator pgg = new PlyGraphGenerator(0.5);
 		
