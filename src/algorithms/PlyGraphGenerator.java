@@ -1,21 +1,47 @@
 package algorithms;
 
-import graph.Graph;
-import graph.Vertex;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import graph.Edge;
+import graph.Graph;
+import graph.Vertex;
+
 public class PlyGraphGenerator{
 		
-	Map<String, Double> circlesRadiiMap;
+	Map<Integer, Double> circlesRadiiMap;
 		
 	public PlyGraphGenerator(double radiusRatio){
 		
-		this.circlesRadiiMap = new HashMap<String, Double>();		
+		this.circlesRadiiMap = new HashMap<Integer, Double>();		
+		
+	}
+
+
+	private void computePlyCircles(Graph graph, double radiusRatio){
+				
+		this.computeEdgesDistances(graph);
+		
+		this.circlesRadiiMap = new HashMap<Integer, Double>();	
+		
+		for(Vertex currVertex : graph.getVertices()){
+						
+			double maxRadiusLength = 0;
+			
+			Set<Edge> adjEdges = graph.getIncidentEdges(currVertex);
+			
+			for(Edge currEdge : adjEdges){
+				double dist = currEdge.getLenth();
+
+				maxRadiusLength = Math.max(maxRadiusLength, dist*radiusRatio);
+			}
+			
+			this.circlesRadiiMap.put(currVertex.identifier, maxRadiusLength);
+			
+			
+		}
 		
 	}
 
@@ -23,10 +49,14 @@ public class PlyGraphGenerator{
 	public Graph generatePlyGraph(Graph graph, double radiusRatio){
 		
 		computePlyCircles(graph, radiusRatio);
-	
-		Graph plyGraph = new Graph(new HashSet<Vertex>(graph.vertices));
+
+		Map<Integer, Vertex> verticesMap = graph.getVerticesMap();
+		Map<Integer, Edge> edgesMap = new HashMap<Integer, Edge>();
+
+			
+		ArrayList<Vertex> orderedVerticesList = new ArrayList<Vertex>(verticesMap.values());
 		
-		ArrayList<Vertex> orderedVerticesList = new ArrayList<Vertex>(graph.vertices);
+		int edgeId = 0;
 		
 		for(int i=0; i<orderedVerticesList.size(); i++){
 			
@@ -37,15 +67,18 @@ public class PlyGraphGenerator{
 				Vertex secondVertex = orderedVerticesList.get(j);
 				
 				if(doCirclesIntesect(firstVertex, secondVertex)){
-					
-					plyGraph.setAdjsVertices(firstVertex, secondVertex, false);
-					
+										
+					Edge currIntersectionEdge = new Edge(edgeId, firstVertex.identifier, secondVertex.identifier);
+					edgesMap.put(edgeId, currIntersectionEdge);
+					edgeId++;
+						
 				}
 		
 			}
 			
 		}
 		
+		Graph plyGraph = new Graph(verticesMap, edgesMap);
 		
 		return plyGraph;
 	}
@@ -61,25 +94,26 @@ public class PlyGraphGenerator{
 		
 	}
 	
-	private void computePlyCircles(Graph graph, double radiusRatio){
+	
+	//ComputeDistances
+	
+	private void computeEdgesDistances(Graph graph){
 		
-		this.circlesRadiiMap = new HashMap<String, Double>();	
+		Set<Edge> edges = graph.getEdges();
+		Map<Integer, Vertex> verticesMap = graph.getVerticesMap();
 		
-		for(Vertex currVertex : graph.vertices){
+	
+		for(Edge edge : edges){
 			
-			double maxRadiusLength = 0;
+			Vertex source = verticesMap.get(edge.getSourceIdentifier());
+			Vertex target = verticesMap.get(edge.getTargetIdentifier());
 			
-			Set<Vertex> adjVertices = graph.getAdjsOfVertex(currVertex);
-			
-			for(Vertex currAdj : adjVertices){
-				double dist = distance(currVertex, currAdj);
-				maxRadiusLength = Math.max(maxRadiusLength, dist*radiusRatio);
-			}
-			
-			this.circlesRadiiMap.put(currVertex.identifier, maxRadiusLength);
-			
+			double currDist = this.distance(source, target);
+			edge.setLength(currDist);
 			
 		}
+		
+		
 		
 	}
 	
