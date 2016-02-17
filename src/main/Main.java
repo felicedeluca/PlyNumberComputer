@@ -8,10 +8,12 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {	
 
-
-		File inputGraphFileName = new File("test.gml");
-
-		double plyNumber = StateMachine.startPlyComputation(inputGraphFileName, 0.5);
+		if(args.length!=2) throw new IllegalArgumentException("Please check input values: filePath radiusratio."); 
+		
+		File inputGraphFileName = new File(args[0]);
+		double radiusRatio = Double.parseDouble(args[1]); 
+				
+		double plyNumber = StateMachine.startPlyComputation(inputGraphFileName, radiusRatio);
 		
 		System.out.println("Max Ply No: "+ plyNumber);
 		

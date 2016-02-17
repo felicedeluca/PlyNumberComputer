@@ -12,7 +12,6 @@ public class StateMachine {
 
 	
 	public static double startPlyComputation(File inputFile, double radiusRatio) throws Exception{
-		
 
 		Graph inputGraph = Importer.readInput(inputFile);
 		
