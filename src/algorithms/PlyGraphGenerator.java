@@ -13,7 +13,7 @@ public class PlyGraphGenerator{
 		
 	Map<Integer, Double> circlesRadiiMap;
 		
-	public PlyGraphGenerator(double radiusRatio){
+	public PlyGraphGenerator(){
 		
 		this.circlesRadiiMap = new HashMap<Integer, Double>();		
 		

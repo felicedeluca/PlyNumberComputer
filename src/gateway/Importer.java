@@ -127,7 +127,7 @@ public class Importer {
 		
 		input.close();
 		
-		System.out.println("parsed " + f.getName() + "\nNodes: " + vertices.size() + "\nEdges: " + edge.size());
+//		System.out.println("parsed " + f.getName() + "\nNodes: " + vertices.size() + "\nEdges: " + edge.size());
 			
 		return new Graph(vertices, edge);
 	}
