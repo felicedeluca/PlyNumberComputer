@@ -29,7 +29,7 @@ public class Main {
 
 		try {
 
-			File outputFile = new File("ply.csv");
+			File outputFile = new File("results"+File.separator+"ply_results.csv");
 
 			if (!outputFile.exists()) {
 				outputFile.createNewFile();
