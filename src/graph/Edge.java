@@ -5,6 +5,7 @@ public class Edge {
 	Integer identifier, source, target;
 	double length =-1;
 	boolean directed = false;
+	public String label;
 	
 	public Edge(Vertex source, Vertex target){
 		
@@ -52,5 +53,11 @@ public class Edge {
 	
 	public double getLenth(){
 		return this.length;
+	}
+	
+	public String toString(){
+		
+		return this.getIdentifier()+ ": " + this.getSourceIdentifier() + "-" + this.getTargetIdentifier();
+		
 	}
 }

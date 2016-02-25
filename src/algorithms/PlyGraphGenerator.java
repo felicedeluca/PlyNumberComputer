@@ -11,11 +11,11 @@ import graph.Vertex;
 
 public class PlyGraphGenerator{
 		
-	Map<Integer, Double> circlesRadiiMap;
+//	Map<Integer, Double> circlesRadiiMap;
 		
 	public PlyGraphGenerator(){
 		
-		this.circlesRadiiMap = new HashMap<Integer, Double>();		
+//		this.circlesRadiiMap = new HashMap<Integer, Double>();		
 		
 	}
 
@@ -24,7 +24,7 @@ public class PlyGraphGenerator{
 				
 		this.computeEdgesDistances(graph);
 		
-		this.circlesRadiiMap = new HashMap<Integer, Double>();	
+//		this.circlesRadiiMap = new HashMap<Integer, Double>();	
 		
 		for(Vertex currVertex : graph.getVertices()){
 						
@@ -38,7 +38,8 @@ public class PlyGraphGenerator{
 				maxRadiusLength = Math.max(maxRadiusLength, dist*radiusRatio);
 			}
 			
-			this.circlesRadiiMap.put(currVertex.identifier, maxRadiusLength);
+			currVertex.circleRadius = maxRadiusLength;
+//			this.circlesRadiiMap.put(currVertex.identifier, maxRadiusLength);
 			
 			
 		}
@@ -87,8 +88,11 @@ public class PlyGraphGenerator{
 		
 		double distance = distance(v1, v2);
 		
-		double v1CircleRadius = this.circlesRadiiMap.get(v1.identifier);
-		double v2CircleRadius = this.circlesRadiiMap.get(v2.identifier);
+//		double v1CircleRadius = this.circlesRadiiMap.get(v1.identifier);
+//		double v2CircleRadius = this.circlesRadiiMap.get(v2.identifier);
+		
+		double v1CircleRadius = v1.circleRadius;
+		double v2CircleRadius = v2.circleRadius;
 		
 		return ((v1CircleRadius+v2CircleRadius)>distance);
 		

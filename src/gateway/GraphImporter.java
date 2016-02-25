@@ -17,9 +17,9 @@ import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
 
-public class Importer {
+public class GraphImporter {
 	
-	public static Graph testGraph(){
+/*	public static Graph testGraph(){
 		
 		
 		Vertex one = new Vertex(0, 0, 0);
@@ -61,7 +61,7 @@ public class Importer {
 		return new Graph(vertices, edges);
 
 		
-	}
+	}*/
 	
 	public static Graph readInput(File f) throws Exception{
 		
