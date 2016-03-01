@@ -17,32 +17,6 @@ graph
 	]
 	node
 	[
-		id 1
-		graphics
-		[
-			x 196.0
-			y 352.0
-			w 178.03440678700284
-			h 178.03440678700284
-			type "ellipse"
-		]
-		label "1"
-	]
-	node
-	[
-		id 4
-		graphics
-		[
-			x 314.0
-			y 48.0
-			w 217.0921463342237
-			h 217.0921463342237
-			type "ellipse"
-		]
-		label "4"
-	]
-	node
-	[
 		id 3
 		graphics
 		[
@@ -67,9 +41,45 @@ graph
 		]
 		label "2"
 	]
+	node
+	[
+		id 4
+		graphics
+		[
+			x 314.0
+			y 48.0
+			w 217.0921463342237
+			h 217.0921463342237
+			type "ellipse"
+		]
+		label "4"
+	]
+	node
+	[
+		id 1
+		graphics
+		[
+			x 196.0
+			y 352.0
+			w 178.03440678700284
+			h 178.03440678700284
+			type "ellipse"
+		]
+		label "1"
+	]
 	edge
 	[
 		source 0
+		target 1
+	]
+	edge
+	[
+		source 0
+		target 3
+	]
+	edge
+	[
+		source 2
 		target 3
 	]
 	edge
@@ -81,15 +91,5 @@ graph
 	[
 		source 3
 		target 4
-	]
-	edge
-	[
-		source 2
-		target 3
-	]
-	edge
-	[
-		source 0
-		target 1
 	]
 ]
