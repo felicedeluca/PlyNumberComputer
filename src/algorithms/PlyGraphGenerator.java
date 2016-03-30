@@ -20,7 +20,7 @@ public class PlyGraphGenerator{
 	}
 
 
-	private void computePlyCircles(Graph graph, double radiusRatio){
+	public Set<Vertex> computePlyCircles(Graph graph, double radiusRatio){
 				
 		this.computeEdgesDistances(graph);
 		
@@ -44,10 +44,12 @@ public class PlyGraphGenerator{
 			
 		}
 		
+		return graph.getVertices();
+		
 	}
 
 
-	public Graph generatePlyGraph(Graph graph, double radiusRatio){
+	public Graph generatePlyIntersectionGraph(Graph graph, double radiusRatio){
 		
 		computePlyCircles(graph, radiusRatio);
 
