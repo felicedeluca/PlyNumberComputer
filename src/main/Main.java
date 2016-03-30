@@ -17,8 +17,10 @@ public class Main {
 		File inputGraphFileName = new File(args[0]);
 		double radiusRatio = Double.parseDouble(args[1]);
 
-		double plyNumber = StateMachine.startPlyComputation(inputGraphFileName, radiusRatio);
+//		double plyNumber = StateMachine.startPlyComputation(inputGraphFileName, radiusRatio);
+		double plyNumber = StateMachine.computePlyUsingLineSweep(inputGraphFileName, radiusRatio);
 
+		
 		String fileName = inputGraphFileName.getName();
 		int pos = fileName.lastIndexOf(".");
 		if (pos > 0) {
