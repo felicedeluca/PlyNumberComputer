@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.math.DoubleRange;
+
 public class LineSweepAlgorithm {
 	
 	Set<Circle> circles;
@@ -29,23 +31,19 @@ public class LineSweepAlgorithm {
 			Set<Event> events = eventsMap.get(x);
 			
 			for (Event e : events){
-				
 				//Setup circles
-				prepareForEvent(e);
-				
-				
-				//Compute all Intersections
-				computeIntersections();
-				
-				//Point of maximum overlap
-				double currPly = pointOfMaximumOverlap();
-
-				
-				//Check Ply
-				if(currPly>maxPly) maxPly = currPly;
-				
-				
+				prepareForEvent(e);	
 			}
+			
+			//Compute all Intersections
+			computeIntersections(x);
+			
+			//Point of maximum overlap
+			double currPly = pointOfMaximumOverlap();
+
+			
+			//Check Ply
+			if(currPly>maxPly) maxPly = currPly;
 			
 			
 		}
@@ -85,9 +83,31 @@ public class LineSweepAlgorithm {
 		
 	}
 	
-	private void computeIntersections(){
-
+	private ArrayList<DoubleRange> computeIntersections(double xLine){
 		
+		ArrayList<DoubleRange> rangeSet = new ArrayList<DoubleRange>();
+		
+		for(Circle circle : this.activeCircles){
+			
+			double xCenter = circle.getX();
+			double yCenter = circle.getY();
+			double radius = circle.radius;
+			
+			
+			double a = 1;
+			double b = -2*Math.pow(yCenter, 2);
+			double c = Math.pow(yCenter, 2)+Math.pow((xLine-xCenter), 2)-Math.pow(radius, 2);
+			
+			double y1 = (-b-Math.sqrt(Math.pow(b, 2)-4*a*c))/2*a;
+			double y2 = (-b+Math.sqrt(Math.pow(b, 2)-4*a*c))/2*a;
+			
+			DoubleRange currRange = new DoubleRange(y1, y2);
+			
+			rangeSet.add(currRange);
+			
+		}
+
+		return rangeSet;
 
 	}
 	
