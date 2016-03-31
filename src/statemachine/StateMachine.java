@@ -55,8 +55,6 @@ public class StateMachine {
 		
 		LineSweepAlgorithm lsa = new LineSweepAlgorithm();
 		lsa.startOnCircles(circles);
-
-		
 		
 		return 0;
 		

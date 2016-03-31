@@ -29,8 +29,15 @@ public class LineSweepAlgorithm {
 		Collections.sort(eventsX);
 
 		int maxPly = 0;
+		
+		System.out.println("Events: " + eventsX.size());
+		
+		int i = 0;
 
 		for(Double x : eventsX){
+			
+			System.out.print(i+") ");
+			i++;
 
 			Set<Event> events = eventsMap.get(x);
 
@@ -39,6 +46,7 @@ public class LineSweepAlgorithm {
 				prepareForEvent(e);	
 			}
 
+			if(activeCircles.size()>0){
 			//Compute all Intersections
 			ArrayList<DoubleRange> intervals = computeIntersections(x);
 
@@ -48,6 +56,10 @@ public class LineSweepAlgorithm {
 
 			//Check Ply
 			if(currPly>maxPly) maxPly = currPly;
+			}
+			else{
+				System.out.println("no active circles");
+			}
 
 
 		}
@@ -102,13 +114,17 @@ public class LineSweepAlgorithm {
 
 
 			double a = 1;
-			double b = -2*Math.pow(yCenter, 2);
+			double b = -2*yCenter;
 			double c = Math.pow(yCenter, 2)+Math.pow((xLine-xCenter), 2)-Math.pow(radius, 2);
 
-			double y1 = (-b-Math.sqrt(Math.pow(b, 2)-4*a*c))/2*a;
-			double y2 = (-b+Math.sqrt(Math.pow(b, 2)-4*a*c))/2*a;
+			double sqrt = Math.sqrt(Math.pow(b, 2)-(4*a*c));
+			
+			double y1 = (-b-sqrt)/(2*a);
+			double y2 = (-b+sqrt)/(2*a);
 
 			DoubleRange currRange = new DoubleRange(y1, y2);
+			
+			System.out.println("xLine: "+xLine+": ["+y1+" , "+y2+"]");
 
 			rangeSet.add(currRange);
 
