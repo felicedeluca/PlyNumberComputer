@@ -11,6 +11,9 @@ import org.apache.commons.lang.math.DoubleRange;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
 
+import utilities.ApfloatRange;
+import utilities.Configurator;
+
 public class LineSweepAlgorithm {
 
 	Set<Circle> circles;
@@ -50,7 +53,7 @@ public class LineSweepAlgorithm {
 
 			if(activeCircles.size()>0){
 			//Compute all Intersections
-			ArrayList<DoubleRange> intervals = computeIntersections(x);
+			ArrayList<ApfloatRange> intervals = computeIntersections(x);
 
 			//Point of maximum overlap
 			int currPly = pointOfMaximumOverlap(intervals);
@@ -104,9 +107,9 @@ public class LineSweepAlgorithm {
 
 	}
 
-	private ArrayList<DoubleRange> computeIntersections(Apfloat xLine){
+	private ArrayList<ApfloatRange> computeIntersections(Apfloat xLine){
 
-		ArrayList<DoubleRange> rangeSet = new ArrayList<DoubleRange>();
+		ArrayList<ApfloatRange> rangeSet = new ArrayList<ApfloatRange>();
 
 		for(Circle circle : this.activeCircles){
 
@@ -119,21 +122,21 @@ public class LineSweepAlgorithm {
 
 
 			//Apfloat a = new Apfloat("1", Apfloat.INFINITE);
-			Apfloat b = yCenter.multiply(new Apfloat("2", 10000)).negate();
-			Apfloat c = ApfloatMath.sum(ApfloatMath.pow(yCenter, new Apfloat("2", 10000)),
-					 ApfloatMath.pow(ApfloatMath.abs(xLine.subtract(xCenter)), new Apfloat("2", 10000)),
-					 ApfloatMath.pow(radius, new Apfloat("2", 10000)).negate());
+			Apfloat b = yCenter.multiply(new Apfloat("2", Configurator.apfloatPrecision())).negate();
+			Apfloat c = ApfloatMath.sum(ApfloatMath.pow(yCenter, 2),
+					 ApfloatMath.pow(ApfloatMath.abs(xLine.subtract(xCenter)), 2),
+					 ApfloatMath.pow(radius, 2).negate());
 
 
 			Apfloat sqrt = ApfloatMath.sqrt(
 							ApfloatMath.sum(
 									ApfloatMath.pow(b, 2),
-										c.multiply(new Apfloat("4", 10000)).negate()));
+										c.multiply(new Apfloat("4", Configurator.apfloatPrecision())).negate()));
 			
-			Apfloat y1 = b.negate().subtract(sqrt).divide(new Apfloat("2", 10000));
-			Apfloat y2 = b.negate().add(sqrt).divide(new Apfloat("2", 10000));
+			Apfloat y1 = b.negate().subtract(sqrt).divide(new Apfloat("2", Configurator.apfloatPrecision()));
+			Apfloat y2 = b.negate().add(sqrt).divide(new Apfloat("2", Configurator.apfloatPrecision()));
 
-			DoubleRange currRange = new DoubleRange(y1, y2);
+			ApfloatRange currRange = new ApfloatRange(y1, y2);
 			
 			//System.out.println(" ["+y1+" , "+y2+"]");
 
@@ -145,32 +148,32 @@ public class LineSweepAlgorithm {
 
 	}
 
-	private int pointOfMaximumOverlap(ArrayList<DoubleRange> intervals){
+	private int pointOfMaximumOverlap(ArrayList<ApfloatRange> intervals){
 
-		Map<Double, ArrayList<DoubleRange>> openingRangesMap = new HashMap<Double, ArrayList<DoubleRange>>();
-		Map<Double, ArrayList<DoubleRange>> closingRangesMap = new HashMap<Double, ArrayList<DoubleRange>>();
-		Map<Double, ArrayList<DoubleRange>> degenerateRangesMap = new HashMap<Double, ArrayList<DoubleRange>>();
+		Map<Apfloat, ArrayList<ApfloatRange>> openingRangesMap = new HashMap<Apfloat, ArrayList<ApfloatRange>>();
+		Map<Apfloat, ArrayList<ApfloatRange>> closingRangesMap = new HashMap<Apfloat, ArrayList<ApfloatRange>>();
+		Map<Apfloat, ArrayList<ApfloatRange>> degenerateRangesMap = new HashMap<Apfloat, ArrayList<ApfloatRange>>();
 
-		for (DoubleRange r : intervals){
+		for (ApfloatRange r : intervals){
 
-			if(r.getMaximumDouble() == r.getMinimumDouble()){
-				double key = r.getMinimumDouble();
-				ArrayList<DoubleRange> dR = degenerateRangesMap.get(key);
-				if(dR == null) dR = new ArrayList<DoubleRange>();
+			if(r.getMaximumValue() == r.getMinimumValue()){
+				Apfloat key = r.getMinimumValue();
+				ArrayList<ApfloatRange> dR = degenerateRangesMap.get(key);
+				if(dR == null) dR = new ArrayList<ApfloatRange>();
 				dR.add(r);
 				degenerateRangesMap.put(key, dR);
 
 			}else{
 
-				double minKey = r.getMinimumDouble();
-				ArrayList<DoubleRange> oR = openingRangesMap.get(minKey);
-				if(oR == null) oR = new ArrayList<DoubleRange>();
+				Apfloat minKey = r.getMinimumValue();
+				ArrayList<ApfloatRange> oR = openingRangesMap.get(minKey);
+				if(oR == null) oR = new ArrayList<ApfloatRange>();
 				oR.add(r);
 				openingRangesMap.put(minKey, oR);
 
-				double maxKey = r.getMaximumDouble();
-				ArrayList<DoubleRange> cR = closingRangesMap.get(maxKey);
-				if(cR == null) cR = new ArrayList<DoubleRange>();
+				Apfloat maxKey = r.getMaximumValue();
+				ArrayList<ApfloatRange> cR = closingRangesMap.get(maxKey);
+				if(cR == null) cR = new ArrayList<ApfloatRange>();
 				cR.add(r);
 				closingRangesMap.put(maxKey, cR);
 
@@ -179,7 +182,7 @@ public class LineSweepAlgorithm {
 
 		}
 		
-		ArrayList<Double> allKeys = new ArrayList<Double>();
+		ArrayList<Apfloat> allKeys = new ArrayList<Apfloat>();
 		allKeys.addAll(openingRangesMap.keySet());
 		allKeys.addAll(closingRangesMap.keySet());
 		allKeys.addAll(degenerateRangesMap.keySet());
@@ -189,25 +192,25 @@ public class LineSweepAlgorithm {
 		int p = -1;
 		int tempP = 0;
 		
-		Set<DoubleRange> openRanges = new HashSet<DoubleRange>();
+		Set<ApfloatRange> openRanges = new HashSet<ApfloatRange>();
 		
-		for(Double k : allKeys){
+		for(Apfloat k : allKeys){
 			
-			ArrayList<DoubleRange> cR = closingRangesMap.get(k);
+			ArrayList<ApfloatRange> cR = closingRangesMap.get(k);
 			if(cR != null){
 				if(!openRanges.containsAll(cR)) throw new IllegalArgumentException("Closing not open Range");
 				openRanges.removeAll(cR);
 				tempP -= cR.size();
 			}
 
-			ArrayList<DoubleRange> oR = openingRangesMap.get(k);
+			ArrayList<ApfloatRange> oR = openingRangesMap.get(k);
 			if(oR != null){
 				openRanges.addAll(oR);
 				tempP +=oR.size();
 				
 			}
 			
-			ArrayList<DoubleRange> dR = degenerateRangesMap.get(k);
+			ArrayList<ApfloatRange> dR = degenerateRangesMap.get(k);
 			if(dR != null){
 				tempP += dR.size();
 				if(tempP > p) p = tempP;

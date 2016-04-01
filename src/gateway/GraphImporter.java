@@ -16,6 +16,7 @@ import org.apfloat.Apfloat;
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
+import utilities.Configurator;
 
 public class GraphImporter {
 	
@@ -95,8 +96,8 @@ public class GraphImporter {
 				switch(splits[0]){
 					case "id": id = Integer.parseInt(splits[1]);
 							   break;
-					case "x": x =  new Apfloat(splits[1], Apfloat.INFINITE); break;
-					case "y": y =  new Apfloat(splits[1], Apfloat.INFINITE); break;
+					case "x": x =  new Apfloat(splits[1], Configurator.apfloatPrecision()); break;
+					case "y": y =  new Apfloat(splits[1], Configurator.apfloatPrecision()); break;
 					case "component": component = Integer.parseInt(splits[1]); break;
 				}
 				substart = nodeMatcher.end();
