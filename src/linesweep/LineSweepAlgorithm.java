@@ -22,7 +22,7 @@ public class LineSweepAlgorithm {
 
 		//Compute Events
 		EventsMng em = new EventsMng();
-		Map<Double, Set<Event>> eventsMap = em.computeStartingAndEndingEvents(circles);
+		Map<Double, Set<Event>> eventsMap = em.computeStartingEndingAndIntersectingEvents(circles);
 
 		//Ordered key list
 		ArrayList<Double> eventsX = new ArrayList<Double>(eventsMap.keySet());
@@ -111,6 +111,9 @@ public class LineSweepAlgorithm {
 			double xCenter = circle.getX();
 			double yCenter = circle.getY();
 			double radius = circle.radius;
+		
+			System.out.println("xLine: "+xLine+"\ncenter: (" +xCenter + ", "+ yCenter +") radius: "+ radius );
+			
 
 
 			double a = 1;
@@ -124,7 +127,7 @@ public class LineSweepAlgorithm {
 
 			DoubleRange currRange = new DoubleRange(y1, y2);
 			
-			System.out.println("xLine: "+xLine+": ["+y1+" , "+y2+"]");
+			System.out.println(" ["+y1+" , "+y2+"]");
 
 			rangeSet.add(currRange);
 
