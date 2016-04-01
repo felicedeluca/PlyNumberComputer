@@ -3,6 +3,8 @@ package gateway;
 import java.io.PrintWriter;
 import java.io.Writer;
 
+import org.apfloat.Apfloat;
+
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
@@ -22,15 +24,17 @@ public class GMLExporter {
     private void exportVertices(PrintWriter out, Graph g)
         {
             for (Vertex vertex : g.getVertices()) {
+            	
+            	
                 out.println(tab1 + "node");
                 out.println(tab1 + "[");
                 out.println(tab2 + "id" + delim + vertex.identifier);
                 out.println(tab2 + "graphics");
                 out.println(tab2 + "[");
-                out.println(tab3 + "x" + delim + vertex.x);
-                out.println(tab3 + "y" + delim + vertex.y);
-                out.println(tab3 + "w" + delim + (vertex.circleRadius*2));
-                out.println(tab3 + "h" + delim + (vertex.circleRadius*2));
+                out.println(tab3 + "x" + delim + vertex.x.toString(true));
+                out.println(tab3 + "y" + delim + vertex.y.toString(true));
+                out.println(tab3 + "w" + delim + (vertex.circleRadius.multiply(new Apfloat("2",1000)).toString(true)));
+                out.println(tab3 + "h" + delim + (vertex.circleRadius.multiply(new Apfloat("2",1000)).toString(true)));
                 out.println(tab3 + "type" + delim + quoted("ellipse"));
                 out.println(tab2 + "]");
                 if (vertex.label != null)

@@ -1,20 +1,22 @@
 package graph;
 
+import org.apfloat.Apfloat;
+
 public class Vertex {
 
 	public Integer identifier;
-	public double x;
-	public double y;
+	public Apfloat x;
+	public Apfloat y;
 	public String label;
-	public double circleRadius;
+	public Apfloat circleRadius;
 
-	public Vertex(Integer identifier, double x, double y){
+	public Vertex(Integer identifier, Apfloat x, Apfloat y){
 
 		this.identifier = identifier;
 		this.x = x;
 		this.y = y;
 		this.label = identifier +"";
-		this.circleRadius = 0;
+		this.circleRadius = new Apfloat("0");
 
 	}
 

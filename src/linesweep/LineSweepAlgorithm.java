@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.math.DoubleRange;
+import org.apfloat.Apfloat;
+import org.apfloat.ApfloatMath;
 
 public class LineSweepAlgorithm {
 
@@ -22,10 +24,10 @@ public class LineSweepAlgorithm {
 
 		//Compute Events
 		EventsMng em = new EventsMng();
-		Map<Double, Set<Event>> eventsMap = em.computeStartingEndingAndIntersectingEvents(circles);
+		Map<Apfloat, Set<Event>> eventsMap = em.computeStartingEndingAndIntersectingEvents(circles);
 
 		//Ordered key list
-		ArrayList<Double> eventsX = new ArrayList<Double>(eventsMap.keySet());
+		ArrayList<Apfloat> eventsX = new ArrayList<Apfloat>(eventsMap.keySet());
 		Collections.sort(eventsX);
 
 		int maxPly = 0;
@@ -34,7 +36,7 @@ public class LineSweepAlgorithm {
 		
 		int i = 0;
 
-		for(Double x : eventsX){
+		for(Apfloat x : eventsX){
 			
 			System.out.print(i+") ");
 			i++;
@@ -102,32 +104,38 @@ public class LineSweepAlgorithm {
 
 	}
 
-	private ArrayList<DoubleRange> computeIntersections(double xLine){
+	private ArrayList<DoubleRange> computeIntersections(Apfloat xLine){
 
 		ArrayList<DoubleRange> rangeSet = new ArrayList<DoubleRange>();
 
 		for(Circle circle : this.activeCircles){
 
-			double xCenter = circle.getX();
-			double yCenter = circle.getY();
-			double radius = circle.radius;
+			Apfloat xCenter = circle.getX();
+			Apfloat yCenter = circle.getY();
+			Apfloat radius = circle.radius;
 		
-			System.out.println("xLine: "+xLine+"\ncenter: (" +xCenter + ", "+ yCenter +") radius: "+ radius );
+			//System.out.println("xLine: "+xLine+"\ncenter: (" +xCenter + ", "+ yCenter +") radius: "+ radius );
 			
 
 
-			double a = 1;
-			double b = -2*yCenter;
-			double c = Math.pow(yCenter, 2)+Math.pow((xLine-xCenter), 2)-Math.pow(radius, 2);
+			//Apfloat a = new Apfloat("1", Apfloat.INFINITE);
+			Apfloat b = yCenter.multiply(new Apfloat("2", 10000)).negate();
+			Apfloat c = ApfloatMath.sum(ApfloatMath.pow(yCenter, new Apfloat("2", 10000)),
+					 ApfloatMath.pow(ApfloatMath.abs(xLine.subtract(xCenter)), new Apfloat("2", 10000)),
+					 ApfloatMath.pow(radius, new Apfloat("2", 10000)).negate());
 
-			double sqrt = Math.sqrt(Math.pow(b, 2)-(4*a*c));
+
+			Apfloat sqrt = ApfloatMath.sqrt(
+							ApfloatMath.sum(
+									ApfloatMath.pow(b, 2),
+										c.multiply(new Apfloat("4", 10000)).negate()));
 			
-			double y1 = (-b-sqrt)/(2*a);
-			double y2 = (-b+sqrt)/(2*a);
+			Apfloat y1 = b.negate().subtract(sqrt).divide(new Apfloat("2", 10000));
+			Apfloat y2 = b.negate().add(sqrt).divide(new Apfloat("2", 10000));
 
 			DoubleRange currRange = new DoubleRange(y1, y2);
 			
-			System.out.println(" ["+y1+" , "+y2+"]");
+			//System.out.println(" ["+y1+" , "+y2+"]");
 
 			rangeSet.add(currRange);
 

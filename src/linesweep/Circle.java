@@ -1,22 +1,24 @@
 package linesweep;
 
+import org.apfloat.Apfloat;
+
 public class Circle {
 	
-	double x;
-	double y;
-	double radius;
+	Apfloat x;
+	Apfloat y;
+	Apfloat radius;
 	
-	public Circle(int identifier, double x, double y, double radius){
+	public Circle(int identifier, Apfloat x, Apfloat y, Apfloat radius){
 		this.x = x;
 		this.y = y;
 		this.radius = radius;
 	}
 
-	public double getX(){
+	public Apfloat getX(){
 		return this.x;
 	}
 	
-	public double getY(){
+	public Apfloat getY(){
 		return this.y;
 	}
 	

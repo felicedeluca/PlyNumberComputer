@@ -6,29 +6,31 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apfloat.Apfloat;
+
 import linesweep.Event.Type;
 
 public class EventsMng {
 
 	ArrayList<Event> orderdEvents;
 
-	Map<Double, Set<Event>> eventsMap;
+	Map<Apfloat, Set<Event>> eventsMap;
 
 	public EventsMng(){
 
-		this.eventsMap = new HashMap<Double, Set<Event>>();
+		this.eventsMap = new HashMap<Apfloat, Set<Event>>();
 
 	}
 
-	public Map<Double, Set<Event>> computeStartingEndingAndIntersectingEvents(Set<Circle> circles){
+	public Map<Apfloat, Set<Event>> computeStartingEndingAndIntersectingEvents(Set<Circle> circles){
 
 		for(Circle c : circles){
 
-			double startingX = c.getX()-c.radius;
+			Apfloat startingX = c.getX().subtract(c.radius);
 			
-			System.out.println("starting " + startingX + " c: "+ c.getX() + " r:  " + c.radius);
+			System.out.println("starting " + startingX.toString(true) + " c: "+ c.getX().toString(true) + " r:  " + c.radius.toString(true));
 			
-			double endingX = c.getX()+c.radius;
+			Apfloat endingX = c.getX().add(c.radius);
 
 			Event oEvent = new Event(Type.OPENING, c);
 			Event cEvent = new Event(Type.CLOSING, c);
@@ -68,7 +70,7 @@ public class EventsMng {
 
 	private void checkIfCirclesIntersect(Circle c1, Circle c2){
 
-		double dx = c2.getX() - c1.getX();
+	/*	double dx = c2.getX() - c1.getX();
 		double dy = c2.getY() - c1.getY();
 
 		double d = Math.sqrt((dy*dy) + (dx*dx));
@@ -99,7 +101,7 @@ public class EventsMng {
 		
 		
 		System.out.println("pi1 1 at: ("+ xi1 +", "+ yi1 +")");
-		System.out.println("pi1 2 at: ("+ xi2 +", "+ yi2 +")");
+		System.out.println("pi1 2 at: ("+ xi2 +", "+ yi2 +")");*/
 
 	}
 

@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.Writer;
 import java.util.Set;
 
+import org.apfloat.Apfloat;
+
 import algorithms.PlyGraphGenerator;
 import gateway.GMLExporter;
 import gateway.GraphConverter;
@@ -19,7 +21,7 @@ import maxclique.MaxClique;
 public class StateMachine {
 
 	
-	public static double startPlyComputation(File inputFile, double radiusRatio) throws Exception{
+	public static double startPlyComputation(File inputFile, Apfloat radiusRatio) throws Exception{
 
 		Graph inputGraph = GraphImporter.readInput(inputFile);
 		
@@ -44,7 +46,7 @@ public class StateMachine {
 	}
 	
 	
-	public static double computePlyUsingLineSweep(File inputFile, double radiusRatio) throws Exception{
+	public static double computePlyUsingLineSweep(File inputFile, Apfloat radiusRatio) throws Exception{
 		
 		Graph inputGraph = GraphImporter.readInput(inputFile);
 		

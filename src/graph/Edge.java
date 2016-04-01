@@ -1,9 +1,11 @@
 package graph;
 
+import org.apfloat.Apfloat;
+
 public class Edge {
 	
 	Integer identifier, source, target;
-	double length =-1;
+	Apfloat length;
 	boolean directed = false;
 	public String label;
 	
@@ -11,6 +13,7 @@ public class Edge {
 		
 		this.source = source.identifier;
 		this.target = target.identifier;
+		length = new Apfloat("-1");
 		
 	}
 	
@@ -22,7 +25,7 @@ public class Edge {
 		
 	}
 	
-	public Edge(int identifier, Integer source, Integer target, double length){
+	public Edge(int identifier, Integer source, Integer target, Apfloat length){
 		
 		this.identifier = identifier;
 		this.source = source;
@@ -47,11 +50,11 @@ public class Edge {
 		return directed;
 	}
 
-	public void setLength(double length){
+	public void setLength(Apfloat length){
 		this.length = length;
 	}
 	
-	public double getLenth(){
+	public Apfloat getLenth(){
 		return this.length;
 	}
 	

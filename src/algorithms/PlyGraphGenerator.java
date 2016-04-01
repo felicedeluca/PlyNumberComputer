@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.apfloat.Apfloat;
+import org.apfloat.ApfloatMath;
+
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
@@ -20,22 +23,24 @@ public class PlyGraphGenerator{
 	}
 
 
-	public Set<Vertex> computePlyCircles(Graph graph, double radiusRatio){
+	public Set<Vertex> computePlyCircles(Graph graph, Apfloat radiusRatio){
 				
 		this.computeEdgesDistances(graph);
-		
-//		this.circlesRadiiMap = new HashMap<Integer, Double>();	
-		
+				
 		for(Vertex currVertex : graph.getVertices()){
 						
-			double maxRadiusLength = 0;
+			Apfloat maxRadiusLength = new Apfloat("0");
 			
 			Set<Edge> adjEdges = graph.getIncidentEdges(currVertex);
 			
 			for(Edge currEdge : adjEdges){
-				double dist = currEdge.getLenth();
+				
+				Apfloat dist = currEdge.getLenth();
+				
+				Apfloat currRadius = dist.multiply(radiusRatio);
 
-				maxRadiusLength = Math.max(maxRadiusLength, dist*radiusRatio);
+				maxRadiusLength = (maxRadiusLength.compareTo(currRadius)== 1) ? maxRadiusLength : currRadius;
+				// ApfloatMath.max(maxRadiusLength, currRadius);
 			}
 			
 			currVertex.circleRadius = maxRadiusLength;
@@ -49,7 +54,7 @@ public class PlyGraphGenerator{
 	}
 
 
-	public Graph generatePlyIntersectionGraph(Graph graph, double radiusRatio){
+	public Graph generatePlyIntersectionGraph(Graph graph, Apfloat radiusRatio){
 		
 		computePlyCircles(graph, radiusRatio);
 
@@ -88,15 +93,16 @@ public class PlyGraphGenerator{
 	
 	private boolean doCirclesIntesect(Vertex v1, Vertex v2){
 		
-		double distance = distance(v1, v2);
+		Apfloat distance = distance(v1, v2);
 		
-//		double v1CircleRadius = this.circlesRadiiMap.get(v1.identifier);
-//		double v2CircleRadius = this.circlesRadiiMap.get(v2.identifier);
+		Apfloat v1CircleRadius = v1.circleRadius;
+		Apfloat v2CircleRadius = v2.circleRadius;
 		
-		double v1CircleRadius = v1.circleRadius;
-		double v2CircleRadius = v2.circleRadius;
+		Apfloat radiiSum = ApfloatMath.sum(v1CircleRadius, v2CircleRadius);
 		
-		return ((v1CircleRadius+v2CircleRadius)>distance);
+		int compare = (radiiSum.compareTo(distance));
+		
+		return (compare > 0);
 		
 	}
 	
@@ -114,7 +120,7 @@ public class PlyGraphGenerator{
 			Vertex source = verticesMap.get(edge.getSourceIdentifier());
 			Vertex target = verticesMap.get(edge.getTargetIdentifier());
 			
-			double currDist = this.distance(source, target);
+			Apfloat currDist = this.distance(source, target);
 			edge.setLength(currDist);
 			
 		}
@@ -123,16 +129,20 @@ public class PlyGraphGenerator{
 		
 	}
 	
-	private double distance(Vertex firstVertex, Vertex secondVertex){
+	private Apfloat distance(Vertex firstVertex, Vertex secondVertex){
 		
-		double x1 = firstVertex.x;
-		double y1 = firstVertex.y;
-		double x2 = secondVertex.x;
-		double y2 = secondVertex.y;
+		Apfloat x1 = firstVertex.x;
+		Apfloat y1 = firstVertex.y;
+		Apfloat x2 = secondVertex.x;
+		Apfloat y2 = secondVertex.y;
+			
+		Apfloat xDist = ApfloatMath.pow(ApfloatMath.abs(x1.subtract(x2)), 2);
+		Apfloat yDist = ApfloatMath.pow(ApfloatMath.abs(y1.subtract(y2)), 2);
+
 		
-		double  dist = Math.sqrt(
-		            Math.pow(x1 - x2, 2) +
-		            Math.pow(y1 - y2, 2));
+		
+		Apfloat  dist = ApfloatMath.sqrt(xDist.add(yDist));
+		
 		return dist;
 	}
 

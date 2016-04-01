@@ -8,10 +8,10 @@ import java.nio.CharBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apfloat.Apfloat;
 
 import graph.Edge;
 import graph.Graph;
@@ -87,16 +87,16 @@ public class GraphImporter {
 			Matcher nodeMatcher = pNode.matcher(section);
 			int substart=0;
 			int id = -1;
-			float x = 0.0f;
-			float y = 0.0f;
+			Apfloat x = new Apfloat("0");
+			Apfloat y =  new Apfloat("0");
 			int component = -1;
 			while(nodeMatcher.find(substart)){
 				String[] splits = nodeMatcher.group().split("\\s");
 				switch(splits[0]){
 					case "id": id = Integer.parseInt(splits[1]);
 							   break;
-					case "x": x = Float.parseFloat(splits[1]); break;
-					case "y": y = Float.parseFloat(splits[1]); break;
+					case "x": x =  new Apfloat(splits[1], Apfloat.INFINITE); break;
+					case "y": y =  new Apfloat(splits[1], Apfloat.INFINITE); break;
 					case "component": component = Integer.parseInt(splits[1]); break;
 				}
 				substart = nodeMatcher.end();
