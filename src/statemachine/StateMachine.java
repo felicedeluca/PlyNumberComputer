@@ -52,8 +52,7 @@ public class StateMachine {
 		
 		PlyGraphGenerator pgg = new PlyGraphGenerator();
 		
-		Set<Vertex> vertices = pgg.computePlyCircles(inputGraph, radiusRatio);
-		Set<Circle> circles = CirclesMng.sharedInstance().convertVerticesToCirlces(vertices);
+		Set<Circle> circles = pgg.computePlyCircles(inputGraph, radiusRatio);
 		
 		LineSweepAlgorithm lsa = new LineSweepAlgorithm();
 		lsa.startOnCircles(circles);

@@ -2,6 +2,7 @@ package algorithms;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import org.apfloat.ApfloatMath;
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
+import linesweep.Circle;
 
 public class PlyGraphGenerator{
 		
@@ -23,9 +25,11 @@ public class PlyGraphGenerator{
 	}
 
 
-	public Set<Vertex> computePlyCircles(Graph graph, Apfloat radiusRatio){
+	public Set<Circle> computePlyCircles(Graph graph, Apfloat radiusRatio){
 				
 		this.computeEdgesDistances(graph);
+		
+		Set<Circle> circles = new HashSet<Circle>();
 				
 		for(Vertex currVertex : graph.getVertices()){
 						
@@ -34,11 +38,8 @@ public class PlyGraphGenerator{
 			Set<Edge> adjEdges = graph.getIncidentEdges(currVertex);
 			
 			for(Edge currEdge : adjEdges){
-				
 				Apfloat dist = currEdge.getLenth();
-				
 				Apfloat currRadius = dist.multiply(radiusRatio);
-
 				maxRadiusLength = (maxRadiusLength.compareTo(currRadius)== 1) ? maxRadiusLength : currRadius;
 				// ApfloatMath.max(maxRadiusLength, currRadius);
 			}
@@ -46,10 +47,12 @@ public class PlyGraphGenerator{
 			currVertex.circleRadius = maxRadiusLength;
 //			this.circlesRadiiMap.put(currVertex.identifier, maxRadiusLength);
 			
+			Circle c = new Circle(currVertex.identifier, currVertex.x, currVertex.y, currVertex.circleRadius);
+			circles.add(c);
 			
 		}
 		
-		return graph.getVertices();
+		return circles;
 		
 	}
 

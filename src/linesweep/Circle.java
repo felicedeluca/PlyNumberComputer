@@ -22,4 +22,12 @@ public class Circle {
 		return this.y;
 	}
 	
+	public String toString(){
+		
+		String str = "c: ( "+this.x+", "+this.y+") r:"+this.radius;
+		
+		return str;
+		
+	}
+	
 }

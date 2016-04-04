@@ -41,7 +41,7 @@ public class LineSweepAlgorithm {
 
 		for(Apfloat x : eventsX){
 			
-			System.out.print(i+") ");
+			System.out.print(i+". ");
 			i++;
 
 			Set<Event> events = eventsMap.get(x);
@@ -65,6 +65,9 @@ public class LineSweepAlgorithm {
 			else{
 				System.out.println("no active circles");
 			}
+			
+			
+			System.out.println();
 
 
 		}
@@ -93,12 +96,13 @@ public class LineSweepAlgorithm {
 		}
 		break;
 		case INTERSECTION:{
-			Circle c1 = null;
-			Circle c2 = null;
+			System.out.println("intersection event");
+			Circle c1 = e.c1;
+			Circle c2 = e.c2;
 			if(!activeCircles.contains(c1) &&
 					!activeCircles.contains(c2))
 				throw new IllegalArgumentException("Intersection between non active circles");
-
+			System.out.println("Intersection Event");
 		}
 		break;
 		default:
@@ -182,10 +186,13 @@ public class LineSweepAlgorithm {
 
 		}
 		
-		ArrayList<Apfloat> allKeys = new ArrayList<Apfloat>();
-		allKeys.addAll(openingRangesMap.keySet());
-		allKeys.addAll(closingRangesMap.keySet());
-		allKeys.addAll(degenerateRangesMap.keySet());
+		Set<Apfloat> allKeysSet = new HashSet<Apfloat>();
+		allKeysSet.addAll(openingRangesMap.keySet());
+		allKeysSet.addAll(closingRangesMap.keySet());
+		allKeysSet.addAll(degenerateRangesMap.keySet());
+		
+		ArrayList<Apfloat> allKeys = new ArrayList<Apfloat>(allKeysSet);
+
 		
 		Collections.sort(allKeys);
 		
@@ -196,13 +203,6 @@ public class LineSweepAlgorithm {
 		
 		for(Apfloat k : allKeys){
 			
-			ArrayList<ApfloatRange> cR = closingRangesMap.get(k);
-			if(cR != null){
-				if(!openRanges.containsAll(cR)) throw new IllegalArgumentException("Closing not open Range");
-				openRanges.removeAll(cR);
-				tempP -= cR.size();
-			}
-
 			ArrayList<ApfloatRange> oR = openingRangesMap.get(k);
 			if(oR != null){
 				openRanges.addAll(oR);
@@ -218,6 +218,14 @@ public class LineSweepAlgorithm {
 			}
 			
 			if(tempP > p) p = tempP;
+			
+			ArrayList<ApfloatRange> cR = closingRangesMap.get(k);
+			if(cR != null){
+				if(!openRanges.containsAll(cR)) throw new IllegalArgumentException("Closing not open Range");
+				openRanges.removeAll(cR);
+				tempP -= cR.size();
+			}
+
 			
 		}
 
