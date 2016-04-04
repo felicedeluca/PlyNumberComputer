@@ -2,13 +2,17 @@ package utilities;
 
 import org.apfloat.Apfloat;
 
+import linesweep.Circle;
+
 public class ApfloatRange {
 	
 	Apfloat v1, v2;
+	Circle circle;
 	
-	public ApfloatRange(Apfloat v1, Apfloat v2){
+	public ApfloatRange(Apfloat v1, Apfloat v2, Circle circle){
 		this.v1 = v1.precision(100);
 		this.v2 = v2.precision(100);
+		this.circle = circle;
 		
 	}
 	
@@ -30,6 +34,10 @@ public class ApfloatRange {
 	
 	return s;
 		
+	}
+	
+	public Circle getCircle(){
+		return this.circle;
 	}
 
 }

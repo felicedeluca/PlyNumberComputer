@@ -27,6 +27,13 @@ public class EventsMng {
 	public Map<Apfloat, Set<Event>> computeStartingEndingAndIntersectingEvents(Set<Circle> circles){
 
 		for(Circle c : circles){
+			
+			
+			if(c.radius.compareTo(new Apfloat("0"))==0){
+				
+				//System.out.println("zero radius");
+				continue;
+			}
 
 			Apfloat startingX = c.getX().subtract(c.radius);
 			

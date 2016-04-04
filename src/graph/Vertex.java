@@ -9,10 +9,12 @@ public class Vertex {
 	public Apfloat y;
 	public String label;
 	public Apfloat circleRadius;
+	public Apfloat circleRadiusSquared;
 
-	public Vertex(Integer identifier, Apfloat x, Apfloat y){
+	public Vertex(Integer identifier, Apfloat x, Apfloat y, String label){
 
 		this.identifier = identifier;
+		this.label = label;
 		this.x = x;
 		this.y = y;
 		this.label = identifier +"";

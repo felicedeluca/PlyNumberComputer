@@ -34,6 +34,7 @@ public class LineSweepAlgorithm {
 		Collections.sort(eventsX);
 
 		int maxPly = 0;
+		Set<ApfloatRange> maxPlyRanges = new HashSet<ApfloatRange>();
 		
 		System.out.println("Events: " + eventsX.size());
 		
@@ -56,24 +57,31 @@ public class LineSweepAlgorithm {
 			ArrayList<ApfloatRange> intervals = computeIntersections(x);
 
 			//Point of maximum overlap
-			int currPly = pointOfMaximumOverlap(intervals);
+			Set<ApfloatRange> currPlyRanges = pointOfMaximumOverlap(intervals);
+			int currPly = currPlyRanges.size();
 
+			//System.out.println("x: "+x.toString(false)+" currply: "+ currPly);
+			System.out.println("currply: "+ currPly);
 
+			
 			//Check Ply
-			if(currPly>maxPly) maxPly = currPly;
+			if(currPly>maxPly){
+				maxPly = currPly;
+				maxPlyRanges = currPlyRanges;}
 			}
 			else{
 				System.out.println("no active circles");
 			}
-			
-			
-			System.out.println();
-
 
 		}
 
 		
 		System.out.println("Max Ply: " + maxPly);
+		i = 0;
+		for(ApfloatRange range : maxPlyRanges){
+			System.out.println(i+") "+range.getCircle().getLabel()+" [(" + range.getCircle().getX() + " , " + range.getCircle().getY() + "), " + range.getCircle().radius +"]");
+			i++;
+		}
 		
 		return maxPly;
 
@@ -85,24 +93,22 @@ public class LineSweepAlgorithm {
 		switch(e.type){
 		case OPENING:{
 			if(activeCircles.contains(e.circle))
-				throw new IllegalArgumentException("Trying to activating a circle twice");
+				throw new IllegalArgumentException("Trying to activating a circle twice: " + e.circle.toString());
 			activeCircles.add(e.circle);
 		}
 		break;
 		case CLOSING:{
 			if(!activeCircles.contains(e.circle))
-				throw new IllegalArgumentException("Trying to close a non active circle");
+				throw new IllegalArgumentException("Trying to close a non active circle: " + e.circle.toString());
 			activeCircles.remove(e.circle);
 		}
 		break;
 		case INTERSECTION:{
-			System.out.println("intersection event");
 			Circle c1 = e.c1;
 			Circle c2 = e.c2;
 			if(!activeCircles.contains(c1) &&
 					!activeCircles.contains(c2))
-				throw new IllegalArgumentException("Intersection between non active circles");
-			System.out.println("Intersection Event");
+				throw new IllegalArgumentException("Intersection between non active circles: " + e.c1.toString()+ " , "+ e.c2.toString() );
 		}
 		break;
 		default:
@@ -140,7 +146,7 @@ public class LineSweepAlgorithm {
 			Apfloat y1 = b.negate().subtract(sqrt).divide(new Apfloat("2", Configurator.apfloatPrecision()));
 			Apfloat y2 = b.negate().add(sqrt).divide(new Apfloat("2", Configurator.apfloatPrecision()));
 
-			ApfloatRange currRange = new ApfloatRange(y1, y2);
+			ApfloatRange currRange = new ApfloatRange(y1, y2, circle);
 			
 			//System.out.println(" ["+y1+" , "+y2+"]");
 
@@ -152,12 +158,15 @@ public class LineSweepAlgorithm {
 
 	}
 
-	private int pointOfMaximumOverlap(ArrayList<ApfloatRange> intervals){
+	private Set<ApfloatRange> pointOfMaximumOverlap(ArrayList<ApfloatRange> intervals){
 
 		Map<Apfloat, ArrayList<ApfloatRange>> openingRangesMap = new HashMap<Apfloat, ArrayList<ApfloatRange>>();
 		Map<Apfloat, ArrayList<ApfloatRange>> closingRangesMap = new HashMap<Apfloat, ArrayList<ApfloatRange>>();
 		Map<Apfloat, ArrayList<ApfloatRange>> degenerateRangesMap = new HashMap<Apfloat, ArrayList<ApfloatRange>>();
+		
+		Set<Apfloat> allKeysSet = new HashSet<Apfloat>();
 
+	
 		for (ApfloatRange r : intervals){
 
 			if(r.getMaximumValue() == r.getMinimumValue()){
@@ -166,6 +175,7 @@ public class LineSweepAlgorithm {
 				if(dR == null) dR = new ArrayList<ApfloatRange>();
 				dR.add(r);
 				degenerateRangesMap.put(key, dR);
+				allKeysSet.add(key);
 
 			}else{
 
@@ -174,33 +184,31 @@ public class LineSweepAlgorithm {
 				if(oR == null) oR = new ArrayList<ApfloatRange>();
 				oR.add(r);
 				openingRangesMap.put(minKey, oR);
+				allKeysSet.add(minKey);
+
 
 				Apfloat maxKey = r.getMaximumValue();
 				ArrayList<ApfloatRange> cR = closingRangesMap.get(maxKey);
 				if(cR == null) cR = new ArrayList<ApfloatRange>();
 				cR.add(r);
 				closingRangesMap.put(maxKey, cR);
+				allKeysSet.add(maxKey);
+
 
 			}
 
 
 		}
 		
-		Set<Apfloat> allKeysSet = new HashSet<Apfloat>();
-		allKeysSet.addAll(openingRangesMap.keySet());
-		allKeysSet.addAll(closingRangesMap.keySet());
-		allKeysSet.addAll(degenerateRangesMap.keySet());
-		
 		ArrayList<Apfloat> allKeys = new ArrayList<Apfloat>(allKeysSet);
-
-		
 		Collections.sort(allKeys);
 		
 		int p = -1;
 		int tempP = 0;
 		
+		Set<ApfloatRange> maxOverlappingRanges = new HashSet<ApfloatRange>();
 		Set<ApfloatRange> openRanges = new HashSet<ApfloatRange>();
-		
+
 		for(Apfloat k : allKeys){
 			
 			ArrayList<ApfloatRange> oR = openingRangesMap.get(k);
@@ -213,11 +221,18 @@ public class LineSweepAlgorithm {
 			ArrayList<ApfloatRange> dR = degenerateRangesMap.get(k);
 			if(dR != null){
 				tempP += dR.size();
-				if(tempP > p) p = tempP;
+				if(tempP > p){
+					p = tempP;
+					maxOverlappingRanges = new HashSet<ApfloatRange>(openRanges);
+					maxOverlappingRanges.addAll(dR);
+				}
 				tempP -= dR.size();
 			}
 			
-			if(tempP > p) p = tempP;
+			if(tempP > p){
+				p = tempP;
+				maxOverlappingRanges = new HashSet<ApfloatRange>(openRanges);
+			}
 			
 			ArrayList<ApfloatRange> cR = closingRangesMap.get(k);
 			if(cR != null){
@@ -230,7 +245,7 @@ public class LineSweepAlgorithm {
 		}
 
 
-		return p;
+		return maxOverlappingRanges;
 	}
 
 }

@@ -91,18 +91,21 @@ public class GraphImporter {
 			Apfloat x = new Apfloat("0");
 			Apfloat y =  new Apfloat("0");
 			int component = -1;
+			String label = "";
 			while(nodeMatcher.find(substart)){
 				String[] splits = nodeMatcher.group().split("\\s");
 				switch(splits[0]){
 					case "id": id = Integer.parseInt(splits[1]);
 							   break;
+					case "label": label = splits[1];
+					   break;
 					case "x": x =  new Apfloat(splits[1], Configurator.apfloatPrecision()); break;
 					case "y": y =  new Apfloat(splits[1], Configurator.apfloatPrecision()); break;
 					case "component": component = Integer.parseInt(splits[1]); break;
 				}
 				substart = nodeMatcher.end();
 			}
-			vertices.put(id, new Vertex(id, x, y));
+			vertices.put(id, new Vertex(id, x, y, label));
 			start=nodeGroups.end();
 		}
 		start=0;
