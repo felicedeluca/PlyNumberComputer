@@ -58,6 +58,7 @@ public class PlyGraphGenerator{
 			
 		}
 		
+		
 		circles = new HashSet<Circle>();
 
 		Circle a = new Circle("1", "A", new Apfloat("0.0", Configurator.apfloatPrecision()), new Apfloat("-1.0", Configurator.apfloatPrecision()),new Apfloat("1.0", Configurator.apfloatPrecision()));
@@ -67,6 +68,8 @@ public class PlyGraphGenerator{
 		circles.add(a);
 		circles.add(b);
 		circles.add(c);
+		
+		
 		
 		return circles;
 		

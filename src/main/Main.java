@@ -14,12 +14,15 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		
 
-		if (args.length != 2)
-			throw new IllegalArgumentException("Please check input values: filePath radiusratio.");
+	if (args.length != 2)
+		throw new IllegalArgumentException("Please check input values: filePath radiusratio.");
 
 		File inputGraphFileName = new File(args[0]);
 		Apfloat radiusRatio = new Apfloat(args[1], Configurator.apfloatPrecision());
 
+		System.out.println("Inputgraph: " + inputGraphFileName.getName());
+		System.out.println("Radius Ratio: " + radiusRatio.toString(true));
+		
 //		double plyNumber = StateMachine.startPlyComputation(inputGraphFileName, radiusRatio);
 		double plyNumber = StateMachine.computePlyUsingLineSweep(inputGraphFileName, radiusRatio);
 

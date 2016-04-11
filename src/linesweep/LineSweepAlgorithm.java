@@ -10,6 +10,7 @@ import java.util.Set;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
 
+import linesweep.Event.Type;
 import utilities.ApfloatRange;
 import utilities.Configurator;
 
@@ -34,6 +35,7 @@ public class LineSweepAlgorithm {
 
 		int maxPly = 0;
 		Set<ApfloatRange> maxPlyRanges = new HashSet<ApfloatRange>();
+		Apfloat maxX = new Apfloat(0);
 		
 		System.out.println("Events: " + eventsX.size());
 		
@@ -49,6 +51,7 @@ public class LineSweepAlgorithm {
 			for (Event e : events){
 				//Setup circles
 				prepareForEvent(e);	
+				
 			}
 
 			if(activeCircles.size()>0){
@@ -60,13 +63,15 @@ public class LineSweepAlgorithm {
 			int currPly = currPlyRanges.size();
 
 			System.out.println("x: "+x.toString(false)+" currply: "+ currPly);
-		//	System.out.println("currply: "+ currPly);
 
+			
 			
 			//Check Ply
 			if(currPly>maxPly){//
 				maxPly = currPly;
-				maxPlyRanges = currPlyRanges;}
+				maxPlyRanges = currPlyRanges;
+				maxX = x;
+				}
 			}
 			else{
 				System.out.println("no active circles");
@@ -76,6 +81,8 @@ public class LineSweepAlgorithm {
 
 		
 		System.out.println("Max Ply: " + maxPly);
+		System.out.println("X coordinate: " + maxX);
+
 		i = 0;
 		for(ApfloatRange range : maxPlyRanges){
 			System.out.println(i+") "+range.getCircle().getLabel()+" [(" + range.getCircle().getX() + " , " + range.getCircle().getY() + "), " + range.getCircle().getRadius() +"]");
@@ -195,11 +202,7 @@ public class LineSweepAlgorithm {
 				cR.add(r);
 				closingRangesMap.put(maxKey, cR);
 				allKeysSet.add(maxKey);
-
-
 			}
-
-
 		}
 		
 		ArrayList<Apfloat> allKeys = new ArrayList<Apfloat>(allKeysSet);

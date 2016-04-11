@@ -88,7 +88,7 @@ public class EventsMng {
 	
 	private Map<Apfloat, Set<Event>>  addFakeEvents(Map<Apfloat, Set<Event>> map){
 		
-		System.out.println("Adding fake Events events");
+		System.out.println("Adding fake Events");
 		
 		Map<Apfloat, Set<Event>> completeEventsMap = new HashMap<Apfloat, Set<Event>>(map);
 		
@@ -122,17 +122,33 @@ public class EventsMng {
 		*/
 		
 		for(int i=0; i<keys.size()-1; i++){
+						
+			Apfloat currKey = new Apfloat(keys.get(i).toString(), Configurator.apfloatPrecision()+1);
+			Apfloat nextKey = new Apfloat(keys.get(i+1).toString(), Configurator.apfloatPrecision()+1);
+
+
+			Apfloat sum = currKey.add(nextKey);
+			Apfloat midKey = sum.divide(new Apfloat("2", currKey.precision()+1));
 			
-			long maxPrecision = Math.max(keys.get(i).precision(), keys.get(i+1).precision());
+			if(!((currKey.compareTo(midKey)==-1 && nextKey.compareTo(midKey)==1) ||
+					(currKey.compareTo(nextKey)==0 && currKey.compareTo(nextKey)==0))){
+				
+				String err = "MidValue:\n"
+						+ "1: " + currKey.toString(true) + "\n"
+								+ "2: "+ nextKey.toString(true) +"\n"
+										+ "== " + midKey.toString(true);
+				
+				throw new IllegalArgumentException("Wrong mid key computation:\n"+err);
+			}
 			
-			Apfloat currKey = keys.get(i).precision(Configurator.apfloatPrecision()+1);
-			Apfloat nextKey = keys.get(i+1).precision(Configurator.apfloatPrecision()+1);
 			
-			Apfloat midKey = currKey.add(nextKey).divide(new Apfloat("2", currKey.precision()));
 			Event midEvent = new Event(Type.DUPLICATED, null);
 			Set<Event> eventsOnMidPoint = prepareForNewEvent(completeEventsMap, midKey);
 			eventsOnMidPoint.add(midEvent);
 			completeEventsMap.put(midKey, eventsOnMidPoint);
+			
+			System.out.println(midKey.toString(true) + " p: " + midKey.precision()+"\n\n");
+
 		
 			
 		}
