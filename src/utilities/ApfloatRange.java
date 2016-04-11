@@ -10,8 +10,8 @@ public class ApfloatRange {
 	Circle circle;
 	
 	public ApfloatRange(Apfloat v1, Apfloat v2, Circle circle){
-		this.v1 = v1.precision(100);
-		this.v2 = v2.precision(100);
+		this.v1 = v1;//v1.precision(100);
+		this.v2 = v2;//v2.precision(100);
 		this.circle = circle;
 		
 	}

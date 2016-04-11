@@ -69,7 +69,7 @@ public class EventsMng {
 			}
 		}
 		
-		Map<Apfloat, Set<Event>> completeEventsMap =  duplicateEvents(eventsMap);
+		Map<Apfloat, Set<Event>> completeEventsMap =  addFakeEvents(eventsMap);
 		
 		return completeEventsMap;
 
@@ -80,22 +80,26 @@ public class EventsMng {
 		Set<Event> eventsOnX = map.get(x);
 		if(eventsOnX == null){
 			eventsOnX = new HashSet<Event>();
-			System.out.println("New x " + x.toString(true));
 		}
 
 		return eventsOnX;
 
 	}
 	
-	private Map<Apfloat, Set<Event>>  duplicateEvents(Map<Apfloat, Set<Event>> map){
+	private Map<Apfloat, Set<Event>>  addFakeEvents(Map<Apfloat, Set<Event>> map){
 		
-		System.out.println("duplicating events");
+		System.out.println("Adding fake Events events");
 		
 		Map<Apfloat, Set<Event>> completeEventsMap = new HashMap<Apfloat, Set<Event>>(map);
 		
 		ArrayList<Apfloat> keys = new ArrayList<Apfloat>(completeEventsMap.keySet());
 		Collections.sort(keys);
+		
+		/*
+		 * 
+		 * DUPLICATE ALL EVENTS
 	
+
 		for(Apfloat key : keys){
 			
 			Apfloat preKey = key.subtract(Configurator.epsilon());
@@ -114,10 +118,25 @@ public class EventsMng {
 			completeEventsMap.put(postKey, eventsOnPostPoint);
 			
 		}
+		
+		*/
+		
+		for(int i=0; i<keys.size()-1; i++){
+			
+			long maxPrecision = Math.max(keys.get(i).precision(), keys.get(i+1).precision());
+			
+			Apfloat currKey = keys.get(i).precision(Configurator.apfloatPrecision()+1);
+			Apfloat nextKey = keys.get(i+1).precision(Configurator.apfloatPrecision()+1);
+			
+			Apfloat midKey = currKey.add(nextKey).divide(new Apfloat("2", currKey.precision()));
+			Event midEvent = new Event(Type.DUPLICATED, null);
+			Set<Event> eventsOnMidPoint = prepareForNewEvent(completeEventsMap, midKey);
+			eventsOnMidPoint.add(midEvent);
+			completeEventsMap.put(midKey, eventsOnMidPoint);
+		
+			
+		}
 
-		
-		
-		
 		return completeEventsMap;
 		
 	}
