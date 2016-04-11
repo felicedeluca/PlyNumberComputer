@@ -12,6 +12,7 @@ import utilities.Configurator;
 public class Main {
 
 	public static void main(String[] args) throws Exception {
+		
 
 		if (args.length != 2)
 			throw new IllegalArgumentException("Please check input values: filePath radiusratio.");

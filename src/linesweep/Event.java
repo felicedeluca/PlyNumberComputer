@@ -1,7 +1,5 @@
 package linesweep;
 
-import java.util.Set;
-
 public class Event {
 
 	Type type;
@@ -10,7 +8,7 @@ public class Event {
 	Circle c2;
 	
 	public enum Type {
-		OPENING, CLOSING, INTERSECTION
+		OPENING, CLOSING, INTERSECTION, DUPLICATED
 	}
 	
 	public Event(Type type, Circle circle){

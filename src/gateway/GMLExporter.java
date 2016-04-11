@@ -33,8 +33,8 @@ public class GMLExporter {
                 out.println(tab2 + "[");
                 out.println(tab3 + "x" + delim + vertex.x.toString(true));
                 out.println(tab3 + "y" + delim + vertex.y.toString(true));
-                out.println(tab3 + "w" + delim + (vertex.circleRadius.multiply(new Apfloat("2",1000)).toString(true)));
-                out.println(tab3 + "h" + delim + (vertex.circleRadius.multiply(new Apfloat("2",1000)).toString(true)));
+                out.println(tab3 + "w" + delim + (vertex.getCircleRadius().multiply(new Apfloat("2",1000)).toString(true)));
+                out.println(tab3 + "h" + delim + (vertex.getCircleRadius().multiply(new Apfloat("2",1000)).toString(true)));
                 out.println(tab3 + "type" + delim + quoted("ellipse"));
                 out.println(tab2 + "]");
                 if (vertex.label != null)

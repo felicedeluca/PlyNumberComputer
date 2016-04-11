@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.math.DoubleRange;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
 
@@ -60,12 +59,12 @@ public class LineSweepAlgorithm {
 			Set<ApfloatRange> currPlyRanges = pointOfMaximumOverlap(intervals);
 			int currPly = currPlyRanges.size();
 
-			//System.out.println("x: "+x.toString(false)+" currply: "+ currPly);
-			System.out.println("currply: "+ currPly);
+			System.out.println("x: "+x.toString(false)+" currply: "+ currPly);
+		//	System.out.println("currply: "+ currPly);
 
 			
 			//Check Ply
-			if(currPly>maxPly){
+			if(currPly>maxPly){//
 				maxPly = currPly;
 				maxPlyRanges = currPlyRanges;}
 			}
@@ -79,7 +78,7 @@ public class LineSweepAlgorithm {
 		System.out.println("Max Ply: " + maxPly);
 		i = 0;
 		for(ApfloatRange range : maxPlyRanges){
-			System.out.println(i+") "+range.getCircle().getLabel()+" [(" + range.getCircle().getX() + " , " + range.getCircle().getY() + "), " + range.getCircle().radius +"]");
+			System.out.println(i+") "+range.getCircle().getLabel()+" [(" + range.getCircle().getX() + " , " + range.getCircle().getY() + "), " + range.getCircle().getRadius() +"]");
 			i++;
 		}
 		
@@ -110,6 +109,9 @@ public class LineSweepAlgorithm {
 					!activeCircles.contains(c2))
 				throw new IllegalArgumentException("Intersection between non active circles: " + e.c1.toString()+ " , "+ e.c2.toString() );
 		}
+		case DUPLICATED:{
+			
+		}
 		break;
 		default:
 			break;
@@ -125,7 +127,7 @@ public class LineSweepAlgorithm {
 
 			Apfloat xCenter = circle.getX();
 			Apfloat yCenter = circle.getY();
-			Apfloat radius = circle.radius;
+			Apfloat squaredRadius = circle.getSquaredRadius();
 		
 			//System.out.println("xLine: "+xLine+"\ncenter: (" +xCenter + ", "+ yCenter +") radius: "+ radius );
 			
@@ -135,7 +137,7 @@ public class LineSweepAlgorithm {
 			Apfloat b = yCenter.multiply(new Apfloat("2", Configurator.apfloatPrecision())).negate();
 			Apfloat c = ApfloatMath.sum(ApfloatMath.pow(yCenter, 2),
 					 ApfloatMath.pow(ApfloatMath.abs(xLine.subtract(xCenter)), 2),
-					 ApfloatMath.pow(radius, 2).negate());
+					 squaredRadius.negate());
 
 
 			Apfloat sqrt = ApfloatMath.sqrt(
@@ -211,6 +213,13 @@ public class LineSweepAlgorithm {
 
 		for(Apfloat k : allKeys){
 			
+			ArrayList<ApfloatRange> cR = closingRangesMap.get(k);
+			if(cR != null){
+				if(!openRanges.containsAll(cR)) throw new IllegalArgumentException("Closing not open Range");
+				openRanges.removeAll(cR);
+				tempP -= cR.size();
+			}
+			
 			ArrayList<ApfloatRange> oR = openingRangesMap.get(k);
 			if(oR != null){
 				openRanges.addAll(oR);
@@ -232,13 +241,6 @@ public class LineSweepAlgorithm {
 			if(tempP > p){
 				p = tempP;
 				maxOverlappingRanges = new HashSet<ApfloatRange>(openRanges);
-			}
-			
-			ArrayList<ApfloatRange> cR = closingRangesMap.get(k);
-			if(cR != null){
-				if(!openRanges.containsAll(cR)) throw new IllegalArgumentException("Closing not open Range");
-				openRanges.removeAll(cR);
-				tempP -= cR.size();
 			}
 
 			

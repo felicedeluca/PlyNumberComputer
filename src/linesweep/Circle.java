@@ -1,6 +1,7 @@
 package linesweep;
 
 import org.apfloat.Apfloat;
+import org.apfloat.ApfloatMath;
 
 public class Circle {
 	
@@ -8,14 +9,14 @@ public class Circle {
 	String label;
 	Apfloat x;
 	Apfloat y;
-	Apfloat radius;
+	Apfloat squaredRadius;
 	
-	public Circle(String identifier, String label, Apfloat x, Apfloat y, Apfloat radius){
+	public Circle(String identifier, String label, Apfloat x, Apfloat y, Apfloat squaredRadius){
 		this.identifier = identifier;
 		this.label = label;
 		this.x = x;
 		this.y = y;
-		this.radius = radius;
+		this.squaredRadius = squaredRadius;
 	}
 	
 	public String getLabel(){
@@ -36,10 +37,21 @@ public class Circle {
 	
 	public String toString(){
 		
-		String str = this.getLabel()+": ( "+this.x+", "+this.y+") r:"+this.radius;
+		String str = this.getLabel()+": ( "+this.x+", "+this.y+") r:"+this.squaredRadius;
 		
 		return str;
 		
 	}
+	
+	public Apfloat getSquaredRadius(){
+		return this.squaredRadius;
+	}
+	
+	
+	public Apfloat getRadius(){
+		return ApfloatMath.sqrt(squaredRadius);
+	}
+	
+	
 	
 }

@@ -5,15 +5,16 @@ import org.apfloat.Apfloat;
 public class Edge {
 	
 	Integer identifier, source, target;
-	Apfloat length;
+	//Apfloat length;
 	boolean directed = false;
 	public String label;
+	Apfloat squaredLength;
 	
 	public Edge(Vertex source, Vertex target){
 		
 		this.source = source.identifier;
 		this.target = target.identifier;
-		length = new Apfloat("-1");
+		this.squaredLength = new Apfloat("0");
 		
 	}
 	
@@ -24,8 +25,9 @@ public class Edge {
 		this.target = target;
 		
 	}
-	
-	public Edge(int identifier, Integer source, Integer target, Apfloat length){
+
+	/*
+	public Edge(int identifier, Integer source, Integer target){//, Apfloat length){
 		
 		this.identifier = identifier;
 		this.source = source;
@@ -33,6 +35,8 @@ public class Edge {
 		this.length = length;
 		
 	}
+	
+	*/
 	
 	public Integer getIdentifier(){
 		return this.identifier;
@@ -49,14 +53,19 @@ public class Edge {
 	public boolean getIsDirected(){
 		return directed;
 	}
-
-	public void setLength(Apfloat length){
-		this.length = length;
+	
+	public void setSquaredLength(Apfloat squaredLength){
+		this.squaredLength = squaredLength;
 	}
 	
-	public Apfloat getLenth(){
-		return this.length;
+	public Apfloat getSquaredLength(){
+		
+		return this.squaredLength;
+		
 	}
+//	public Apfloat getLenth(){
+	//	return this.length;
+//	}
 	
 	public String toString(){
 		

@@ -25,7 +25,7 @@ public class CirclesMng {
 		
 		for(Vertex v : vertices){
 			
-			Circle c = new Circle(v.identifier+"", v.label, v.x, v.y, v.circleRadius);
+			Circle c = new Circle(v.identifier+"", v.label, v.x, v.y, v.getSquaredCircleRadius());
 			
 			circlesSet.add(c);
 			
