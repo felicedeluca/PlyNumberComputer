@@ -61,13 +61,29 @@ public class PlyGraphGenerator{
 		
 		circles = new HashSet<Circle>();
 
-		Circle a = new Circle("1", "A", new Apfloat("0.0", Configurator.apfloatPrecision()), new Apfloat("-1.0", Configurator.apfloatPrecision()),new Apfloat("1.0", Configurator.apfloatPrecision()));
-		Circle b = new Circle("2", "B", new Apfloat("2.0", Configurator.apfloatPrecision()), new Apfloat("0.0", Configurator.apfloatPrecision()),new Apfloat("4.0", Configurator.apfloatPrecision()));
-		Circle c = new Circle("3", "C", new Apfloat("0.0", Configurator.apfloatPrecision()), new Apfloat("1.0", Configurator.apfloatPrecision()),new Apfloat("1.0", Configurator.apfloatPrecision()));
-	
+		Circle a = new Circle("1", "A", new Apfloat("3", Configurator.apfloatPrecision()), new Apfloat("1", Configurator.apfloatPrecision()),new Apfloat("1.25", Configurator.apfloatPrecision()));
+		Circle b = new Circle("2", "B", new Apfloat("5", Configurator.apfloatPrecision()), new Apfloat("2", Configurator.apfloatPrecision()),new Apfloat("1.26", Configurator.apfloatPrecision()));
+		Circle c = new Circle("3", "C", new Apfloat("1", Configurator.apfloatPrecision()), new Apfloat("0", Configurator.apfloatPrecision()),new Apfloat("11.23921", Configurator.apfloatPrecision()));
+		Circle d = new Circle("4", "D", new Apfloat("3.96", Configurator.apfloatPrecision()), new Apfloat("1.56", Configurator.apfloatPrecision()),new Apfloat("0.0005", Configurator.apfloatPrecision()));
+		Circle e = new Circle("5", "E", new Apfloat("0", Configurator.apfloatPrecision()), new Apfloat("8", Configurator.apfloatPrecision()),new Apfloat("57", Configurator.apfloatPrecision()));
+		Circle f = new Circle("6", "F", new Apfloat("14.9", Configurator.apfloatPrecision()), new Apfloat("-15.2", Configurator.apfloatPrecision()),new Apfloat("400", Configurator.apfloatPrecision()));
+		Circle g = new Circle("7", "G", new Apfloat("3.972", Configurator.apfloatPrecision()), new Apfloat("1.55", Configurator.apfloatPrecision()),new Apfloat("0.00000500000003", Configurator.apfloatPrecision()));
+		Circle h = new Circle("8", "h", new Apfloat("3.9745", Configurator.apfloatPrecision()), new Apfloat("1.548", Configurator.apfloatPrecision()),new Apfloat("0.00000500000003", Configurator.apfloatPrecision()));
+		Circle j = new Circle("9", "j", new Apfloat("3.974833", Configurator.apfloatPrecision()), new Apfloat("1.548", Configurator.apfloatPrecision()),new Apfloat("0.00000500000003", Configurator.apfloatPrecision()));
+		Circle k = new Circle("9", "k", new Apfloat("3.9703683120019", Configurator.apfloatPrecision()), new Apfloat("1.54769882046482", Configurator.apfloatPrecision()),new Apfloat("0.00000500000003", Configurator.apfloatPrecision()));
+
 		circles.add(a);
 		circles.add(b);
 		circles.add(c);
+		circles.add(d);
+		circles.add(e);
+		circles.add(f);
+		circles.add(g);
+		circles.add(h);
+		circles.add(j);
+		circles.add(k);
+
+
 		
 		
 		

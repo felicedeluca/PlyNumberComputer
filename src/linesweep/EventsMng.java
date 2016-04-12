@@ -145,11 +145,7 @@ public class EventsMng {
 			Event midEvent = new Event(Type.DUPLICATED, null);
 			Set<Event> eventsOnMidPoint = prepareForNewEvent(completeEventsMap, midKey);
 			eventsOnMidPoint.add(midEvent);
-			completeEventsMap.put(midKey, eventsOnMidPoint);
-			
-			System.out.println(midKey.toString(true) + " p: " + midKey.precision()+"\n\n");
-
-		
+			completeEventsMap.put(midKey, eventsOnMidPoint);		
 			
 		}
 
