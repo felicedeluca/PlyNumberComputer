@@ -20,49 +20,56 @@ import utilities.Configurator;
 
 public class GraphImporter {
 	
-/*	public static Graph testGraph(){
+	public static Graph testGraph(){
 		
 		
-		Vertex one = new Vertex(0, 0, 0);
-		Vertex two = new Vertex(1, 1, 0);
-		Vertex three = new Vertex(2, 0, 1);
-		Vertex four = new Vertex(3, 1, 1);
-		Vertex five = new Vertex(4, 0, -0.2);
-		Vertex six = new Vertex(5, 0, -0.5);
+		
+		Vertex a = new Vertex(1, new Apfloat("0", Configurator.apfloatPrecision()), new Apfloat("0", Configurator.apfloatPrecision()), "a");
+		Vertex b = new Vertex(2, new Apfloat("1", Configurator.apfloatPrecision()), new Apfloat("1", Configurator.apfloatPrecision()), "b");
+		Vertex c = new Vertex(3, new Apfloat("2", Configurator.apfloatPrecision()), new Apfloat("2", Configurator.apfloatPrecision()), "c");
+		Vertex d = new Vertex(4, new Apfloat("3", Configurator.apfloatPrecision()), new Apfloat("3", Configurator.apfloatPrecision()), "d");
+		Vertex e = new Vertex(5, new Apfloat("4", Configurator.apfloatPrecision()), new Apfloat("4", Configurator.apfloatPrecision()), "e");
+		Vertex f = new Vertex(6, new Apfloat("5", Configurator.apfloatPrecision()), new Apfloat("5", Configurator.apfloatPrecision()), "f");
+		Vertex g = new Vertex(7, new Apfloat("6", Configurator.apfloatPrecision()), new Apfloat("6", Configurator.apfloatPrecision()), "g");
+		Vertex h = new Vertex(8, new Apfloat("7", Configurator.apfloatPrecision()), new Apfloat("7", Configurator.apfloatPrecision()), "h");
 
 
 		HashMap<Integer, Vertex> vertices = new HashMap<Integer, Vertex>();
-		vertices.put(one.identifier, one);
-		vertices.put(two.identifier, two);
-		vertices.put(three.identifier, three);
-		vertices.put(four.identifier, four);
-		vertices.put(five.identifier, five);
+		vertices.put(a.identifier, a);
+		vertices.put(b.identifier, b);
+		vertices.put(c.identifier, c);
+		vertices.put(d.identifier, d);
+		vertices.put(e.identifier, e);
+		vertices.put(f.identifier, f);
+		vertices.put(g.identifier, g);
+		vertices.put(h.identifier, h);
 
 		
 		
 		HashMap<Integer, Edge> edges = new HashMap<Integer, Edge>();
-		Edge onetwo = new Edge(0, one.identifier, two.identifier);
-		Edge onethree = new Edge(1, one.identifier, three.identifier);
-		Edge twofour = new Edge(2, two.identifier, four.identifier);
-		Edge threefour = new Edge(3, three.identifier, four.identifier);
-		Edge onefour = new Edge(4, one.identifier, four.identifier);
-		Edge twofive = new Edge(5, two.identifier, five.identifier);
+		Edge ab = new Edge(0, a.identifier, b.identifier);
+		Edge bc = new Edge(1, b.identifier, c.identifier);
+		Edge cd = new Edge(2, c.identifier, d.identifier);
+		Edge de = new Edge(3, d.identifier, e.identifier);
+		Edge ef = new Edge(4, e.identifier, f.identifier);
+		Edge fg = new Edge(5, f.identifier, g.identifier);
+		Edge gh = new Edge(6, g.identifier, h.identifier);
 
 
 
-		edges.put(onetwo.getIdentifier(), onetwo);
-		edges.put(onethree.getIdentifier(), onethree);
-		edges.put(twofour.getIdentifier(), twofour);
-		edges.put(threefour.getIdentifier(), threefour);
-		edges.put(onefour.getIdentifier(), onefour);
-		edges.put(twofive.getIdentifier(), twofive);
 
-
+		edges.put(ab.getIdentifier(), ab);
+		edges.put(bc.getIdentifier(), bc);
+		edges.put(cd.getIdentifier(), cd);
+		edges.put(de.getIdentifier(), de);
+		edges.put(ef.getIdentifier(), ef);
+		edges.put(fg.getIdentifier(), fg);
+		edges.put(gh.getIdentifier(), gh);
 
 		return new Graph(vertices, edges);
 
 		
-	}*/
+	}
 	
 	public static Graph readInput(File f) throws Exception{
 		

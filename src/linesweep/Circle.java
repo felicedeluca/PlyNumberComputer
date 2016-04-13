@@ -11,12 +11,18 @@ public class Circle {
 	Apfloat y;
 	Apfloat squaredRadius;
 	
+	Apfloat radius;
+	
+	String color;
+	
 	public Circle(String identifier, String label, Apfloat x, Apfloat y, Apfloat squaredRadius){
 		this.identifier = identifier;
 		this.label = label;
 		this.x = x;
 		this.y = y;
 		this.squaredRadius = squaredRadius;
+		this.radius = ApfloatMath.sqrt(squaredRadius);
+		this.color = "black";
 	}
 	
 	public String getLabel(){
@@ -37,8 +43,8 @@ public class Circle {
 	
 	public String toString(){
 		
-		String str = this.getLabel()+": ( "+this.x+", "+this.y+") r:"+this.squaredRadius;
-		
+		String str = this.getLabel()+": ( "+this.x+", "+this.y+") r^2:"+this.squaredRadius;
+
 		return str;
 		
 	}
@@ -49,9 +55,31 @@ public class Circle {
 	
 	
 	public Apfloat getRadius(){
-		return ApfloatMath.sqrt(squaredRadius);
+		return this.radius;
 	}
 	
+	public String serializeToD3(){
+		
+		String str = "";
+		
+		//	{ "x": 30, "y": 30, "radius": 20, "color" : "green" },
+		str = "{  "
+				+ " \"id\" : \""+this.getLabel()+"\","
+				+ "\"label\" :\""+this.getLabel()+"\","
+				+ " \"x\" :\"" + this.getX().toString(true) + "\","
+				+ " \"y\" :\"" + this.getY().toString(true) + "\","
+				+ " \"radius\" :" + this.getRadius().toString(true) +","
+				+ " \"color\" : \""+this.color+"\""
+			+ "}";		
+		
+		return str;
+		
+	}
+	
+	public void setColor(String color){
+		this.color = color;
+	}
+
 	
 	
 }

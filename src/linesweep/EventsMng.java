@@ -20,7 +20,7 @@ public class EventsMng {
 	public EventsMng(){}
 
 	public Map<Apfloat, Set<Event>> computeStartingEndingAndIntersectingEvents(Set<Circle> circles){
-		
+
 		Map<Apfloat, Set<Event>> eventsMap = new HashMap<Apfloat, Set<Event>>();
 
 		for(Circle c : circles){
@@ -39,12 +39,12 @@ public class EventsMng {
 			Event cEvent = new Event(Type.CLOSING, c);
 
 			Set<Event> eventsOnStartingPoint = prepareForNewEvent(eventsMap, startingX);
-			
+
 			Set<Event> eventsOnEndingPoint = prepareForNewEvent(eventsMap, endingX);
-			
+
 			eventsOnStartingPoint.add(oEvent);
 			eventsOnEndingPoint.add(cEvent);
-			
+
 			eventsMap.put(startingX, eventsOnStartingPoint);
 			eventsMap.put(endingX, eventsOnEndingPoint);
 
@@ -57,7 +57,7 @@ public class EventsMng {
 					if(intersectionPoints.size()>1){
 
 						for(Apfloat xi : intersectionPoints){
-							
+
 							Event iEvent = new Event(Type.INTERSECTION, c, c2);
 							Set<Event> eventsOnIntersectionPoint = prepareForNewEvent(eventsMap, xi);
 							eventsOnIntersectionPoint.add(iEvent);
@@ -68,13 +68,13 @@ public class EventsMng {
 				}
 			}
 		}
-		
+
 		Map<Apfloat, Set<Event>> completeEventsMap =  addFakeEvents(eventsMap);
-		
+
 		return completeEventsMap;
 
 	}
-	
+
 	private Set<Event> prepareForNewEvent(Map<Apfloat, Set<Event>> map, Apfloat x){
 
 		Set<Event> eventsOnX = map.get(x);
@@ -85,29 +85,29 @@ public class EventsMng {
 		return eventsOnX;
 
 	}
-	
+
 	private Map<Apfloat, Set<Event>>  addFakeEvents(Map<Apfloat, Set<Event>> map){
-		
+
 		System.out.println("Adding fake Events");
-		
+
 		Map<Apfloat, Set<Event>> completeEventsMap = new HashMap<Apfloat, Set<Event>>(map);
-		
+
 		ArrayList<Apfloat> keys = new ArrayList<Apfloat>(completeEventsMap.keySet());
 		Collections.sort(keys);
-		
+
 		/*
 		 * 
 		 * DUPLICATE ALL EVENTS
-	
+
 
 		for(Apfloat key : keys){
-			
+
 			Apfloat preKey = key.subtract(Configurator.epsilon());
 			Apfloat postKey = key.add(Configurator.epsilon());
-			
+
 			Event PreEvent = new Event(Type.DUPLICATED, null);
 			Event PostEvent = new Event(Type.DUPLICATED, null);
-			
+
 			Set<Event> eventsOnPrePoint = prepareForNewEvent(completeEventsMap, preKey);
 			Set<Event> eventsOnPostPoint = prepareForNewEvent(completeEventsMap, postKey);
 
@@ -116,43 +116,51 @@ public class EventsMng {
 
 			completeEventsMap.put(preKey, eventsOnPrePoint);
 			completeEventsMap.put(postKey, eventsOnPostPoint);
-			
+
 		}
-		
-		*/
-		
+
+		 */
+
 		for(int i=0; i<keys.size()-1; i++){
-						
-			Apfloat currKey = new Apfloat(keys.get(i).toString(), Configurator.apfloatPrecision()+1);
-			Apfloat nextKey = new Apfloat(keys.get(i+1).toString(), Configurator.apfloatPrecision()+1);
 
+			Apfloat currKey = keys.get(i);
+			Apfloat nextKey = keys.get(i+1);
 
-			Apfloat sum = currKey.add(nextKey);
-			Apfloat midKey = sum.divide(new Apfloat("2", currKey.precision()+1));
-			
-			if(!((currKey.compareTo(midKey)==-1 && nextKey.compareTo(midKey)==1) ||
-					(currKey.compareTo(nextKey)==0 && currKey.compareTo(nextKey)==0))){
+			Apfloat midKey = currKey;
+
+			if(currKey.compareTo(nextKey)!=0){
+
+				currKey = new Apfloat(keys.get(i).toString(), Configurator.apfloatPrecision()+1);
+				nextKey = new Apfloat(keys.get(i+1).toString(), Configurator.apfloatPrecision()+1);
 				
-				String err = "MidValue:\n"
-						+ "1: " + currKey.toString(true) + "\n"
-								+ "2: "+ nextKey.toString(true) +"\n"
-										+ "== " + midKey.toString(true);
-				
-				throw new IllegalArgumentException("Wrong mid key computation:\n"+err);
+				Apfloat sum = currKey.add(nextKey);
+				midKey = sum.divide(new Apfloat("2", currKey.precision()+1));
+
+				if(!((currKey.compareTo(midKey)<=0 && nextKey.compareTo(midKey)==1) ||
+						(currKey.compareTo(nextKey)==0 && currKey.compareTo(nextKey)==0))){
+
+					String err = "MidValue:\n"
+							+ "1: " + currKey.toString(true) + "\n"
+							+ "2: "+ nextKey.toString(true) +"\n"
+							+ "== " + midKey.toString(true);
+
+					throw new IllegalArgumentException("Wrong mid key computation:\n"+err);
+				}
+
 			}
-			
-			
+
+
 			Event midEvent = new Event(Type.DUPLICATED, null);
 			Set<Event> eventsOnMidPoint = prepareForNewEvent(completeEventsMap, midKey);
 			eventsOnMidPoint.add(midEvent);
 			completeEventsMap.put(midKey, eventsOnMidPoint);		
-			
+
 		}
 
 		return completeEventsMap;
-		
+
 	}
-	
+
 
 	private Set<Apfloat> getIntersectionPoints(Circle c1, Circle c2){
 
@@ -160,9 +168,12 @@ public class EventsMng {
 
 		Apfloat dx = c2.getX().subtract(c1.getX());
 		Apfloat dy = c2.getY().subtract(c1.getY());
+		
+		Apfloat dSquared = ApfloatMath.pow(ApfloatMath.abs(dy), 2).add(ApfloatMath.pow(ApfloatMath.abs(dx), 2));
 
-		Apfloat d = ApfloatMath.sqrt(ApfloatMath.pow(ApfloatMath.abs(dy), 2).add(ApfloatMath.pow(ApfloatMath.abs(dx), 2)));
+		Apfloat d = ApfloatMath.sqrt(dSquared);
 
+		
 		if (d.compareTo(c1.getRadius().add(c2.getRadius()))>=0){
 			//no intersection
 			return intersectionPoints;
@@ -172,8 +183,10 @@ public class EventsMng {
 			//Inclusion  no events needed
 			return intersectionPoints;
 		}
+		
+		try{
 
-		Apfloat a = c1.getSquaredRadius().subtract(c2.squaredRadius).add(ApfloatMath.pow(d, 2)).divide(d.multiply(new Apfloat("2.0", Configurator.apfloatPrecision())));
+		Apfloat a = c1.getSquaredRadius().subtract(c2.squaredRadius).add(dSquared).divide(d.multiply(new Apfloat("2.0", Configurator.apfloatPrecision())));
 		Apfloat x2 = c1.getX().add(dx.multiply(a).divide(d));
 		//Apfloat y2 = c1.getY().add(dy.multiply(a).divide(d));
 
@@ -190,10 +203,15 @@ public class EventsMng {
 		intersectionPoints.add(xi1);
 		intersectionPoints.add(xi2);
 
+		}catch(Exception e){
+			System.out.println("error on sqrt");
+		}
+		
 		return intersectionPoints;
 
 
 	}
+
 
 
 }

@@ -10,7 +10,7 @@ import java.util.Set;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
 
-import linesweep.Event.Type;
+import graph.CircleGraph;
 import utilities.ApfloatRange;
 import utilities.Configurator;
 
@@ -21,8 +21,8 @@ public class LineSweepAlgorithm {
 
 	Map<Double, Set<Event>> events;
 
-	public int startOnCircles(Set<Circle> circles){
-
+	public CircleGraph startOnCircles(Set<Circle> circles){
+		
 		activeCircles = new HashSet<Circle>();
 
 		//Compute Events
@@ -43,7 +43,7 @@ public class LineSweepAlgorithm {
 
 		for(Apfloat x : eventsX){
 			
-			System.out.print(i+". ");
+			//System.out.print(i+". ");
 			i++;
 
 			Set<Event> events = eventsMap.get(x);
@@ -62,19 +62,18 @@ public class LineSweepAlgorithm {
 			Set<ApfloatRange> currPlyRanges = pointOfMaximumOverlap(intervals);
 			int currPly = currPlyRanges.size();
 
-			System.out.println("x: "+x.toString(false)+" currply: "+ currPly);
+			//System.out.println("x: "+x.toString(false)+" currply: "+ currPly);
 
-			
-			
 			//Check Ply
 			if(currPly>maxPly){//
+				System.out.println("New Ply: " + currPly);
 				maxPly = currPly;
 				maxPlyRanges = currPlyRanges;
 				maxX = x;
 				}
 			}
 			else{
-				System.out.println("no active circles");
+				//System.out.println("no active circles");
 			}
 
 		}
@@ -82,14 +81,16 @@ public class LineSweepAlgorithm {
 		
 		System.out.println("Max Ply: " + maxPly);
 		System.out.println("X coordinate: " + maxX);
+		
+		Set<Circle> maxPlyCircles = new HashSet<Circle>();
 
-		i = 0;
 		for(ApfloatRange range : maxPlyRanges){
-			System.out.println(i+") "+range.getCircle().getLabel()+" [(" + range.getCircle().getX() + " , " + range.getCircle().getY() + "), " + range.getCircle().getRadius() +"]");
-			i++;
+			maxPlyCircles.add(range.getCircle());
 		}
 		
-		return maxPly;
+		CircleGraph cg = new CircleGraph(circles, maxPlyCircles, maxX);
+		
+		return cg;
 
 	}
 

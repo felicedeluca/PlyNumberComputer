@@ -17,7 +17,7 @@ public class Configurator {
 	}
 	
 	
-	static int apfloatPrecision = 200;
+	static int apfloatPrecision = 1000;
 	static Apfloat epsilon = null;
 	
 	

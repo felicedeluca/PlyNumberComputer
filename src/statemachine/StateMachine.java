@@ -3,6 +3,8 @@ package statemachine;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.Set;
 
 import org.apfloat.Apfloat;
@@ -11,10 +13,9 @@ import algorithms.PlyGraphGenerator;
 import gateway.GMLExporter;
 import gateway.GraphConverter;
 import gateway.GraphImporter;
+import graph.CircleGraph;
 import graph.Graph;
-import graph.Vertex;
 import linesweep.Circle;
-import linesweep.CirclesMng;
 import linesweep.LineSweepAlgorithm;
 import maxclique.MaxClique;
 
@@ -54,12 +55,48 @@ public class StateMachine {
 		
 		Set<Circle> circles = pgg.computePlyCircles(inputGraph, radiusRatio);
 		
-		LineSweepAlgorithm lsa = new LineSweepAlgorithm();
-		lsa.startOnCircles(circles);
+		System.out.println("Circles: " + circles.size());
+
 		
-		return 0;
+		LineSweepAlgorithm lsa = new LineSweepAlgorithm();
+		
+		CircleGraph cg = lsa.startOnCircles(circles);
+		
+		cg.setName(inputFile.getName());
+		
+		//System.out.println(cg.serializeToD3());
+		
+		storeD3VisualBackupJSON(inputFile, cg);
+		
+		return cg.getPly();
 		
 		
 	}
+	
+	private static void storeD3VisualBackupJSON(File inputGraphFileName, CircleGraph cg){
+	
+		String fileName = inputGraphFileName.getName();
+		int pos = fileName.lastIndexOf(".");
+		if (pos > 0) {
+			fileName = fileName.substring(0, pos);
+		}
+
+		String content = cg.serializeToD3();
+
+		try {
+
+			File outputFile = new File("results"+File.separator+fileName+".json");
+
+			if (!outputFile.exists()) {
+				outputFile.createNewFile();
+			}
+
+			Files.write(outputFile.toPath(), content.getBytes(), StandardOpenOption.APPEND);
+		} catch (Exception e) {
+			// exception handling left as an exercise for the reader
+		}
+
+	}
+	
 	
 }
