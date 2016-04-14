@@ -7,6 +7,7 @@ public class Configurator {
 	
 	private static Configurator instance = null;
 	
+	
 	private Configurator(){}
 	
 	public static Configurator getInstance(){
@@ -19,6 +20,9 @@ public class Configurator {
 	
 	static int apfloatPrecision = 1000;
 	static Apfloat epsilon = null;
+	
+	Apfloat radiusRatio;
+
 	
 	
 	public static int apfloatPrecision(){
@@ -36,5 +40,18 @@ public class Configurator {
 		
 		return epsilon;
 	}
+	
+	
+	public void setRadiusRatio(Apfloat radiusRatio){
+		this.radiusRatio = radiusRatio;
+	}
+	
+	public Apfloat getRadiusRatio(){
+		return radiusRatio;
+	}
+	
+	
+	
+	
 	
 }

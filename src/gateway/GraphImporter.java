@@ -106,12 +106,22 @@ public class GraphImporter {
 							   break;
 					case "label": label = splits[1];
 					   break;
-					case "x": x =  new Apfloat(splits[1], Configurator.apfloatPrecision()); break;
-					case "y": y =  new Apfloat(splits[1], Configurator.apfloatPrecision()); break;
+					case "x":{
+						x =  new Apfloat(splits[1], Configurator.apfloatPrecision());
+						
+					}
+					break;
+					case "y":{ y =  new Apfloat(splits[1], Configurator.apfloatPrecision()); 
+
+					}
+					break;
 					case "component": component = Integer.parseInt(splits[1]); break;
 				}
 				substart = nodeMatcher.end();
 			}
+			
+			
+			
 			vertices.put(id, new Vertex(id, x, y, label));
 			start=nodeGroups.end();
 		}

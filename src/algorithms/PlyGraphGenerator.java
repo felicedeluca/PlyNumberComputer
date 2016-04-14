@@ -13,6 +13,7 @@ import circlegraph.Circle;
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
+import utilities.Configurator;
 
 public class PlyGraphGenerator{
 		
@@ -81,9 +82,18 @@ public class PlyGraphGenerator{
 		circles.add(j);
 		circles.add(k);
 		
+			
 		
+		circles = new HashSet<Circle>();
+		
+		Circle a = new Circle("1", "A", new Apfloat("2", Configurator.apfloatPrecision()), new Apfloat("0", Configurator.apfloatPrecision()),new Apfloat("4", Configurator.apfloatPrecision()));
+		Circle b = new Circle("2", "B", new Apfloat("0", Configurator.apfloatPrecision()), new Apfloat("1", Configurator.apfloatPrecision()),new Apfloat("1", Configurator.apfloatPrecision()));
+		Circle c = new Circle("3", "C", new Apfloat("0", Configurator.apfloatPrecision()), new Apfloat("-1", Configurator.apfloatPrecision()),new Apfloat("1", Configurator.apfloatPrecision()));
+		circles.add(a);
+		circles.add(b);
+		circles.add(c);
 				
-		*/
+	*/
 		
 		return circles;
 		
@@ -175,7 +185,6 @@ public class PlyGraphGenerator{
 
 		
 		Apfloat squaredDist = xDist.add(yDist);
-		//Apfloat  dist = ApfloatMath.sqrt(xDist.add(yDist));
 		
 		return squaredDist;
 	}

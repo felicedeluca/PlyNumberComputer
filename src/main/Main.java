@@ -19,7 +19,8 @@ public class Main {
 
 		File inputGraphFileName = new File(args[0]);
 		Apfloat radiusRatio = new Apfloat(args[1], Configurator.apfloatPrecision());
-
+		
+		Configurator.getInstance().setRadiusRatio(radiusRatio);
 		System.out.println("Inputgraph: " + inputGraphFileName.getName());
 		System.out.println("Radius Ratio: " + radiusRatio.toString(true));
 		
@@ -33,7 +34,7 @@ public class Main {
 			fileName = fileName.substring(0, pos);
 		}
 
-		String row = fileName + ";" + plyNumber+"\n";
+		String row = fileName + ";" + plyNumber+System.getProperty("line.separator");
 
 		try {
 
