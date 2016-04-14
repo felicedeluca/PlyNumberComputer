@@ -10,7 +10,8 @@ import java.util.Set;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
 
-import graph.CircleGraph;
+import circlegraph.Circle;
+import circlegraph.CircleGraph;
 import utilities.ApfloatRange;
 import utilities.Configurator;
 

@@ -10,6 +10,7 @@ import java.util.Set;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
 
+import circlegraph.Circle;
 import linesweep.Event.Type;
 import utilities.Configurator;
 
@@ -22,9 +23,12 @@ public class EventsMng {
 	public Map<Apfloat, Set<Event>> computeStartingEndingAndIntersectingEvents(Set<Circle> circles){
 
 		Map<Apfloat, Set<Event>> eventsMap = new HashMap<Apfloat, Set<Event>>();
+		
+		ArrayList<Circle> circlesArrList = new ArrayList<Circle>(circles);
 
-		for(Circle c : circles){
-
+		for(int i=0; i<circlesArrList.size(); i++){
+			
+			Circle c = circlesArrList.get(i);
 
 			if(c.getSquaredRadius().compareTo(new Apfloat("0"))==0){
 				continue;
@@ -48,7 +52,11 @@ public class EventsMng {
 			eventsMap.put(startingX, eventsOnStartingPoint);
 			eventsMap.put(endingX, eventsOnEndingPoint);
 
-			for(Circle c2 : circles){
+			
+			
+			for(int j=i+1; j<circlesArrList.size(); j++){
+				
+				Circle c2 = circlesArrList.get(j);
 
 				if (!c2.equals(c)){
 
@@ -186,7 +194,7 @@ public class EventsMng {
 		
 		try{
 
-		Apfloat a = c1.getSquaredRadius().subtract(c2.squaredRadius).add(dSquared).divide(d.multiply(new Apfloat("2.0", Configurator.apfloatPrecision())));
+		Apfloat a = c1.getSquaredRadius().subtract(c2.getSquaredRadius()).add(ApfloatMath.pow(d, 2)).divide(d.multiply(new Apfloat("2.0", Configurator.apfloatPrecision())));
 		Apfloat x2 = c1.getX().add(dx.multiply(a).divide(d));
 		//Apfloat y2 = c1.getY().add(dy.multiply(a).divide(d));
 

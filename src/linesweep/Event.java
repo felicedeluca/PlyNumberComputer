@@ -1,5 +1,7 @@
 package linesweep;
 
+import circlegraph.Circle;
+
 public class Event {
 
 	Type type;

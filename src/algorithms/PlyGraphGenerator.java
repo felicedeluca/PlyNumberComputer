@@ -9,11 +9,10 @@ import java.util.Set;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
 
+import circlegraph.Circle;
 import graph.Edge;
 import graph.Graph;
 import graph.Vertex;
-import linesweep.Circle;
-import utilities.Configurator;
 
 public class PlyGraphGenerator{
 		

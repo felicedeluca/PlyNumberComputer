@@ -1,0 +1,28 @@
+starting 73.9709896571428 c: 130.0 r:  56.029010342857205
+starting 199.0935315354186 c: 250.5 r:  51.40646846458138
+pi1 1 at: (199.33589492110622, 103.4859153097417)
+pi1 2 at: (211.60391989370856, 132.11130691248053)
+starting 99.9709896571428 c: 156.0 r:  56.029010342857205
+pi1 1 at: (211.60391989370856, 132.11130691248053)
+pi1 2 at: (199.33589492110622, 103.48591530974171)
+Events: 6
+0) xLine: 73.9709896571428
+center: (130.0, 30.0) radius: 56.029010342857205
+ [30.0 , 30.0]
+1) xLine: 99.9709896571428
+center: (130.0, 30.0) radius: 56.029010342857205
+ [-17.302310068627456 , 77.30231006862746]
+xLine: 99.9709896571428
+center: (156.0, 139.0) radius: 56.029010342857205
+ [139.0 , 139.0]
+2) xLine: 186.0290103428572
+center: (156.0, 139.0) radius: 56.029010342857205
+ [91.69768993137252 , 186.3023100686275]
+3) xLine: 199.0935315354186
+center: (250.5, 98.5) radius: 51.40646846458138
+Exception in thread "main" java.lang.IllegalArgumentException: The numbers must not be NaN
+	at org.apache.commons.lang.math.DoubleRange.<init>(DoubleRange.java:120)
+	at linesweep.LineSweepAlgorithm.computeIntersections(LineSweepAlgorithm.java:128)
+	at linesweep.LineSweepAlgorithm.startOnCircles(LineSweepAlgorithm.java:51)
+	at statemachine.StateMachine.computePlyUsingLineSweep(StateMachine.java:57)
+	at main.Main.main(Main.java:21)

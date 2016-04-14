@@ -10,12 +10,12 @@ import java.util.Set;
 import org.apfloat.Apfloat;
 
 import algorithms.PlyGraphGenerator;
+import circlegraph.Circle;
+import circlegraph.CircleGraph;
 import gateway.GMLExporter;
 import gateway.GraphConverter;
 import gateway.GraphImporter;
-import graph.CircleGraph;
 import graph.Graph;
-import linesweep.Circle;
 import linesweep.LineSweepAlgorithm;
 import maxclique.MaxClique;
 
@@ -63,8 +63,6 @@ public class StateMachine {
 		CircleGraph cg = lsa.startOnCircles(circles);
 		
 		cg.setName(inputFile.getName());
-		
-		//System.out.println(cg.serializeToD3());
 		
 		storeD3VisualBackupJSON(inputFile, cg);
 		
