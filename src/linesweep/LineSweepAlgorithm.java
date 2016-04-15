@@ -143,24 +143,24 @@ public class LineSweepAlgorithm {
 
 
 			//Apfloat a = new Apfloat("1", Apfloat.INFINITE);
-			Apfloat b = yCenter.multiply(new Apfloat("2", Configurator.apfloatPrecision())).negate();
+			Apfloat b = yCenter.multiply(new Apfloat("2", Configurator.apfloatPrecision())).negate(); //-2yc
+			
 			Apfloat c = ApfloatMath.sum(ApfloatMath.pow(yCenter, 2),
 					 ApfloatMath.pow(ApfloatMath.abs(xLine.subtract(xCenter)), 2),
-					 squaredRadius.negate());
+					 squaredRadius.negate()); // yc^2+(xl-xc)^2-r^2
 
+			
+			Apfloat disc = ApfloatMath.sum(
+					ApfloatMath.pow(b, 2),
+					c.multiply(new Apfloat("4", Configurator.apfloatPrecision())).negate());
 
-			Apfloat sqrt = ApfloatMath.sqrt(
-							ApfloatMath.sum(
-									ApfloatMath.pow(b, 2),
-										c.multiply(new Apfloat("4", Configurator.apfloatPrecision())).negate()));
+			Apfloat sqrt = ApfloatMath.sqrt(disc);
 			
 			Apfloat y1 = b.negate().subtract(sqrt).divide(new Apfloat("2", Configurator.apfloatPrecision()));
 			Apfloat y2 = b.negate().add(sqrt).divide(new Apfloat("2", Configurator.apfloatPrecision()));
 
 			ApfloatRange currRange = new ApfloatRange(y1, y2, circle);
 			
-			//System.out.println(" ["+y1+" , "+y2+"]");
-
 			rangeSet.add(currRange);
 
 		}

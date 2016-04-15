@@ -21,6 +21,12 @@ public class Configurator {
 	static int apfloatPrecision = 1000;
 	static Apfloat epsilon = null;
 	
+	public static Apfloat zero = new Apfloat("0", Configurator.apfloatPrecision());
+	public static Apfloat one = new Apfloat("1", Configurator.apfloatPrecision());
+	public static Apfloat two = new Apfloat("2", Configurator.apfloatPrecision());
+	public static Apfloat four = new Apfloat("4", Configurator.apfloatPrecision());
+
+	
 	Apfloat radiusRatio;
 
 	

@@ -49,6 +49,12 @@ public class Circle {
 		
 	}
 	
+	public String toEquation(){
+		String str = this.getLabel()+": ( x-"+this.x+")^2+(y-"+this.y+")^2="+this.squaredRadius;
+
+		return str;
+	}
+	
 	public Apfloat getSquaredRadius(){
 		return this.squaredRadius;
 	}
