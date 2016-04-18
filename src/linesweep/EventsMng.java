@@ -59,11 +59,12 @@ public class EventsMng {
 				if (!c2.equals(c)){
 
 					Set<Apfloat> intersectionPoints = getIntersectionPoints(c, c2);
-
-					ArrayList<Apfloat> intersectionPointsInv = new ArrayList<Apfloat>(getIntersectionPoints(c2, c));
-
+					Set<Apfloat> intersectionPointsInv = getIntersectionPoints(c2, c);
 
 
+					/*
+					 * DEBUG
+					 * Check if intersection points method returns different points if parameters are inverted
 					if(intersectionPoints.size() != intersectionPointsInv.size()){
 
 						System.out.println("wrong intersection points");
@@ -73,8 +74,7 @@ public class EventsMng {
 
 						throw new IllegalArgumentException("Different Intersection Points Size");
 					}
-
-					/*
+					
 					if(intersectionPoints.size() == intersectionPointsInv.size() &&
 							intersectionPoints.size() > 0){
 
@@ -209,7 +209,7 @@ public class EventsMng {
 	}
 
 
-	private int doIntersect(Circle c0, Circle c1){
+	private boolean toIgnore(Circle c0, Circle c1){
 
 		Apfloat dx = c1.getX().subtract(c0.getX());
 		Apfloat dy = c1.getY().subtract(c0.getY());
@@ -228,35 +228,44 @@ public class EventsMng {
 			alpha = Configurator.one;
 		}
 
-		Apfloat prop = ApfloatMath.sum(alphaSquared, alpha.multiply(Configurator.two), Configurator.one);
-
-		Apfloat propTimesRadius = prop.multiply(r1Squared);
+		Apfloat propPerIntersection = ApfloatMath.sum(alphaSquared, alpha.multiply(Configurator.two), Configurator.one);
+		Apfloat propTimesRadiusPerIntersection = propPerIntersection.multiply(r1Squared);
+		boolean doIntersect = (dSquared.compareTo(propTimesRadiusPerIntersection) == -1);
 		
-		Apfloat diff = dSquared.subtract(propTimesRadius);
+		Apfloat propInclusion = ApfloatMath.sum(alphaSquared, alpha.multiply(Configurator.two).negate(), Configurator.one);
+		Apfloat propTimesRadiusInclusion = propInclusion.multiply(r1Squared);
+		boolean noInclusion = (dSquared.compareTo(propTimesRadiusInclusion) == 1);
 		
-		int compare = diff.compareTo(Configurator.zero);
+		boolean toIgnore = ((doIntersect && !noInclusion) || !doIntersect || !noInclusion);
+		
+	//	System.out.print(c0.getIdentifier() + " , "  + c1.getIdentifier() + ": ");
+	//	if(doIntersect) System.out.print(" do Intersect"); else  System.out.print(" do no Intersect");
+	//	if(noInclusion) System.out.print(" not inclusion"); else  System.out.print(" inclusion");
+	//	if(toIgnore) System.out.println(" ignore"); else  System.out.println(" do not ignore");
 				
-		return compare;
+		return toIgnore;
 	}
 
 
 	private Set<Apfloat> getIntersectionPoints(Circle c0, Circle c1){
 
 		Set<Apfloat> intersectionPoints = new HashSet<Apfloat>();
+
+		boolean toIgnore = toIgnore(c0, c1);
+
+		if(toIgnore){
+			return intersectionPoints;
+		}
 		
-		Apfloat dx = c1.getX().subtract(c0.getX());
-		Apfloat dy = c1.getY().subtract(c0.getY());
 
-		Apfloat r0Squared = c0.getSquaredRadius();
-		Apfloat r1Squared = c1.getSquaredRadius();
-
-		Apfloat dSquared = ApfloatMath.pow(ApfloatMath.abs(dy), 2).add(ApfloatMath.pow(ApfloatMath.abs(dx), 2));
-		Apfloat d = ApfloatMath.sqrt(dSquared);
-
-		int doIntersect_new = doIntersect(c0, c1);
-
-		Apfloat radiiSum = ApfloatMath.sum(c0.getRadius(), c1.getRadius());
+		
+		/* DEBUG
 		int doIntersect_Old = d.subtract(radiiSum).compareTo(Configurator.zero);
+				//Apfloat d = ApfloatMath.sqrt(dSquared);
+
+				Apfloat radiiSum = ApfloatMath.sum(c0.getRadius(), c1.getRadius());
+
+		int areIncluded_Old = d.subtract(ApfloatMath.abs(c0.getRadius().subtract(c1.getRadius()))).compareTo(Configurator.zero);
 
 
 			if(doIntersect_new != doIntersect_Old){
@@ -299,11 +308,52 @@ public class EventsMng {
 				System.out.println("_________");
 
 			}
+			
+			if(areIncluded_new != areIncluded_Old){
+				
+				System.out.println("Different inclusion Test");
 
+				switch(areIncluded_new){
+				case -1 :{
+					System.out.println("new says: INCLUSION");
+				}
+				break;
+				case 0 :{
+					System.out.println("new says: EQUAL");
+				}
+				break;
+					case +1 :{
+							System.out.println("new says: NOT INCLUSION");
+				}
+				break;
+				}
+				
+				switch(areIncluded_Old){
+				case -1 :{
+					System.out.println("old says: INCLUSION");
+				}
+				break;
+				case 0 :{
+					System.out.println("old says: EQUAL");
+				}
+				break;
+					case +1 :{
+							System.out.println("old says: NOT INCLUSION");
+				}
+				break;
+				}
+
+				System.out.println("c0: " + c0.toEquation());
+				System.out.println("c1: " + c1.toEquation());
+				System.out.println("_________");
+				
+			}
+
+		 */
 
 
 	
-
+/*
 		if(r0Squared.compareTo(r1Squared)==0){
 
 			Apfloat radiusRatio = Configurator.getInstance().getRadiusRatio();
@@ -324,7 +374,7 @@ public class EventsMng {
 		}
 		
 
-		if (d.compareTo(c0.getRadius().add(c1.getRadius()))>=0){
+		if (areIncluded_Old>0){
 			//no intersection
 			return intersectionPoints;
 		}
@@ -334,14 +384,20 @@ public class EventsMng {
 			return intersectionPoints;
 		}
 
+		*/
+		
+		Apfloat dx = c1.getX().subtract(c0.getX());
+		Apfloat dy = c1.getY().subtract(c0.getY());
 
+		Apfloat r0Squared = c0.getSquaredRadius();
+		Apfloat r1Squared = c1.getSquaredRadius();
+
+		Apfloat dSquared = ApfloatMath.pow(ApfloatMath.abs(dy), 2).add(ApfloatMath.pow(ApfloatMath.abs(dx), 2));
 
 		Apfloat x0 = c0.getX();
-
-
-
-		Apfloat two = new Apfloat("2.0", Configurator.apfloatPrecision());
-		Apfloat four = new Apfloat("4.0", Configurator.apfloatPrecision());
+		
+		Apfloat two = Configurator.two;
+		Apfloat four = Configurator.four;
 
 
 		Apfloat a = (r0Squared.subtract(r1Squared).add(dSquared)).divide(dSquared.multiply(two));
@@ -361,7 +417,6 @@ public class EventsMng {
 			Apfloat xi1 = x0.add(adx).add(hdy);
 			Apfloat xi2 = x0.add(adx).subtract(hdy);
 
-
 			/*
 
 			//TODO: could ApfloatMath.pow(d, 2) be removed?
@@ -379,11 +434,15 @@ public class EventsMng {
 		//Apfloat yi1 = y2.add(ry);// + ry;
 		//Apfloat yi2 = y2.subtract(ry);// - ry;
 
-			 */
+			 * /
 
+
+
+	*/
+			
 			intersectionPoints.add(xi1);
 			intersectionPoints.add(xi2);
-
+			
 		}catch(Exception e){
 			System.out.println("error on sqrt");
 			System.out.println(c0.toString());
@@ -394,7 +453,8 @@ public class EventsMng {
 			System.out.println("h^2: "+hSquared.toString(true));
 
 		}
-
+		
+	
 		return intersectionPoints;
 
 
