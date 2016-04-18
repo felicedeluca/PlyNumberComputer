@@ -133,6 +133,7 @@ public class LineSweepAlgorithm {
 		ArrayList<ApfloatRange> rangeSet = new ArrayList<ApfloatRange>();
 
 		for(Circle circle : this.activeCircles){
+			
 
 			Apfloat xCenter = circle.getX();
 			Apfloat yCenter = circle.getY();
@@ -140,8 +141,6 @@ public class LineSweepAlgorithm {
 		
 			//System.out.println("xLine: "+xLine+"\ncenter: (" +xCenter + ", "+ yCenter +") radius: "+ radius );
 			
-
-
 			//Apfloat a = new Apfloat("1", Apfloat.INFINITE);
 			Apfloat b = yCenter.multiply(new Apfloat("2", Configurator.apfloatPrecision())).negate(); //-2yc
 			
