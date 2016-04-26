@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
 
 import org.apfloat.Apfloat;
 
-import graph.Edge;
-import graph.Graph;
-import graph.Vertex;
+import plygraph.Edge;
+import plygraph.Graph;
+import plygraph.Vertex;
 import utilities.Configurator;
 
 public class GraphImporter {

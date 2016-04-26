@@ -15,9 +15,9 @@ import circlegraph.CircleGraph;
 import gateway.GMLExporter;
 import gateway.GraphConverter;
 import gateway.GraphImporter;
-import graph.Graph;
 import linesweep.LineSweepAlgorithm;
 import maxclique.MaxClique;
+import plygraph.Graph;
 
 public class StateMachine {
 

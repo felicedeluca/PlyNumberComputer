@@ -2,8 +2,8 @@ package gateway;
 
 import java.util.Set;
 
-import graph.Edge;
-import graph.Graph;
+import plygraph.Edge;
+import plygraph.Graph;
 
 public class GraphConverter {
 	

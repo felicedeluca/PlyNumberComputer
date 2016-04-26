@@ -5,9 +5,9 @@ import java.io.Writer;
 
 import org.apfloat.Apfloat;
 
-import graph.Edge;
-import graph.Graph;
-import graph.Vertex;
+import plygraph.Edge;
+import plygraph.Graph;
+import plygraph.Vertex;
 
 public class GMLExporter {
 	

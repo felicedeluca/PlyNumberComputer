@@ -10,9 +10,9 @@ import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
 
 import circlegraph.Circle;
-import graph.Edge;
-import graph.Graph;
-import graph.Vertex;
+import plygraph.Edge;
+import plygraph.Graph;
+import plygraph.Vertex;
 import utilities.Configurator;
 
 public class PlyGraphGenerator{

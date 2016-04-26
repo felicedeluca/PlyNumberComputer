@@ -3,7 +3,7 @@ package circlegraph;
 import java.util.HashSet;
 import java.util.Set;
 
-import graph.Vertex;
+import plygraph.Vertex;
 
 public class CirclesMng {
 	
