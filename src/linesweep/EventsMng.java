@@ -30,7 +30,13 @@ public class EventsMng {
 
 			Circle c = circlesArrList.get(i);
 
-			if(c.getSquaredRadius().compareTo(new Apfloat("0"))==0){
+			if(c.hasRadiusZero()){
+				
+				Apfloat centerX = c.getX();
+				Event centerEvent = new Event(Type.CENTER, c);
+				Set<Event> centerEventsOnPoint = prepareForNewEvent(eventsMap, centerX);
+				centerEventsOnPoint.add(centerEvent);
+				eventsMap.put(centerX, centerEventsOnPoint);
 				continue;
 			}
 
@@ -55,6 +61,10 @@ public class EventsMng {
 			for(int j=i+1; j<circlesArrList.size(); j++){
 
 				Circle c2 = circlesArrList.get(j);
+				
+				if(c2.hasRadiusZero()){
+					continue;
+				}
 
 				if (!c2.equals(c)){
 

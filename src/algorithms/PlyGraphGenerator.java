@@ -51,7 +51,7 @@ public class PlyGraphGenerator{
 			
 			currVertex.setSquaredCircleRadius(maxSquaredRadiusLength);
 //			this.circlesRadiiMap.put(currVertex.identifier, maxRadiusLength);
-			if(currVertex.getSquaredCircleRadius().compareTo(Configurator.zero)==0) continue;
+			//if(currVertex.getSquaredCircleRadius().compareTo(Configurator.zero)==0) continue;
 			Circle c = new Circle(currVertex.identifier+"", currVertex.label, currVertex.x, currVertex.y, currVertex.getSquaredCircleRadius());
 			//System.out.println(currVertex.x + " " + currVertex.y);
 			circles.add(c);

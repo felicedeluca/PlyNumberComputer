@@ -10,7 +10,7 @@ public class Event {
 	Circle c2;
 	
 	public enum Type {
-		OPENING, CLOSING, INTERSECTION, DUPLICATED
+		OPENING, CLOSING, INTERSECTION, DUPLICATED, CENTER
 	}
 	
 	public Event(Type type, Circle circle){

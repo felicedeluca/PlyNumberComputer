@@ -64,6 +64,11 @@ public class Circle {
 		return this.radius;
 	}
 	
+	public boolean hasRadiusZero(){
+		return  (this.getSquaredRadius().compareTo(new Apfloat("0"))==0);
+
+	}
+	
 	public String serializeToD3(){
 		
 		String str = "";

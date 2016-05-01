@@ -12,6 +12,7 @@ import org.apfloat.ApfloatMath;
 
 import circlegraph.Circle;
 import circlegraph.CircleGraph;
+import linesweep.Event.Type;
 import utilities.ApfloatRange;
 import utilities.Configurator;
 
@@ -38,20 +39,26 @@ public class LineSweepAlgorithm {
 		Set<ApfloatRange> maxPlyRanges = new HashSet<ApfloatRange>();
 		Apfloat maxX = new Apfloat(0);
 		
-		System.out.println("Events: " + eventsX.size());
+		//System.out.println("Events: " + eventsX.size());
 		
-		int i = 0;
+		//int i = 0;
 
 		for(Apfloat x : eventsX){
 			
 			//System.out.print(i+". ");
-			i++;
+			//i++;
 
 			Set<Event> events = eventsMap.get(x);
+			
+			Set<Circle> degenerateCiclesToClose = new HashSet<Circle>();
 
 			for (Event e : events){
 				//Setup circles
 				prepareForEvent(e);	
+				
+				if(e.getType() == Type.CENTER){
+					degenerateCiclesToClose.add(e.circle);
+				}
 				
 			}
 
@@ -67,15 +74,24 @@ public class LineSweepAlgorithm {
 
 			//Check Ply
 			if(currPly>maxPly){//
-				System.out.println("New Ply: " + currPly);
+				//System.out.println("New Ply: " + currPly);
 				maxPly = currPly;
 				maxPlyRanges = currPlyRanges;
 				maxX = x;
 				}
+			
+			
+			for(Circle degenerateCircle : degenerateCiclesToClose){
+				if(!activeCircles.contains(degenerateCircle))
+					throw new IllegalArgumentException("Trying to close a non active degenerate circle: " + degenerateCircle.toString());
+				activeCircles.remove(degenerateCircle);
+			}
+			
 			}
 			else{
 				//System.out.println("no active circles");
 			}
+			
 
 		}
 
@@ -101,7 +117,7 @@ public class LineSweepAlgorithm {
 		switch(e.type){
 		case OPENING:{
 			if(activeCircles.contains(e.circle))
-				throw new IllegalArgumentException("Trying to activating a circle twice: " + e.circle.toString());
+				throw new IllegalArgumentException("Trying to activate a circle twice: " + e.circle.toString());
 			activeCircles.add(e.circle);
 		}
 		break;
@@ -120,6 +136,12 @@ public class LineSweepAlgorithm {
 		}
 		case DUPLICATED:{
 			
+		}
+		break;
+		case CENTER:{
+			if(activeCircles.contains(e.circle))
+				throw new IllegalArgumentException("Trying to activate a circle twice: " + e.circle.toString());
+			activeCircles.add(e.circle);
 		}
 		break;
 		default:
