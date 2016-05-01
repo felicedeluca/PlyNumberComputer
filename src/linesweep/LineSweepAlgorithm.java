@@ -96,8 +96,8 @@ public class LineSweepAlgorithm {
 		}
 
 		
-		System.out.println("Max Ply: " + maxPly);
-		System.out.println("X coordinate: " + maxX);
+		//System.out.println("Max Ply: " + maxPly);
+		//System.out.println("X coordinate: " + maxX);
 		
 		Set<Circle> maxPlyCircles = new HashSet<Circle>();
 

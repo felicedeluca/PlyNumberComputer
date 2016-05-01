@@ -171,7 +171,7 @@ public class EventsMng {
 
 	private Map<Apfloat, Set<Event>>  addFakeEvents(Map<Apfloat, Set<Event>> map){
 
-		System.out.println("Adding fake Events");
+		//System.out.println("Adding fake Events");
 
 		Map<Apfloat, Set<Event>> completeEventsMap = new HashMap<Apfloat, Set<Event>>(map);
 
