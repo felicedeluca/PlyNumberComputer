@@ -160,6 +160,12 @@ public class LineSweepAlgorithm {
 			Apfloat xCenter = circle.getX();
 			Apfloat yCenter = circle.getY();
 			Apfloat squaredRadius = circle.getSquaredRadius();
+			
+			if(circle.hasRadiusZero()){
+				ApfloatRange currRange = new ApfloatRange(yCenter, yCenter, circle);
+				rangeSet.add(currRange);
+				continue;
+			}
 		
 			//System.out.println("xLine: "+xLine+"\ncenter: (" +xCenter + ", "+ yCenter +") radius: "+ radius );
 			
@@ -181,7 +187,6 @@ public class LineSweepAlgorithm {
 			Apfloat y2 = b.negate().add(sqrt).divide(new Apfloat("2", Configurator.apfloatPrecision()));
 
 			ApfloatRange currRange = new ApfloatRange(y1, y2, circle);
-			
 			rangeSet.add(currRange);
 
 		}
