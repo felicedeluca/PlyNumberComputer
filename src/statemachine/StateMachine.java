@@ -54,10 +54,7 @@ public class StateMachine {
 		PlyGraphGenerator pgg = new PlyGraphGenerator();
 		
 		Set<Circle> circles = pgg.computePlyCircles(inputGraph, radiusRatio);
-		
-		System.out.println("Circles: " + circles.size());
-
-		
+				
 		LineSweepAlgorithm lsa = new LineSweepAlgorithm();
 		
 		CircleGraph cg = lsa.startOnCircles(circles);

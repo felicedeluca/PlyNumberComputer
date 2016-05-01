@@ -1,6 +1,6 @@
 package maxclique;
 
-import java.util.*;
+import java.util.LinkedList;
 
 public class SimpleStack implements SimpleSet{
 	private LinkedList list;

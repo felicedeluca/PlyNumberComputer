@@ -13,17 +13,10 @@ import circlegraph.Circle;
 import plygraph.Edge;
 import plygraph.Graph;
 import plygraph.Vertex;
-import utilities.Configurator;
 
 public class PlyGraphGenerator{
-		
-//	Map<Integer, Double> circlesRadiiMap;
-		
-	public PlyGraphGenerator(){
-		
-//		this.circlesRadiiMap = new HashMap<Integer, Double>();		
-		
-	}
+				
+	public PlyGraphGenerator(){}
 
 
 	public Set<Circle> computePlyCircles(Graph graph, Apfloat radiusRatio){

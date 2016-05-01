@@ -97,7 +97,7 @@ public class GraphImporter {
 			int id = -1;
 			Apfloat x = new Apfloat("0");
 			Apfloat y =  new Apfloat("0");
-			int component = -1;
+			//int component = -1;
 			String label = "";
 			while(nodeMatcher.find(substart)){
 				String[] splits = nodeMatcher.group().split("\\s");
@@ -115,7 +115,7 @@ public class GraphImporter {
 
 					}
 					break;
-					case "component": component = Integer.parseInt(splits[1]); break;
+				//	case "component": component = Integer.parseInt(splits[1]); break;
 				}
 				substart = nodeMatcher.end();
 			}
