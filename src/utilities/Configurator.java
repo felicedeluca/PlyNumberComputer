@@ -6,8 +6,7 @@ import org.apfloat.ApfloatMath;
 public class Configurator {
 	
 	private static Configurator instance = null;
-	
-	
+		
 	private Configurator(){}
 	
 	public static Configurator getInstance(){

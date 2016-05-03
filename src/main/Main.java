@@ -8,11 +8,11 @@ import org.apfloat.Apfloat;
 
 import statemachine.StateMachine;
 import utilities.Configurator;
+import utilities.Logger;
 
 public class Main {
 
 	public static void main(String[] args) throws Exception {
-		
 
 	if (args.length != 2)
 		throw new IllegalArgumentException("Please check input values: filePath radiusratio.");
@@ -21,8 +21,8 @@ public class Main {
 		Apfloat radiusRatio = new Apfloat(args[1], Configurator.apfloatPrecision());
 		
 		Configurator.getInstance().setRadiusRatio(radiusRatio);
-		//System.out.println("Inputgraph: " + inputGraphFileName.getName());
-		//System.out.println("Radius Ratio: " + radiusRatio.toString(true));
+		Logger.log("Inputgraph: " + inputGraphFileName.getName());
+		Logger.log("Radius Ratio: " + radiusRatio.toString(true));
 		
 //		double plyNumber = StateMachine.startPlyComputation(inputGraphFileName, radiusRatio);
 		double plyNumber = StateMachine.computePlyUsingLineSweep(inputGraphFileName, radiusRatio);

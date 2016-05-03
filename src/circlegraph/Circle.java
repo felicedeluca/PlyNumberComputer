@@ -7,9 +7,13 @@ public class Circle {
 	
 	String identifier;
 	String label;
+
 	Apfloat x;
 	Apfloat y;
 	Apfloat squaredRadius;
+	
+	Apfloat leftmostX;
+	Apfloat rightmostX;
 	
 	Apfloat radius;
 	
@@ -23,6 +27,10 @@ public class Circle {
 		this.squaredRadius = squaredRadius;
 		this.radius = ApfloatMath.sqrt(squaredRadius);
 		this.color = "black";
+		
+		leftmostX = getX().subtract(getRadius());
+		rightmostX = getX().add(getRadius());
+		
 	}
 	
 	public String getLabel(){
@@ -44,9 +52,7 @@ public class Circle {
 	public String toString(){
 		
 		String str = this.getLabel()+": ( "+this.x+", "+this.y+") r^2:"+this.squaredRadius;
-
 		return str;
-		
 	}
 	
 	public String toEquation(){
@@ -91,6 +97,13 @@ public class Circle {
 		this.color = color;
 	}
 
+	public Apfloat getLeftmostX(){
+		return leftmostX;
+	}
+	
+	public Apfloat getRightmostX(){
+		return rightmostX;
+	}
 	
 	
 }

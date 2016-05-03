@@ -15,6 +15,7 @@ import circlegraph.CircleGraph;
 import linesweep.Event.Type;
 import utilities.ApfloatRange;
 import utilities.Configurator;
+import utilities.Logger;
 
 public class LineSweepAlgorithm {
 
@@ -24,6 +25,8 @@ public class LineSweepAlgorithm {
 	Map<Double, Set<Event>> events;
 
 	public CircleGraph startOnCircles(Set<Circle> circles){
+		
+		Logger.log("Starting SweepLine Algorithm");
 		
 		activeCircles = new HashSet<Circle>();
 
@@ -74,7 +77,9 @@ public class LineSweepAlgorithm {
 
 			//Check Ply
 			if(currPly>maxPly){//
-				//System.out.println("New Ply: " + currPly);
+				
+				Logger.log("New Ply: " + currPly);
+				
 				maxPly = currPly;
 				maxPlyRanges = currPlyRanges;
 				maxX = x;
@@ -95,9 +100,8 @@ public class LineSweepAlgorithm {
 
 		}
 
-		
-		//System.out.println("Max Ply: " + maxPly);
-		//System.out.println("X coordinate: " + maxX);
+		Logger.log("Max Ply: " + maxPly);
+		Logger.log("X Coordinate: " + maxX);
 		
 		Set<Circle> maxPlyCircles = new HashSet<Circle>();
 

@@ -18,6 +18,8 @@ import gateway.GraphImporter;
 import linesweep.LineSweepAlgorithm;
 import maxclique.MaxClique;
 import plygraph.Graph;
+import utilities.Configurator;
+import utilities.Logger;
 
 public class StateMachine {
 
@@ -51,15 +53,23 @@ public class StateMachine {
 		
 		Graph inputGraph = GraphImporter.readInput(inputFile);
 		
+		Logger.log(inputFile.getName());
+		
 		PlyGraphGenerator pgg = new PlyGraphGenerator();
 		
 		Set<Circle> circles = pgg.computePlyCircles(inputGraph, radiusRatio);
+		
+		Logger.log("Circles: " + circles.size());
 				
 		LineSweepAlgorithm lsa = new LineSweepAlgorithm();
+		
+		
 		
 		CircleGraph cg = lsa.startOnCircles(circles);
 		
 		cg.setName(inputFile.getName());
+		
+		Logger.log("Storing Visual Json");
 		
 		storeD3VisualBackupJSON(inputFile, cg);
 		
