@@ -82,6 +82,7 @@ public class EventsMng {
 				
 				Apfloat c2_LeftmostX = c2.getLeftmostX();
 				if(endingX.compareTo(c2_LeftmostX)==-1){
+					Logger.log("last j: " + j);
 					break;
 				}
 

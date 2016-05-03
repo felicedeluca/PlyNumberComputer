@@ -17,6 +17,7 @@ import plygraph.Edge;
 import plygraph.Graph;
 import plygraph.Vertex;
 import utilities.Configurator;
+import utilities.Logger;
 
 public class GraphImporter {
 	
@@ -78,7 +79,7 @@ public class GraphImporter {
 		FileInputStream input = new FileInputStream(f);
 		CharSequence fileContents = readFile(input);
 		String regexRootForSections="\\s+\\[.*\\s+([^\\]]*\\s+)+]\\s";
-		String regexRootForNodes="(id|x|y)\\s?[0-9]+(\\.[0-9]*)?";
+		String regexRootForNodes="(id|x|y)\\s?-*[0-9]+(\\.[0-9]*)?";
 		String regexRootForEdges="(source|target)\\s?[0-9]+";
 		String nodeRegex = "node"+regexRootForSections;
 		String edgeRegex = "edge"+regexRootForSections;
@@ -107,12 +108,10 @@ public class GraphImporter {
 					case "label": label = splits[1];
 					   break;
 					case "x":{
-						x =  new Apfloat(splits[1], Configurator.apfloatPrecision());
-						
+						x =  new Apfloat(splits[1], Configurator.apfloatPrecision());	
 					}
 					break;
-					case "y":{ y =  new Apfloat(splits[1], Configurator.apfloatPrecision()); 
-
+					case "y":{ y =  new Apfloat(splits[1], Configurator.apfloatPrecision());
 					}
 					break;
 				//	case "component": component = Integer.parseInt(splits[1]); break;
