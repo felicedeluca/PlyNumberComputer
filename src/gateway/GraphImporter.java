@@ -16,8 +16,8 @@ import org.apfloat.Apfloat;
 import graphap.EdgeAP;
 import graphap.GraphAP;
 import graphap.VertexAP;
-import utilities.Configurator;
-import utilities.Logger;
+import utilities.PlyConfigurator;
+import utilities.PlyLogger;
 
 public class GraphImporter {
 	
@@ -25,14 +25,14 @@ public class GraphImporter {
 		
 		
 		
-		VertexAP a = new VertexAP(1, new Apfloat("0", Configurator.apfloatPrecision()), new Apfloat("0", Configurator.apfloatPrecision()), "a");
-		VertexAP b = new VertexAP(2, new Apfloat("1", Configurator.apfloatPrecision()), new Apfloat("1", Configurator.apfloatPrecision()), "b");
-		VertexAP c = new VertexAP(3, new Apfloat("2", Configurator.apfloatPrecision()), new Apfloat("2", Configurator.apfloatPrecision()), "c");
-		VertexAP d = new VertexAP(4, new Apfloat("3", Configurator.apfloatPrecision()), new Apfloat("3", Configurator.apfloatPrecision()), "d");
-		VertexAP e = new VertexAP(5, new Apfloat("4", Configurator.apfloatPrecision()), new Apfloat("4", Configurator.apfloatPrecision()), "e");
-		VertexAP f = new VertexAP(6, new Apfloat("5", Configurator.apfloatPrecision()), new Apfloat("5", Configurator.apfloatPrecision()), "f");
-		VertexAP g = new VertexAP(7, new Apfloat("6", Configurator.apfloatPrecision()), new Apfloat("6", Configurator.apfloatPrecision()), "g");
-		VertexAP h = new VertexAP(8, new Apfloat("7", Configurator.apfloatPrecision()), new Apfloat("7", Configurator.apfloatPrecision()), "h");
+		VertexAP a = new VertexAP(1, new Apfloat("0", PlyConfigurator.apfloatPrecision()), new Apfloat("0", PlyConfigurator.apfloatPrecision()), "a");
+		VertexAP b = new VertexAP(2, new Apfloat("1", PlyConfigurator.apfloatPrecision()), new Apfloat("1", PlyConfigurator.apfloatPrecision()), "b");
+		VertexAP c = new VertexAP(3, new Apfloat("2", PlyConfigurator.apfloatPrecision()), new Apfloat("2", PlyConfigurator.apfloatPrecision()), "c");
+		VertexAP d = new VertexAP(4, new Apfloat("3", PlyConfigurator.apfloatPrecision()), new Apfloat("3", PlyConfigurator.apfloatPrecision()), "d");
+		VertexAP e = new VertexAP(5, new Apfloat("4", PlyConfigurator.apfloatPrecision()), new Apfloat("4", PlyConfigurator.apfloatPrecision()), "e");
+		VertexAP f = new VertexAP(6, new Apfloat("5", PlyConfigurator.apfloatPrecision()), new Apfloat("5", PlyConfigurator.apfloatPrecision()), "f");
+		VertexAP g = new VertexAP(7, new Apfloat("6", PlyConfigurator.apfloatPrecision()), new Apfloat("6", PlyConfigurator.apfloatPrecision()), "g");
+		VertexAP h = new VertexAP(8, new Apfloat("7", PlyConfigurator.apfloatPrecision()), new Apfloat("7", PlyConfigurator.apfloatPrecision()), "h");
 
 
 		HashMap<Integer, VertexAP> vertices = new HashMap<Integer, VertexAP>();
@@ -108,10 +108,10 @@ public class GraphImporter {
 					case "label": label = splits[1];
 					   break;
 					case "x":{
-						x =  new Apfloat(splits[1], Configurator.apfloatPrecision());	
+						x =  new Apfloat(splits[1], PlyConfigurator.apfloatPrecision());	
 					}
 					break;
-					case "y":{ y =  new Apfloat(splits[1], Configurator.apfloatPrecision());
+					case "y":{ y =  new Apfloat(splits[1], PlyConfigurator.apfloatPrecision());
 					}
 					break;
 				//	case "component": component = Integer.parseInt(splits[1]); break;

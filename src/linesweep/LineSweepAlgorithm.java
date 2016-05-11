@@ -14,8 +14,8 @@ import circlegraph.Circle;
 import circlegraph.CircleGraph;
 import linesweep.Event.Type;
 import utilities.ApfloatInterval;
-import utilities.Configurator;
-import utilities.Logger;
+import utilities.PlyConfigurator;
+import utilities.PlyLogger;
 
 public class LineSweepAlgorithm {
 
@@ -31,7 +31,7 @@ public class LineSweepAlgorithm {
 
 	public int computePly(Set<Circle> circles){
 
-		Logger.logln("Starting SweepLine Algorithm");
+		PlyLogger.logln("Starting SweepLine Algorithm");
 
 		activeCircles = new HashSet<Circle>();
 
@@ -47,14 +47,14 @@ public class LineSweepAlgorithm {
 		Set<ApfloatInterval> maxPlyRanges = new HashSet<ApfloatInterval>();
 		Apfloat maxX = new Apfloat(0);
 
-		Logger.loglnAlways("Events: " + eventsX.size());
+		PlyLogger.loglnAlways("Events: " + eventsX.size());
 
 		int ignoredEvents = 0;
 
 		int i = 0;
 		double lastPercentage = -1;
 
-		Logger.logAlways("Events: ");
+		PlyLogger.logAlways("Events: ");
 		for(Apfloat x : eventsX){
 
 			//Logging
@@ -63,7 +63,7 @@ public class LineSweepAlgorithm {
 			if(roundPercentage%10 == 0){
 				if(lastPercentage!=roundPercentage){
 					lastPercentage = roundPercentage;
-					Logger.logAlways(roundPercentage+"%  ");
+					PlyLogger.logAlways(roundPercentage+"%  ");
 				}
 			}
 			i++;
@@ -88,7 +88,7 @@ public class LineSweepAlgorithm {
 			events.removeAll(openingAndClosingEventsToRemove);
 			ignoredEvents += openingAndClosingEventsToRemove.size();
 			if(events.size()==0){
-				Logger.logln("No need to compute intersection since there are no events");
+				PlyLogger.logln("No need to compute intersection since there are no events");
 				continue;
 			}
 
@@ -99,7 +99,7 @@ public class LineSweepAlgorithm {
 
 			int currPly = 0;
 
-			if(Configurator.debug){
+			if(PlyConfigurator.debug){
 				Set<ApfloatInterval> currPlyRanges = pointOfMaximumOverlap(intervals);
 				currPly = currPlyRanges.size();	
 				if(currPly>maxPly){maxPlyRanges = currPlyRanges;}
@@ -109,7 +109,7 @@ public class LineSweepAlgorithm {
 
 			//Check Ply
 			if(currPly>maxPly){//
-				Logger.logln("New Ply: " + currPly);
+				PlyLogger.logln("New Ply: " + currPly);
 				maxPly = currPly;
 				maxX = x;
 			}
@@ -121,13 +121,13 @@ public class LineSweepAlgorithm {
 			}
 		}
 
-		Logger.loglnAlways("100 %");
-		Logger.loglnAlways("Ignored Events: " + ignoredEvents);
+		PlyLogger.loglnAlways("100 %");
+		PlyLogger.loglnAlways("Ignored Events: " + ignoredEvents);
 
-		Logger.logln("Max Ply: " + maxPly);
-		Logger.logln("X Coordinate: " + maxX);
+		PlyLogger.logln("Max Ply: " + maxPly);
+		PlyLogger.logln("X Coordinate: " + maxX);
 
-		if(Configurator.debug){
+		if(PlyConfigurator.debug){
 			
 			Set<Circle> maxPlyCircles = new HashSet<Circle>();
 			for(ApfloatInterval range : maxPlyRanges){
@@ -204,7 +204,7 @@ public class LineSweepAlgorithm {
 			//System.out.println("xLine: "+xLine+"\ncenter: (" +xCenter + ", "+ yCenter +") radius: "+ radius );
 
 			//Apfloat a = new Apfloat("1", Apfloat.INFINITE);
-			Apfloat b = yCenter.multiply(new Apfloat("2", Configurator.apfloatPrecision())).negate(); //-2yc
+			Apfloat b = yCenter.multiply(new Apfloat("2", PlyConfigurator.apfloatPrecision())).negate(); //-2yc
 
 			Apfloat c = ApfloatMath.sum(ApfloatMath.pow(yCenter, 2),
 					ApfloatMath.pow(ApfloatMath.abs(xLine.subtract(xCenter)), 2),
@@ -213,12 +213,12 @@ public class LineSweepAlgorithm {
 
 			Apfloat disc = ApfloatMath.sum(
 					ApfloatMath.pow(b, 2),
-					c.multiply(new Apfloat("4", Configurator.apfloatPrecision())).negate());
+					c.multiply(new Apfloat("4", PlyConfigurator.apfloatPrecision())).negate());
 
 			Apfloat sqrt = ApfloatMath.sqrt(disc);
 
-			Apfloat y1 = b.negate().subtract(sqrt).divide(new Apfloat("2", Configurator.apfloatPrecision()));
-			Apfloat y2 = b.negate().add(sqrt).divide(new Apfloat("2", Configurator.apfloatPrecision()));
+			Apfloat y1 = b.negate().subtract(sqrt).divide(new Apfloat("2", PlyConfigurator.apfloatPrecision()));
+			Apfloat y2 = b.negate().add(sqrt).divide(new Apfloat("2", PlyConfigurator.apfloatPrecision()));
 
 			ApfloatInterval currRange = new ApfloatInterval(y1, y2, circle);
 			rangeSet.add(currRange);

@@ -13,8 +13,8 @@ import org.apfloat.ApfloatMath;
 
 import circlegraph.Circle;
 import linesweep.Event.Type;
-import utilities.Configurator;
-import utilities.Logger;
+import utilities.PlyConfigurator;
+import utilities.PlyLogger;
 
 public class EventsMng {
 
@@ -24,7 +24,7 @@ public class EventsMng {
 
 	public Map<Apfloat, Set<Event>> computeEvents(Set<Circle> circles){
 
-		Logger.logln("Computing Events");
+		PlyLogger.logln("Computing Events");
 
 		Map<Apfloat, Set<Event>> eventsMap = new HashMap<Apfloat, Set<Event>>();
 
@@ -39,11 +39,11 @@ public class EventsMng {
 		
 		double lastPercentage = 0.0;
 		
-		Logger.logAlways("Intersections:");
+		PlyLogger.logAlways("Intersections:");
 		
 		for(int i=0; i<circlesArrList.size(); i++){
 
-			Logger.logln("Circle: " + i);
+			PlyLogger.logln("Circle: " + i);
 
 			//Logging
 			double percentage = (i*100.0)/circlesArrList.size();
@@ -51,7 +51,7 @@ public class EventsMng {
 			if(roundPercentage%10 == 0){
 				if(lastPercentage!=roundPercentage){
 					lastPercentage = roundPercentage;
-					Logger.logAlways(roundPercentage+"%  ");
+					PlyLogger.logAlways(roundPercentage+"%  ");
 				}
 			}
 
@@ -116,13 +116,13 @@ public class EventsMng {
 
 		}
 
-		Logger.loglnAlways("100 %");
+		PlyLogger.loglnAlways("100 %");
 		
-		Logger.logln("Computed Real Events: " + eventsMap.size());
+		PlyLogger.logln("Computed Real Events: " + eventsMap.size());
 
 		Map<Apfloat, Set<Event>> completeEventsMap =  addFakeEvents(eventsMap);
 
-		Logger.logln("Total Events: " + completeEventsMap.size());
+		PlyLogger.logln("Total Events: " + completeEventsMap.size());
 
 
 		return completeEventsMap;
@@ -142,7 +142,7 @@ public class EventsMng {
 
 	private Map<Apfloat, Set<Event>>  addFakeEvents(Map<Apfloat, Set<Event>> map){
 
-		Logger.logln("Computing Fake Events");
+		PlyLogger.logln("Computing Fake Events");
 
 		Map<Apfloat, Set<Event>> completeEventsMap = new HashMap<Apfloat, Set<Event>>(map);
 
@@ -158,8 +158,8 @@ public class EventsMng {
 
 			if(currKey.compareTo(nextKey)!=0){
 
-				currKey = new Apfloat(keys.get(i).toString(), Configurator.apfloatPrecision()+1);
-				nextKey = new Apfloat(keys.get(i+1).toString(), Configurator.apfloatPrecision()+1);
+				currKey = new Apfloat(keys.get(i).toString(), PlyConfigurator.apfloatPrecision()+1);
+				nextKey = new Apfloat(keys.get(i+1).toString(), PlyConfigurator.apfloatPrecision()+1);
 
 				Apfloat sum = currKey.add(nextKey);
 				midKey = sum.divide(new Apfloat("2", currKey.precision()+1));
@@ -207,15 +207,15 @@ public class EventsMng {
 		Apfloat alpha = ApfloatMath.sqrt(alphaSquared);
 
 		if(c0.getSquaredRadius().compareTo(c1.getSquaredRadius()) == 0){
-			alphaSquared = Configurator.one;
-			alpha = Configurator.one;
+			alphaSquared = PlyConfigurator.one;
+			alpha = PlyConfigurator.one;
 		}
 
-		Apfloat propPerIntersection = ApfloatMath.sum(alphaSquared, alpha.multiply(Configurator.two), Configurator.one);
+		Apfloat propPerIntersection = ApfloatMath.sum(alphaSquared, alpha.multiply(PlyConfigurator.two), PlyConfigurator.one);
 		Apfloat propTimesRadiusPerIntersection = propPerIntersection.multiply(r1Squared);
 		boolean doIntersect = (dSquared.compareTo(propTimesRadiusPerIntersection) == -1);
 
-		Apfloat propInclusion = ApfloatMath.sum(alphaSquared, alpha.multiply(Configurator.two).negate(), Configurator.one);
+		Apfloat propInclusion = ApfloatMath.sum(alphaSquared, alpha.multiply(PlyConfigurator.two).negate(), PlyConfigurator.one);
 		Apfloat propTimesRadiusInclusion = propInclusion.multiply(r1Squared);
 		boolean noInclusion = (dSquared.compareTo(propTimesRadiusInclusion) == 1);
 
@@ -244,8 +244,8 @@ public class EventsMng {
 
 		Apfloat x0 = c0.getX();
 
-		Apfloat two = Configurator.two;
-		Apfloat four = Configurator.four;
+		Apfloat two = PlyConfigurator.two;
+		Apfloat four = PlyConfigurator.four;
 
 
 		Apfloat a = (r0Squared.subtract(r1Squared).add(dSquared)).divide(dSquared.multiply(two));

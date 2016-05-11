@@ -3,17 +3,17 @@ package utilities;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
 
-public class Configurator {
+public class PlyConfigurator {
 	
-	private static Configurator instance = null;
+	private static PlyConfigurator instance = null;
 		
-	private Configurator(){}
+	private PlyConfigurator(){}
 	
 	public static boolean debug;
 	
-	public static Configurator getInstance(){
+	public static PlyConfigurator getInstance(){
 		
-		if (instance == null) instance = new Configurator();
+		if (instance == null) instance = new PlyConfigurator();
 		
 		return instance;
 	}
@@ -22,10 +22,10 @@ public class Configurator {
 	static int apfloatPrecision = 1000;
 	static Apfloat epsilon = null;
 	
-	public static Apfloat zero = new Apfloat("0", Configurator.apfloatPrecision());
-	public static Apfloat one = new Apfloat("1", Configurator.apfloatPrecision());
-	public static Apfloat two = new Apfloat("2", Configurator.apfloatPrecision());
-	public static Apfloat four = new Apfloat("4", Configurator.apfloatPrecision());
+	public static Apfloat zero = new Apfloat("0", PlyConfigurator.apfloatPrecision());
+	public static Apfloat one = new Apfloat("1", PlyConfigurator.apfloatPrecision());
+	public static Apfloat two = new Apfloat("2", PlyConfigurator.apfloatPrecision());
+	public static Apfloat four = new Apfloat("4", PlyConfigurator.apfloatPrecision());
 
 	
 	Apfloat radiusRatio;

@@ -1,11 +1,11 @@
 package utilities;
 
-public class Logger {
+public class PlyLogger {
 
 	static boolean log = false;
 	
 	public static void logln(String s){
-		Logger.log(s+"\n");
+		PlyLogger.log(s+"\n");
 	}
 	
 	public static void log(String s){
@@ -19,7 +19,7 @@ public class Logger {
 	}
 	
 	public static void loglnAlways(String s){
-		Logger.logAlways(s+"\n");	
+		PlyLogger.logAlways(s+"\n");	
 	}
 	
 }

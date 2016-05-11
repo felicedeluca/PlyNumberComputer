@@ -7,8 +7,8 @@ import java.nio.file.StandardOpenOption;
 import org.apfloat.Apfloat;
 
 import statemachine.StateMachine;
-import utilities.Configurator;
-import utilities.Logger;
+import utilities.PlyConfigurator;
+import utilities.PlyLogger;
 
 public class Main {
 
@@ -18,11 +18,11 @@ public class Main {
 		throw new IllegalArgumentException("Please check input values: filePath radiusratio.");
 
 		File inputGraphFileName = new File(args[0]);
-		Apfloat radiusRatio = new Apfloat(args[1], Configurator.apfloatPrecision());
+		Apfloat radiusRatio = new Apfloat(args[1], PlyConfigurator.apfloatPrecision());
 		
-		Configurator.getInstance().setRadiusRatio(radiusRatio);
-		Logger.logln("Inputgraph: " + inputGraphFileName.getName());
-		Logger.logln("Radius Ratio: " + radiusRatio.toString(true));
+		PlyConfigurator.getInstance().setRadiusRatio(radiusRatio);
+		PlyLogger.logln("Inputgraph: " + inputGraphFileName.getName());
+		PlyLogger.logln("Radius Ratio: " + radiusRatio.toString(true));
 		
 //		double plyNumber = StateMachine.startPlyComputation(inputGraphFileName, radiusRatio);
 		double plyNumber = StateMachine.computePlyUsingLineSweep(inputGraphFileName, radiusRatio);
