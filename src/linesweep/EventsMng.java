@@ -221,11 +221,6 @@ public class EventsMng {
 
 		boolean toIgnore = ((doIntersect && !noInclusion) || !doIntersect || !noInclusion);
 
-		//	System.out.print(c0.getIdentifier() + " , "  + c1.getIdentifier() + ": ");
-		//	if(doIntersect) System.out.print(" do Intersect"); else  System.out.print(" do no Intersect");
-		//	if(noInclusion) System.out.print(" not inclusion"); else  System.out.print(" inclusion");
-		//	if(toIgnore) System.out.println(" ignore"); else  System.out.println(" do not ignore");
-
 		return toIgnore;
 	}
 

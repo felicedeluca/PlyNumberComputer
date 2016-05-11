@@ -62,6 +62,7 @@ public class StateMachine {
 		
 		LineSweepAlgorithm lsa = new LineSweepAlgorithm();
 		
+		
 		int ply = lsa.computePly(circles);
 		
 		if(lsa.plyCircleGraph!=null){

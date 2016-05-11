@@ -25,7 +25,9 @@ public class Main {
 		PlyLogger.logln("Radius Ratio: " + radiusRatio.toString(true));
 		
 //		double plyNumber = StateMachine.startPlyComputation(inputGraphFileName, radiusRatio);
-		double plyNumber = StateMachine.computePlyUsingLineSweep(inputGraphFileName, radiusRatio);
+		int plyNumber = StateMachine.computePlyUsingLineSweep(inputGraphFileName, radiusRatio);
+		
+		System.out.println("Computed Ply: " + plyNumber);
 
 		
 		String fileName = inputGraphFileName.getName();

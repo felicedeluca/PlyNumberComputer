@@ -31,14 +31,22 @@ public class LineSweepAlgorithm {
 
 	public int computePly(Set<Circle> circles){
 
+	      long startTime = System.currentTimeMillis();
+
+		
 		PlyLogger.logln("Starting SweepLine Algorithm");
 
 		activeCircles = new HashSet<Circle>();
 
 		//Compute Events
 		EventsMng em = new EventsMng();
+	  
+		long eventsStartTime = System.currentTimeMillis();
 		Map<Apfloat, Set<Event>> eventsMap = em.computeEvents(circles);
+		long eventcomputationTime = System.currentTimeMillis();
+		System.out.println("EventTime: " + (eventcomputationTime-eventsStartTime));
 
+		
 		//Ordered key list
 		ArrayList<Apfloat> eventsX = new ArrayList<Apfloat>(eventsMap.keySet());
 		Collections.sort(eventsX);
@@ -137,6 +145,11 @@ public class LineSweepAlgorithm {
 			CircleGraph cg = new CircleGraph(circles, maxPlyCircles, maxX);
 			this.plyCircleGraph = cg;
 		}
+		
+		
+
+		long endTime = System.currentTimeMillis();
+		System.out.println("TotalTime: " + (endTime-startTime));
 
 		return maxPly;
 

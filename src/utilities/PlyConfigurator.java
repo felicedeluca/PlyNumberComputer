@@ -9,7 +9,7 @@ public class PlyConfigurator {
 		
 	private PlyConfigurator(){}
 	
-	public static boolean debug;
+	public static boolean debug = false;
 	
 	public static PlyConfigurator getInstance(){
 		
