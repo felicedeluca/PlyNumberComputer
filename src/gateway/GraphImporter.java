@@ -17,7 +17,6 @@ import graphap.EdgeAP;
 import graphap.GraphAP;
 import graphap.VertexAP;
 import utilities.PlyConfigurator;
-import utilities.PlyLogger;
 
 public class GraphImporter {
 	
