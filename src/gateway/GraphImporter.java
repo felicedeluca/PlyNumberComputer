@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
 
 import org.apfloat.Apfloat;
 
-import plygraph.EdgeAP;
-import plygraph.GraphAP;
-import plygraph.VertexAP;
+import graphap.EdgeAP;
+import graphap.GraphAP;
+import graphap.VertexAP;
 import utilities.Configurator;
 import utilities.Logger;
 

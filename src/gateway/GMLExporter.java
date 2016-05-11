@@ -5,9 +5,9 @@ import java.io.Writer;
 
 import org.apfloat.Apfloat;
 
-import plygraph.EdgeAP;
-import plygraph.GraphAP;
-import plygraph.VertexAP;
+import graphap.EdgeAP;
+import graphap.GraphAP;
+import graphap.VertexAP;
 
 public class GMLExporter {
 	

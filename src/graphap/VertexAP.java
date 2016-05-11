@@ -1,4 +1,4 @@
-package plygraph;
+package graphap;
 
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
