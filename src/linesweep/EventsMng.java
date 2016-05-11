@@ -22,9 +22,9 @@ public class EventsMng {
 
 	public EventsMng(){}
 
-	public Map<Apfloat, Set<Event>> computeStartingEndingAndIntersectingEvents(Set<Circle> circles){
+	public Map<Apfloat, Set<Event>> computeEvents(Set<Circle> circles){
 
-		Logger.log("Computing Events");
+		Logger.logln("Computing Events");
 
 		Map<Apfloat, Set<Event>> eventsMap = new HashMap<Apfloat, Set<Event>>();
 
@@ -35,11 +35,25 @@ public class EventsMng {
 		        return c1.getLeftmostX().compareTo(c2.getLeftmostX());
 		    }
 		});
-
+		
+		
+		double lastPercentage = 0.0;
+		
+		Logger.logAlways("Intersections:");
+		
 		for(int i=0; i<circlesArrList.size(); i++){
 
-			Logger.log("Circle: " + i);
-			
+			Logger.logln("Circle: " + i);
+
+			//Logging
+			double percentage = (i*100.0)/circlesArrList.size();
+			double roundPercentage = Math.floor(percentage);
+			if(roundPercentage%10 == 0){
+				if(lastPercentage!=roundPercentage){
+					lastPercentage = roundPercentage;
+					Logger.logAlways(roundPercentage+"%  ");
+				}
+			}
 
 			Circle c = circlesArrList.get(i);
 			
@@ -75,14 +89,13 @@ public class EventsMng {
 				
 				Circle c2 = circlesArrList.get(j);
 
-				
 				if(c.equals(c2)){continue;}
 				if(c2.hasRadiusZero()){continue;}
 				
 				
 				Apfloat c2_LeftmostX = c2.getLeftmostX();
 				if(endingX.compareTo(c2_LeftmostX)==-1){
-					Logger.log("last j: " + j);
+					//Logger.log("last j: " + j);
 					break;
 				}
 
@@ -103,11 +116,13 @@ public class EventsMng {
 
 		}
 
-		Logger.log("Computed Real Events: " + eventsMap.size());
+		Logger.loglnAlways("100 %");
+		
+		Logger.logln("Computed Real Events: " + eventsMap.size());
 
 		Map<Apfloat, Set<Event>> completeEventsMap =  addFakeEvents(eventsMap);
 
-		Logger.log("Total Events: " + completeEventsMap.size());
+		Logger.logln("Total Events: " + completeEventsMap.size());
 
 
 		return completeEventsMap;
@@ -127,7 +142,7 @@ public class EventsMng {
 
 	private Map<Apfloat, Set<Event>>  addFakeEvents(Map<Apfloat, Set<Event>> map){
 
-		Logger.log("Computing Fake Events");
+		Logger.logln("Computing Fake Events");
 
 		Map<Apfloat, Set<Event>> completeEventsMap = new HashMap<Apfloat, Set<Event>>(map);
 
@@ -156,8 +171,10 @@ public class EventsMng {
 							+ "1: " + currKey.toString(true) + "\n"
 							+ "2: "+ nextKey.toString(true) +"\n"
 							+ "== " + midKey.toString(true);
-
-					throw new IllegalArgumentException("Wrong mid key computation:\n"+err);
+					
+					System.out.println(err);
+					midKey = currKey;
+					//throw new IllegalArgumentException("Wrong mid key computation:\n"+err);
 				}
 
 			}

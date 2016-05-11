@@ -2,20 +2,20 @@ package gateway;
 
 import java.util.Set;
 
-import plygraph.Edge;
-import plygraph.Graph;
+import plygraph.EdgeAP;
+import plygraph.GraphAP;
 
 public class GraphConverter {
 	
-	public static byte[][] convertToAdjMatrix(Graph graph){
+	public static byte[][] convertToAdjMatrix(GraphAP graph){
 		
 		int numVertices = graph.getVertices().size();
 		
 		byte[][] adjMatrix = new byte[numVertices][numVertices];
 		
-		Set<Edge> edges = graph.getEdges();
+		Set<EdgeAP> edges = graph.getEdges();
 		
-		for (Edge e : edges){
+		for (EdgeAP e : edges){
 			
 			int source = e.getSourceIdentifier();
 			int target = e.getTargetIdentifier();

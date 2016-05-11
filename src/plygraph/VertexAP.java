@@ -3,7 +3,7 @@ package plygraph;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
 
-public class Vertex {
+public class VertexAP {
 
 	public Integer identifier;
 	public Apfloat x;
@@ -11,7 +11,7 @@ public class Vertex {
 	public String label;
 	private Apfloat squaredCircleRadius;
 
-	public Vertex(Integer identifier, Apfloat x, Apfloat y, String label){
+	public VertexAP(Integer identifier, Apfloat x, Apfloat y, String label){
 
 		this.identifier = identifier;
 		this.label = label;

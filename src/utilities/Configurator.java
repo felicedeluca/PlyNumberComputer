@@ -9,6 +9,8 @@ public class Configurator {
 		
 	private Configurator(){}
 	
+	public static boolean debug;
+	
 	public static Configurator getInstance(){
 		
 		if (instance == null) instance = new Configurator();

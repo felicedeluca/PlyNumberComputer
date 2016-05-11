@@ -5,21 +5,21 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Graph {
+public class GraphAP {
 
-	private Map<Integer, Vertex> verticesMap;
-	private Map<Integer, Edge> edgesMap;
+	private Map<Integer, VertexAP> verticesMap;
+	private Map<Integer, EdgeAP> edgesMap;
 	private Map<Integer, Set<Integer>> vertexEdgesMap;
 	
 	
-	public Graph(Map<Integer, Vertex> verticesMap, Map<Integer, Edge> edgesMap){
+	public GraphAP(Map<Integer, VertexAP> verticesMap, Map<Integer, EdgeAP> edgesMap){
 		
 		this.verticesMap = verticesMap;
 		this.edgesMap = edgesMap;
 		
 		this.vertexEdgesMap = new HashMap<Integer, Set<Integer>>();
 		
-		for(Vertex currVertex : verticesMap.values()){
+		for(VertexAP currVertex : verticesMap.values()){
 			
 			Integer identifier = currVertex.identifier;
 			Set<Integer> currEdges = new HashSet<Integer>();
@@ -32,19 +32,19 @@ public class Graph {
 	}	
 	
 	
-	public Set<Vertex> getAdjsOfVertex(Vertex vertex){
+	public Set<VertexAP> getAdjsOfVertex(VertexAP vertex){
 
-		Set<Vertex> adjs = new HashSet<Vertex>();
+		Set<VertexAP> adjs = new HashSet<VertexAP>();
 		
 		Set<Integer> edgesIds = this.vertexEdgesMap.get(vertex.identifier);
 		
 		for(Integer edgeId : edgesIds){
 			
-			Edge currEdge = edgesMap.get(edgeId);
+			EdgeAP currEdge = edgesMap.get(edgeId);
 			Integer source = currEdge.getSourceIdentifier();
 			Integer target = currEdge.getTargetIdentifier();
 			
-			Vertex vertexToAdd = null;
+			VertexAP vertexToAdd = null;
 			
 			if (source != vertex.identifier){
 				vertexToAdd = this.verticesMap.get(source);
@@ -61,7 +61,7 @@ public class Graph {
 	
 	private void organizeEdges(){
 
-		for(Edge currEdge : edgesMap.values()){
+		for(EdgeAP currEdge : edgesMap.values()){
 						
 			Integer source = currEdge.getSourceIdentifier();
 			Integer target = currEdge.getTargetIdentifier();
@@ -86,9 +86,9 @@ public class Graph {
 		
 	}
 	
-	public Set<Edge> getIncidentEdges(Vertex vertex){
+	public Set<EdgeAP> getIncidentEdges(VertexAP vertex){
 		
-		Set<Edge> edges = new HashSet<Edge>();
+		Set<EdgeAP> edges = new HashSet<EdgeAP>();
 		
 		Set<Integer> inc = this.vertexEdgesMap.get(vertex.identifier);
 		
@@ -102,21 +102,21 @@ public class Graph {
 		return edges;
 	}
 	
-	public Set<Vertex> getVertices(){
+	public Set<VertexAP> getVertices(){
 		
 		
-		return new HashSet<Vertex>(this.verticesMap.values());
-		
-	}
-	
-	public Set<Edge> getEdges(){
-		
-		
-		return new HashSet<Edge>(this.edgesMap.values());
+		return new HashSet<VertexAP>(this.verticesMap.values());
 		
 	}
 	
-	public Map<Integer, Vertex> getVerticesMap(){
+	public Set<EdgeAP> getEdges(){
+		
+		
+		return new HashSet<EdgeAP>(this.edgesMap.values());
+		
+	}
+	
+	public Map<Integer, VertexAP> getVerticesMap(){
 		
 		return this.verticesMap;
 		

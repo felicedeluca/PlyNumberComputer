@@ -3,7 +3,7 @@ package circlegraph;
 import java.util.HashSet;
 import java.util.Set;
 
-import plygraph.Vertex;
+import plygraph.VertexAP;
 
 public class CirclesMng {
 	
@@ -19,11 +19,11 @@ public class CirclesMng {
 		
 	}
 	
-	public Set<Circle> convertVerticesToCirlces(Set<Vertex> vertices){
+	public Set<Circle> convertVerticesToCirlces(Set<VertexAP> vertices){
 		
 		Set<Circle> circlesSet = new HashSet<Circle>();
 		
-		for(Vertex v : vertices){
+		for(VertexAP v : vertices){
 			
 			Circle c = new Circle(v.identifier+"", v.label, v.x, v.y, v.getSquaredCircleRadius());
 			

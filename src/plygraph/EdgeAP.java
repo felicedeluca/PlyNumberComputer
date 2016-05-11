@@ -2,7 +2,7 @@ package plygraph;
 
 import org.apfloat.Apfloat;
 
-public class Edge {
+public class EdgeAP {
 	
 	Integer identifier, source, target;
 	//Apfloat length;
@@ -10,7 +10,7 @@ public class Edge {
 	public String label;
 	Apfloat squaredLength;
 	
-	public Edge(Vertex source, Vertex target){
+	public EdgeAP(VertexAP source, VertexAP target){
 		
 		this.source = source.identifier;
 		this.target = target.identifier;
@@ -18,7 +18,7 @@ public class Edge {
 		
 	}
 	
-	public Edge(int identifier, Integer source, Integer target){
+	public EdgeAP(int identifier, Integer source, Integer target){
 		
 		this.identifier = identifier;
 		this.source = source;

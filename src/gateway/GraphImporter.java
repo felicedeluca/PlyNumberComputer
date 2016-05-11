@@ -13,29 +13,29 @@ import java.util.regex.Pattern;
 
 import org.apfloat.Apfloat;
 
-import plygraph.Edge;
-import plygraph.Graph;
-import plygraph.Vertex;
+import plygraph.EdgeAP;
+import plygraph.GraphAP;
+import plygraph.VertexAP;
 import utilities.Configurator;
 import utilities.Logger;
 
 public class GraphImporter {
 	
-	public static Graph testGraph(){
+	public static GraphAP testGraph(){
 		
 		
 		
-		Vertex a = new Vertex(1, new Apfloat("0", Configurator.apfloatPrecision()), new Apfloat("0", Configurator.apfloatPrecision()), "a");
-		Vertex b = new Vertex(2, new Apfloat("1", Configurator.apfloatPrecision()), new Apfloat("1", Configurator.apfloatPrecision()), "b");
-		Vertex c = new Vertex(3, new Apfloat("2", Configurator.apfloatPrecision()), new Apfloat("2", Configurator.apfloatPrecision()), "c");
-		Vertex d = new Vertex(4, new Apfloat("3", Configurator.apfloatPrecision()), new Apfloat("3", Configurator.apfloatPrecision()), "d");
-		Vertex e = new Vertex(5, new Apfloat("4", Configurator.apfloatPrecision()), new Apfloat("4", Configurator.apfloatPrecision()), "e");
-		Vertex f = new Vertex(6, new Apfloat("5", Configurator.apfloatPrecision()), new Apfloat("5", Configurator.apfloatPrecision()), "f");
-		Vertex g = new Vertex(7, new Apfloat("6", Configurator.apfloatPrecision()), new Apfloat("6", Configurator.apfloatPrecision()), "g");
-		Vertex h = new Vertex(8, new Apfloat("7", Configurator.apfloatPrecision()), new Apfloat("7", Configurator.apfloatPrecision()), "h");
+		VertexAP a = new VertexAP(1, new Apfloat("0", Configurator.apfloatPrecision()), new Apfloat("0", Configurator.apfloatPrecision()), "a");
+		VertexAP b = new VertexAP(2, new Apfloat("1", Configurator.apfloatPrecision()), new Apfloat("1", Configurator.apfloatPrecision()), "b");
+		VertexAP c = new VertexAP(3, new Apfloat("2", Configurator.apfloatPrecision()), new Apfloat("2", Configurator.apfloatPrecision()), "c");
+		VertexAP d = new VertexAP(4, new Apfloat("3", Configurator.apfloatPrecision()), new Apfloat("3", Configurator.apfloatPrecision()), "d");
+		VertexAP e = new VertexAP(5, new Apfloat("4", Configurator.apfloatPrecision()), new Apfloat("4", Configurator.apfloatPrecision()), "e");
+		VertexAP f = new VertexAP(6, new Apfloat("5", Configurator.apfloatPrecision()), new Apfloat("5", Configurator.apfloatPrecision()), "f");
+		VertexAP g = new VertexAP(7, new Apfloat("6", Configurator.apfloatPrecision()), new Apfloat("6", Configurator.apfloatPrecision()), "g");
+		VertexAP h = new VertexAP(8, new Apfloat("7", Configurator.apfloatPrecision()), new Apfloat("7", Configurator.apfloatPrecision()), "h");
 
 
-		HashMap<Integer, Vertex> vertices = new HashMap<Integer, Vertex>();
+		HashMap<Integer, VertexAP> vertices = new HashMap<Integer, VertexAP>();
 		vertices.put(a.identifier, a);
 		vertices.put(b.identifier, b);
 		vertices.put(c.identifier, c);
@@ -47,14 +47,14 @@ public class GraphImporter {
 
 		
 		
-		HashMap<Integer, Edge> edges = new HashMap<Integer, Edge>();
-		Edge ab = new Edge(0, a.identifier, b.identifier);
-		Edge bc = new Edge(1, b.identifier, c.identifier);
-		Edge cd = new Edge(2, c.identifier, d.identifier);
-		Edge de = new Edge(3, d.identifier, e.identifier);
-		Edge ef = new Edge(4, e.identifier, f.identifier);
-		Edge fg = new Edge(5, f.identifier, g.identifier);
-		Edge gh = new Edge(6, g.identifier, h.identifier);
+		HashMap<Integer, EdgeAP> edges = new HashMap<Integer, EdgeAP>();
+		EdgeAP ab = new EdgeAP(0, a.identifier, b.identifier);
+		EdgeAP bc = new EdgeAP(1, b.identifier, c.identifier);
+		EdgeAP cd = new EdgeAP(2, c.identifier, d.identifier);
+		EdgeAP de = new EdgeAP(3, d.identifier, e.identifier);
+		EdgeAP ef = new EdgeAP(4, e.identifier, f.identifier);
+		EdgeAP fg = new EdgeAP(5, f.identifier, g.identifier);
+		EdgeAP gh = new EdgeAP(6, g.identifier, h.identifier);
 
 
 
@@ -67,15 +67,15 @@ public class GraphImporter {
 		edges.put(fg.getIdentifier(), fg);
 		edges.put(gh.getIdentifier(), gh);
 
-		return new Graph(vertices, edges);
+		return new GraphAP(vertices, edges);
 
 		
 	}
 	
-	public static Graph readInput(File f) throws Exception{
+	public static GraphAP readInput(File f) throws Exception{
 		
-		HashMap<Integer, Vertex> vertices = new HashMap<Integer, Vertex>();
-		HashMap<Integer, Edge> edge = new HashMap<Integer, Edge>();
+		HashMap<Integer, VertexAP> vertices = new HashMap<Integer, VertexAP>();
+		HashMap<Integer, EdgeAP> edge = new HashMap<Integer, EdgeAP>();
 		FileInputStream input = new FileInputStream(f);
 		CharSequence fileContents = readFile(input);
 		String regexRootForSections="\\s+\\[.*\\s+([^\\]]*\\s+)+]\\s";
@@ -121,7 +121,7 @@ public class GraphImporter {
 			
 			
 			
-			vertices.put(id, new Vertex(id, x, y, label));
+			vertices.put(id, new VertexAP(id, x, y, label));
 			start=nodeGroups.end();
 		}
 		start=0;
@@ -140,7 +140,7 @@ public class GraphImporter {
 				}
 				substart = edgeMatcher.end();
 			}
-			edge.put(edgeCounter, new Edge(edgeCounter, source, target));
+			edge.put(edgeCounter, new EdgeAP(edgeCounter, source, target));
 			edgeCounter++;
 			start=edgeGroups.end();			
 		}
@@ -149,7 +149,7 @@ public class GraphImporter {
 		
 //		System.out.println("parsed " + f.getName() + "\nNodes: " + vertices.size() + "\nEdges: " + edge.size());
 			
-		return new Graph(vertices, edge);
+		return new GraphAP(vertices, edge);
 	}
 
 	public static CharSequence readFile(FileInputStream input) throws IOException {

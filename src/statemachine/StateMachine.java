@@ -17,8 +17,7 @@ import gateway.GraphConverter;
 import gateway.GraphImporter;
 import linesweep.LineSweepAlgorithm;
 import maxclique.MaxClique;
-import plygraph.Graph;
-import utilities.Configurator;
+import plygraph.GraphAP;
 import utilities.Logger;
 
 public class StateMachine {
@@ -26,11 +25,11 @@ public class StateMachine {
 	
 	public static double startPlyComputation(File inputFile, Apfloat radiusRatio) throws Exception{
 
-		Graph inputGraph = GraphImporter.readInput(inputFile);
+		GraphAP inputGraph = GraphImporter.readInput(inputFile);
 		
 		PlyGraphGenerator pgg = new PlyGraphGenerator();
 		
-		Graph plyGraph = pgg.generatePlyIntersectionGraph(inputGraph, radiusRatio);
+		GraphAP plyGraph = pgg.generatePlyIntersectionGraph(inputGraph, radiusRatio);
 		
 		File plyGMLFile = new File("results"+File.separator+"Ply Graph.gml");
 		if(!plyGMLFile.exists()) plyGMLFile.createNewFile();
@@ -49,31 +48,30 @@ public class StateMachine {
 	}
 	
 	
-	public static double computePlyUsingLineSweep(File inputFile, Apfloat radiusRatio) throws Exception{
+	public static int computePlyUsingLineSweep(File inputFile, Apfloat radiusRatio) throws Exception{
 		
-		Graph inputGraph = GraphImporter.readInput(inputFile);
+		GraphAP inputGraph = GraphImporter.readInput(inputFile);
 		
-		Logger.log(inputFile.getName());
+		Logger.logln(inputFile.getName());
 		
 		PlyGraphGenerator pgg = new PlyGraphGenerator();
 		
 		Set<Circle> circles = pgg.computePlyCircles(inputGraph, radiusRatio);
 		
-		Logger.log("Circles: " + circles.size());
-				
+		Logger.logln("Circles: " + circles.size());
+		
 		LineSweepAlgorithm lsa = new LineSweepAlgorithm();
 		
+		int ply = lsa.computePly(circles);
 		
+		if(lsa.plyCircleGraph!=null){
+			CircleGraph cg = lsa.plyCircleGraph;
+			cg.setName(inputFile.getName());
+			Logger.logln("Storing Visual Json");
+			storeD3VisualBackupJSON(inputFile, cg);
+		}		
 		
-		CircleGraph cg = lsa.startOnCircles(circles);
-		
-		cg.setName(inputFile.getName());
-		
-		Logger.log("Storing Visual Json");
-		
-		storeD3VisualBackupJSON(inputFile, cg);
-		
-		return cg.getPly();
+		return ply;
 		
 		
 	}

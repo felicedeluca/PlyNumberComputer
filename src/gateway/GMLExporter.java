@@ -5,9 +5,9 @@ import java.io.Writer;
 
 import org.apfloat.Apfloat;
 
-import plygraph.Edge;
-import plygraph.Graph;
-import plygraph.Vertex;
+import plygraph.EdgeAP;
+import plygraph.GraphAP;
+import plygraph.VertexAP;
 
 public class GMLExporter {
 	
@@ -16,14 +16,14 @@ public class GMLExporter {
     private static final String tab2 = "\t\t";
     private static final String tab3 = "\t\t\t";
 	
-	static void exportToGML(Graph graph){
+	static void exportToGML(GraphAP graph){
 		
 	}
 	
 	
-    private void exportVertices(PrintWriter out, Graph g)
+    private void exportVertices(PrintWriter out, GraphAP g)
         {
-            for (Vertex vertex : g.getVertices()) {
+            for (VertexAP vertex : g.getVertices()) {
             	
             	
                 out.println(tab1 + "node");
@@ -46,9 +46,9 @@ public class GMLExporter {
         }
     
     
-    private void exportEdges(PrintWriter out, Graph g)
+    private void exportEdges(PrintWriter out, GraphAP g)
         {
-            for (Edge edge : g.getEdges()) {
+            for (EdgeAP edge : g.getEdges()) {
                 out.println(tab1 + "edge");
                 out.println(tab1 + "[");
                 String s = edge.getSourceIdentifier() + "";
@@ -72,7 +72,7 @@ public class GMLExporter {
         }
 
     
-    public void export(Writer output, Graph g)
+    public void export(Writer output, GraphAP g)
     {
         PrintWriter out = new PrintWriter(output);
 

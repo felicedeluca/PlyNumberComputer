@@ -21,8 +21,8 @@ public class Main {
 		Apfloat radiusRatio = new Apfloat(args[1], Configurator.apfloatPrecision());
 		
 		Configurator.getInstance().setRadiusRatio(radiusRatio);
-		Logger.log("Inputgraph: " + inputGraphFileName.getName());
-		Logger.log("Radius Ratio: " + radiusRatio.toString(true));
+		Logger.logln("Inputgraph: " + inputGraphFileName.getName());
+		Logger.logln("Radius Ratio: " + radiusRatio.toString(true));
 		
 //		double plyNumber = StateMachine.startPlyComputation(inputGraphFileName, radiusRatio);
 		double plyNumber = StateMachine.computePlyUsingLineSweep(inputGraphFileName, radiusRatio);
