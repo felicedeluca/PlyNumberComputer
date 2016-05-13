@@ -6,7 +6,7 @@ import java.nio.file.StandardOpenOption;
 
 import org.apfloat.Apfloat;
 
-import statemachine.StateMachine;
+import statemachine.PlyStateMachine;
 import utilities.PlyConfigurator;
 import utilities.PlyLogger;
 
@@ -21,11 +21,10 @@ public class Main {
 		Apfloat radiusRatio = new Apfloat(args[1], PlyConfigurator.apfloatPrecision());
 		
 		PlyConfigurator.getInstance().setRadiusRatio(radiusRatio);
-		PlyLogger.logln("Inputgraph: " + inputGraphFileName.getName());
+		PlyLogger.logln("File: " + inputGraphFileName.getName());
 		PlyLogger.logln("Radius Ratio: " + radiusRatio.toString(true));
 		
-//		double plyNumber = StateMachine.startPlyComputation(inputGraphFileName, radiusRatio);
-		int plyNumber = StateMachine.computePlyUsingLineSweep(inputGraphFileName, radiusRatio);
+		int plyNumber = PlyStateMachine.computePlyUsingLineSweep(inputGraphFileName, radiusRatio);
 		
 		System.out.println("Computed Ply: " + plyNumber);
 
@@ -47,9 +46,8 @@ public class Main {
 			}
 
 			Files.write(outputFile.toPath(), row.getBytes(), StandardOpenOption.APPEND);
-		} catch (Exception e) {
-			// exception handling left as an exercise for the reader
-		}
+			
+		} catch (Exception e) {}
 
 	}
 

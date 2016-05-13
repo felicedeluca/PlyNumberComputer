@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.apfloat.Apfloat;
 
-import statemachine.StateMachine;
+import statemachine.PlyStateMachine;
 import utilities.PlyConfigurator;
 
 public class PlyNumber {
@@ -15,7 +15,7 @@ public class PlyNumber {
 		
 		PlyConfigurator.getInstance().setRadiusRatio(radiusRatio);
 		
-		int ply = StateMachine.computePlyUsingLineSweep(inputGraphFileName, radiusRatio);
+		int ply = PlyStateMachine.computePlyUsingLineSweep(inputGraphFileName, radiusRatio);
 
 		return ply;
 	}

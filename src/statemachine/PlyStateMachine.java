@@ -15,7 +15,7 @@ import graphap.GraphAP;
 import linesweep.LineSweepAlgorithm;
 import utilities.PlyLogger;
 
-public class StateMachine {
+public class PlyStateMachine {
 	
 	
 	public static int computePlyUsingLineSweep(File inputFile, Apfloat radiusRatio) throws Exception{
