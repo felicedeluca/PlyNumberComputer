@@ -17,14 +17,6 @@ public class PlyNumber {
 		
 		int ply = StateMachine.computePlyUsingLineSweep(inputGraphFileName, radiusRatio);
 
-		/*
-		String fileName = inputGraphFileName.getName();
-		int pos = fileName.lastIndexOf(".");
-		if (pos > 0) {
-			fileName = fileName.substring(0, pos);
-		}
-		*/
-		
 		return ply;
 	}
 

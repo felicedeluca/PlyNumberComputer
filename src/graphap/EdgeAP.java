@@ -25,18 +25,6 @@ public class EdgeAP {
 		this.target = target;
 		
 	}
-
-	/*
-	public Edge(int identifier, Integer source, Integer target){//, Apfloat length){
-		
-		this.identifier = identifier;
-		this.source = source;
-		this.target = target;
-		this.length = length;
-		
-	}
-	
-	*/
 	
 	public Integer getIdentifier(){
 		return this.identifier;
@@ -63,10 +51,7 @@ public class EdgeAP {
 		return this.squaredLength;
 		
 	}
-//	public Apfloat getLenth(){
-	//	return this.length;
-//	}
-	
+
 	public String toString(){
 		
 		return this.getIdentifier()+ ": " + this.getSourceIdentifier() + "-" + this.getTargetIdentifier();

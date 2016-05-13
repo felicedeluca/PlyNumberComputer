@@ -1,8 +1,6 @@
 package statemachine;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.Set;
@@ -12,40 +10,12 @@ import org.apfloat.Apfloat;
 import algorithms.PlyGraphGenerator;
 import circlegraph.Circle;
 import circlegraph.CircleGraph;
-import gateway.GMLExporter;
-import gateway.GraphConverter;
 import gateway.GraphImporter;
 import graphap.GraphAP;
 import linesweep.LineSweepAlgorithm;
-import maxclique.MaxClique;
 import utilities.PlyLogger;
 
 public class StateMachine {
-
-	
-	public static double startPlyComputation(File inputFile, Apfloat radiusRatio) throws Exception{
-
-		GraphAP inputGraph = GraphImporter.readInput(inputFile);
-		
-		PlyGraphGenerator pgg = new PlyGraphGenerator();
-		
-		GraphAP plyGraph = pgg.generatePlyIntersectionGraph(inputGraph, radiusRatio);
-		
-		File plyGMLFile = new File("results"+File.separator+"Ply Graph.gml");
-		if(!plyGMLFile.exists()) plyGMLFile.createNewFile();
-		
-		 Writer writer = new FileWriter(plyGMLFile);
-		 GMLExporter gmle = new GMLExporter();
-		 gmle.export(writer, plyGraph);
-		 
-		
-		byte[][] adjMat = GraphConverter.convertToAdjMatrix(plyGraph);
-		
-		MaxClique mc = new MaxClique(adjMat);
-		double maxClique = mc.findSolution();
-		
-		return maxClique;
-	}
 	
 	
 	public static int computePlyUsingLineSweep(File inputFile, Apfloat radiusRatio) throws Exception{
@@ -97,7 +67,7 @@ public class StateMachine {
 
 			Files.write(outputFile.toPath(), content.getBytes(), StandardOpenOption.APPEND);
 		} catch (Exception e) {
-			// exception handling left as an exercise for the reader
+
 		}
 
 	}
