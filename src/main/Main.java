@@ -6,6 +6,7 @@ import java.nio.file.StandardOpenOption;
 
 import org.apfloat.Apfloat;
 
+import statemachine.PlyResult;
 import statemachine.PlyStateMachine;
 import utilities.PlyConfigurator;
 import utilities.PlyLogger;
@@ -20,23 +21,17 @@ public class Main {
 		File inputGraphFileName = new File(args[0]);
 		Apfloat radiusRatio = new Apfloat(args[1], PlyConfigurator.apfloatPrecision());
 		
-		PlyConfigurator.getInstance().setRadiusRatio(radiusRatio);
+		//Log
 		PlyLogger.logln("File: " + inputGraphFileName.getName());
 		PlyLogger.logln("Radius Ratio: " + radiusRatio.toString(true));
 		
-		int plyNumber = PlyStateMachine.computePlyUsingLineSweep(inputGraphFileName, radiusRatio);
+		PlyConfigurator.getInstance().setRadiusRatio(radiusRatio);
+		PlyResult res = PlyStateMachine.computePly(inputGraphFileName, radiusRatio);
+
+		String row = res.toCSV()+System.getProperty("line.separator");
 		
-		System.out.println("Computed Ply: " + plyNumber);
-
+		System.out.println(row);
 		
-		String fileName = inputGraphFileName.getName();
-		int pos = fileName.lastIndexOf(".");
-		if (pos > 0) {
-			fileName = fileName.substring(0, pos);
-		}
-
-		String row = fileName + ";" + plyNumber+System.getProperty("line.separator");
-
 		try {
 
 			File outputFile = new File("results"+File.separator+"ply_results.csv");

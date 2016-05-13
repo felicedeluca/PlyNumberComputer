@@ -17,10 +17,15 @@ import utilities.PlyLogger;
 
 public class PlyStateMachine {
 	
-	
-	public static int computePlyUsingLineSweep(File inputFile, Apfloat radiusRatio) throws Exception{
+	public static PlyResult computePly(File inputFile, Apfloat radiusRatio) throws Exception{
+		
+		PlyResult res = new PlyResult();
+		res.name = inputFile.getName();
 		
 		GraphAP inputGraph = PlyGMLImporter.readInput(inputFile);
+		
+		res.V = inputGraph.getVertices().size();
+		res.E = inputGraph.getEdges().size();
 		
 		PlyLogger.logln(inputFile.getName());
 		
@@ -30,10 +35,12 @@ public class PlyStateMachine {
 		
 		PlyLogger.logln("Circles: " + circles.size());
 		
+		
 		LineSweepAlgorithm lsa = new LineSweepAlgorithm();
 		
 		
 		int ply = lsa.computePly(circles);
+		res.ply = ply;
 		
 		if(lsa.plyCircleGraph!=null){
 			CircleGraph cg = lsa.plyCircleGraph;
@@ -42,9 +49,18 @@ public class PlyStateMachine {
 			storeD3VisualBackupJSON(inputFile, cg);
 		}		
 		
-		return ply;
+		return res;
 		
 		
+	}
+	
+	
+	public static int getPly(File inputFile, Apfloat radiusRatio) throws Exception{
+		
+		PlyResult res = computePly(inputFile, radiusRatio);
+
+		return res.ply;
+				
 	}
 	
 	private static void storeD3VisualBackupJSON(File inputGraphFileName, CircleGraph cg){
