@@ -15,15 +15,21 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 
-	if (args.length != 2)
-		throw new IllegalArgumentException("Please check input values: filePath radiusratio.");
+		
+	if (args.length == 0)
+		throw new IllegalArgumentException("Please check input values: filePath [, radiusratio=0.5]");
 
 		File inputGraphFileName = new File(args[0]);
-		Apfloat radiusRatio = new Apfloat(args[1], PlyConfigurator.apfloatPrecision());
+		
+		Apfloat radiusRatio = new Apfloat("0.5", PlyConfigurator.apfloatPrecision());
+		
+		if(args.length > 1)
+			radiusRatio = new Apfloat(args[1], PlyConfigurator.apfloatPrecision());
 		
 		//Log
 		PlyLogger.logln("File: " + inputGraphFileName.getName());
 		PlyLogger.logln("Radius Ratio: " + radiusRatio.toString(true));
+		
 		
 		PlyConfigurator.getInstance().setRadiusRatio(radiusRatio);
 		PlyResult res = PlyStateMachine.computePly(inputGraphFileName, radiusRatio);

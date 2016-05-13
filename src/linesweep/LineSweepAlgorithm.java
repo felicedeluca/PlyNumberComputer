@@ -19,9 +19,9 @@ import utilities.PlyLogger;
 
 public class LineSweepAlgorithm {
 
-	Set<Circle> circles;
-	Set<Circle> activeCircles;
-	public CircleGraph plyCircleGraph;
+	Set<Circle> circles; //Circles of the graph
+	Set<Circle> activeCircles; //Currently Active Circles
+	public CircleGraph plyCircleGraph; //Max Ply Circles (non null at the end if in DEBUG)
 
 	public LineSweepAlgorithm(){
 		this.circles = new HashSet<Circle>();
@@ -29,25 +29,31 @@ public class LineSweepAlgorithm {
 		this.plyCircleGraph = null;
 	}
 
+	/**
+	 * Computes the ply on the given circles
+	 * @param circles circles on which compute the ply
+	 * @return
+	 */
 	public int computePly(Set<Circle> circles){
 
-	      long startTime = System.currentTimeMillis();
+		long startTime = System.currentTimeMillis();
 
-		
 		PlyLogger.logln("Starting SweepLine Algorithm");
 
 		activeCircles = new HashSet<Circle>();
 
 		//Compute Events
 		EventsMng em = new EventsMng();
-	  
-		long eventsStartTime = System.currentTimeMillis();
-		Map<Apfloat, Set<Event>> eventsMap = em.computeEvents(circles);
-		long eventcomputationTime = System.currentTimeMillis();
-		System.out.println("EventTime: " + (eventcomputationTime-eventsStartTime));
 
+		long eventsStartTime = System.currentTimeMillis();
 		
-		//Ordered key list
+		Map<Apfloat, Set<Event>> eventsMap = em.computeEvents(circles); //Compute all Events
+		
+		long eventcomputationTime = System.currentTimeMillis();
+		PlyLogger.log("EventTime: " + (eventcomputationTime-eventsStartTime));
+
+
+		//Orders events' X-coordinate
 		ArrayList<Apfloat> eventsX = new ArrayList<Apfloat>(eventsMap.keySet());
 		Collections.sort(eventsX);
 
@@ -55,14 +61,14 @@ public class LineSweepAlgorithm {
 		Set<ApfloatInterval> maxPlyRanges = new HashSet<ApfloatInterval>();
 		Apfloat maxX = new Apfloat(0);
 
-		PlyLogger.loglnAlways("Events: " + eventsX.size());
+		PlyLogger.logln("Events: " + eventsX.size());
 
 		int ignoredEvents = 0;
 
 		int i = 0;
 		double lastPercentage = -1;
 
-		PlyLogger.logAlways("Events: ");
+		PlyLogger.log("Events: ");
 		for(Apfloat x : eventsX){
 
 			//Logging
@@ -71,7 +77,7 @@ public class LineSweepAlgorithm {
 			if(roundPercentage%10 == 0){
 				if(lastPercentage!=roundPercentage){
 					lastPercentage = roundPercentage;
-					PlyLogger.logAlways(roundPercentage+"%  ");
+					PlyLogger.log(roundPercentage+"%  ");
 				}
 			}
 			i++;
@@ -79,11 +85,14 @@ public class LineSweepAlgorithm {
 			Set<Event> events = eventsMap.get(x);
 			Set<Circle> degenerateCiclesToClose = new HashSet<Circle>();
 
+			//Set of Events to ignore
 			Set<Event> openingAndClosingEventsToRemove = new HashSet<Event>();
 
+			
 			for (Event e : events){
 				//Setup circles
 				prepareForEvent(e);	
+				
 				if(e.type == Type.OPENING || e.type == Type.CLOSING){
 					openingAndClosingEventsToRemove.add(e);
 				}
@@ -95,33 +104,38 @@ public class LineSweepAlgorithm {
 			//Remove Opening and Closing events, since there are DUPLICATED events
 			events.removeAll(openingAndClosingEventsToRemove);
 			ignoredEvents += openingAndClosingEventsToRemove.size();
-			if(events.size()==0){
-				PlyLogger.logln("No need to compute intersection since there are no events");
-				continue;
-			}
+			
+			if(events.size()==0){continue;}
 
-			if(activeCircles.size()==0){ continue; }
+			if(activeCircles.size()==0){continue;}
 
 			//Compute all Intersections
 			ArrayList<ApfloatInterval> intervals = computeIntersections(x);
 
 			int currPly = 0;
 
+			//If in DEBUG computes the Ply and returns the maximum overlapping intervals
+			//Otherwise computes only the Ply value (this is faster)
 			if(PlyConfigurator.debug){
+				
 				Set<ApfloatInterval> currPlyRanges = pointOfMaximumOverlap(intervals);
 				currPly = currPlyRanges.size();	
 				if(currPly>maxPly){maxPlyRanges = currPlyRanges;}
+				
 			}else{
+				
 				currPly = this.numberOfMaxOverlappingIntervals(intervals);
+				
 			}
 
 			//Check Ply
-			if(currPly>maxPly){//
+			if(currPly>maxPly){
 				PlyLogger.logln("New Ply: " + currPly);
 				maxPly = currPly;
 				maxX = x;
 			}
 
+			//Close all degenerate circles, since these are managed differently from the others
 			for(Circle degenerateCircle : degenerateCiclesToClose){
 				if(!activeCircles.contains(degenerateCircle))
 					throw new IllegalArgumentException("Trying to close a non active degenerate circle: " + degenerateCircle.toString());
@@ -129,14 +143,15 @@ public class LineSweepAlgorithm {
 			}
 		}
 
-		PlyLogger.loglnAlways("100 %");
-		PlyLogger.loglnAlways("Ignored Events: " + ignoredEvents);
+		PlyLogger.logln("100 %");
+		PlyLogger.logln("Ignored Events: " + ignoredEvents);
 
 		PlyLogger.logln("Max Ply: " + maxPly);
 		PlyLogger.logln("X Coordinate: " + maxX);
 
+		//If in debug store retrieve from the set of the maximum overlapping intervals all the relative circles
 		if(PlyConfigurator.debug){
-			
+
 			Set<Circle> maxPlyCircles = new HashSet<Circle>();
 			for(ApfloatInterval range : maxPlyRanges){
 				maxPlyCircles.add(range.getCircle());
@@ -145,16 +160,23 @@ public class LineSweepAlgorithm {
 			CircleGraph cg = new CircleGraph(circles, maxPlyCircles, maxX);
 			this.plyCircleGraph = cg;
 		}
-		
-		
 
+
+
+		//log computation time
 		long endTime = System.currentTimeMillis();
-		System.out.println("TotalTime: " + (endTime-startTime));
+		PlyLogger.log("TotalTime: " + (endTime-startTime));
 
 		return maxPly;
 
 	}
 
+	
+	
+	/**
+	 * Opens, Closes, and checks all events before intesection intervals are computed 
+	 * @param e event
+	 */
 	private void prepareForEvent(Event e){
 
 		switch(e.type){
@@ -192,17 +214,21 @@ public class LineSweepAlgorithm {
 		}
 
 	}
-	
-	/***************************************************************************
-     *  Intersections
-     ***************************************************************************/
 
+	/***************************************************************************
+	 *  Intersections
+	 ***************************************************************************/
+	
+	/**
+	 * Computes the inteserctions of the <tt>activeCircles</tt> with the sweep-line
+	 * @param xLine x-coordinate of the sweep-line
+	 * @return Intervals of intersection between seepline and active circles
+	 */
 	private ArrayList<ApfloatInterval> computeIntersections(Apfloat xLine){
 
 		ArrayList<ApfloatInterval> rangeSet = new ArrayList<ApfloatInterval>();
 
 		for(Circle circle : this.activeCircles){
-
 
 			Apfloat xCenter = circle.getX();
 			Apfloat yCenter = circle.getY();
@@ -214,9 +240,6 @@ public class LineSweepAlgorithm {
 				continue;
 			}
 
-			//System.out.println("xLine: "+xLine+"\ncenter: (" +xCenter + ", "+ yCenter +") radius: "+ radius );
-
-			//Apfloat a = new Apfloat("1", Apfloat.INFINITE);
 			Apfloat b = yCenter.multiply(new Apfloat("2", PlyConfigurator.apfloatPrecision())).negate(); //-2yc
 
 			Apfloat c = ApfloatMath.sum(ApfloatMath.pow(yCenter, 2),
@@ -241,11 +264,19 @@ public class LineSweepAlgorithm {
 		return rangeSet;
 
 	}
-	
-	/***************************************************************************
-     *  Point Of Maximum Overlap
-     ***************************************************************************/
 
+	/***************************************************************************
+	 *  Point Of Maximum Overlap
+	 ***************************************************************************/
+
+	/**
+	 * Check the overlap of all <tt>intervals</tt> and returns the max set
+	 * of intervals overlapping in the same point.
+	 * Use this method if you need to get the Intervals
+	 * otherwise use <tt>numberOfMaxOverlappingIntervals</tt> that is faster
+	 * @param intervals input interval on which compute the overlapping count
+	 * @return the set of maximum overlapping intervals in the same point
+	 */
 	private Set<ApfloatInterval> pointOfMaximumOverlap(ArrayList<ApfloatInterval> intervals){
 
 		Map<Apfloat, ArrayList<ApfloatInterval>> openingRangesMap = new HashMap<Apfloat, ArrayList<ApfloatInterval>>();
@@ -333,6 +364,14 @@ public class LineSweepAlgorithm {
 	}
 
 
+	
+	/**
+	 * Computes the overlapping of all <tt>intervals</tt> and returns the max number of overlapping
+	 * Intervals in the same point.
+	 * This method is as efficient as <tt>pointOfMaximumOverlap</tt> but is faster.
+	 * @param intervals input interval on which compute the overlapping count
+	 * @return the value of maximum overlapping intervals in the same point
+	 */
 	private int numberOfMaxOverlappingIntervals(ArrayList<ApfloatInterval> intervals){
 
 		Map<Apfloat, Integer> overlappingIntervals = new HashMap<Apfloat, Integer>();
@@ -392,11 +431,11 @@ public class LineSweepAlgorithm {
 
 
 	/***************************************************************************
-	 *  test client
+	 *  test 
 	 ***************************************************************************/
 	public static void main(String[] args) {
 
-		
+
 
 	}
 }

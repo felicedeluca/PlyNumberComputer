@@ -19,9 +19,13 @@ import utilities.PlyLogger;
 public class EventsMng {
 
 	ArrayList<Event> orderdEvents;
-
-	public EventsMng(){}
-
+	
+	/**
+	 * Computes all events i.e. Opening, Closing and Intersection events.
+	 * In addiction computes 'middle events' that are events between two consecutive events.
+	 * @param circles Circles on which compute the Events
+	 * @return a Map where the key are the X-coordinate of the events and the value is a set of Events
+	 */
 	public Map<Apfloat, Set<Event>> computeEvents(Set<Circle> circles){
 
 		PlyLogger.logln("Computing Events");
@@ -39,7 +43,7 @@ public class EventsMng {
 		
 		double lastPercentage = 0.0;
 		
-		PlyLogger.logAlways("Intersections:");
+		PlyLogger.log("Intersections:");
 		
 		for(int i=0; i<circlesArrList.size(); i++){
 
@@ -51,14 +55,12 @@ public class EventsMng {
 			if(roundPercentage%10 == 0){
 				if(lastPercentage!=roundPercentage){
 					lastPercentage = roundPercentage;
-					PlyLogger.logAlways(roundPercentage+"%  ");
+					PlyLogger.log(roundPercentage+"%  ");
 				}
 			}
 
 			Circle c = circlesArrList.get(i);
-			
-			//Logger.log("leftmost X: " + c.getLeftmostX());
-
+	
 
 			if(c.hasRadiusZero()){
 
@@ -116,11 +118,11 @@ public class EventsMng {
 
 		}
 
-		PlyLogger.loglnAlways("100 %");
+		PlyLogger.logln("100 %");
 		
 		PlyLogger.logln("Computed Real Events: " + eventsMap.size());
 
-		Map<Apfloat, Set<Event>> completeEventsMap =  addFakeEvents(eventsMap);
+		Map<Apfloat, Set<Event>> completeEventsMap =  addMidEvents(eventsMap);
 
 		PlyLogger.logln("Total Events: " + completeEventsMap.size());
 
@@ -129,18 +131,23 @@ public class EventsMng {
 
 	}
 
+	//Lazy
 	private Set<Event> prepareForNewEvent(Map<Apfloat, Set<Event>> map, Apfloat x){
 
 		Set<Event> eventsOnX = map.get(x);
 		if(eventsOnX == null){
 			eventsOnX = new HashSet<Event>();
 		}
-
 		return eventsOnX;
-
 	}
 
-	private Map<Apfloat, Set<Event>>  addFakeEvents(Map<Apfloat, Set<Event>> map){
+	/**
+	 * Add new events between two consecutive computed events.
+	 * This reduces the error probability.
+	 * @param map
+	 * @return
+	 */
+	private Map<Apfloat, Set<Event>>  addMidEvents(Map<Apfloat, Set<Event>> map){
 
 		PlyLogger.logln("Computing Fake Events");
 
@@ -191,7 +198,12 @@ public class EventsMng {
 
 	}
 
-
+	/**
+	 * Checks if Circles <tt>c0</tt> and <tt>c1</tt> intersect or are tangent
+	 * @param c0 first Circle
+	 * @param c1 second Circle
+	 * @return true if circles don't touch or are tangent, false otherwise
+	 */
 	private boolean toIgnore(Circle c0, Circle c1){
 
 		Apfloat dx = c1.getX().subtract(c0.getX());
@@ -268,6 +280,7 @@ public class EventsMng {
 			intersectionPoints.add(xi2);
 
 		}catch(Exception e){
+			
 			System.out.println("error on sqrt");
 			System.out.println(c0.toString());
 			System.out.println(c1.toString());
