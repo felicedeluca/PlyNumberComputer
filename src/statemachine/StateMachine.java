@@ -10,7 +10,7 @@ import org.apfloat.Apfloat;
 import algorithms.PlyGraphGenerator;
 import circlegraph.Circle;
 import circlegraph.CircleGraph;
-import gateway.GraphImporter;
+import gateway.PlyGMLImporter;
 import graphap.GraphAP;
 import linesweep.LineSweepAlgorithm;
 import utilities.PlyLogger;
@@ -20,7 +20,7 @@ public class StateMachine {
 	
 	public static int computePlyUsingLineSweep(File inputFile, Apfloat radiusRatio) throws Exception{
 		
-		GraphAP inputGraph = GraphImporter.readInput(inputFile);
+		GraphAP inputGraph = PlyGMLImporter.readInput(inputFile);
 		
 		PlyLogger.logln(inputFile.getName());
 		

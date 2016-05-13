@@ -9,7 +9,7 @@ import graphap.EdgeAP;
 import graphap.GraphAP;
 import graphap.VertexAP;
 
-public class GMLExporter {
+public class PlyGMLExporter {
 	
     private static final String delim = " ";
     private static final String tab1 = "\t";

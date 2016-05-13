@@ -18,7 +18,7 @@ import graphap.GraphAP;
 import graphap.VertexAP;
 import utilities.PlyConfigurator;
 
-public class GraphImporter {
+public class PlyGMLImporter {
 	
 	public static GraphAP testGraph(){
 		
