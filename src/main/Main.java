@@ -36,7 +36,7 @@ public class Main {
 
 		String row = res.toCSV()+System.getProperty("line.separator");
 		
-		System.out.println(row);
+		System.out.print(row);
 		
 		try {
 

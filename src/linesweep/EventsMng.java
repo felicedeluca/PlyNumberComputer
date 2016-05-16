@@ -179,7 +179,7 @@ public class EventsMng {
 							+ "2: "+ nextKey.toString(true) +"\n"
 							+ "== " + midKey.toString(true);
 					
-					System.out.println(err);
+				//System.out.println(err);
 					midKey = currKey;
 					//throw new IllegalArgumentException("Wrong mid key computation:\n"+err);
 				}
