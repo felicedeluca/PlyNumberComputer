@@ -3,6 +3,8 @@ package circlegraph;
 import org.apfloat.Apfloat;
 import org.apfloat.ApfloatMath;
 
+import graphap.EdgeAP;
+
 public class Circle {
 	
 	String identifier;
@@ -19,7 +21,9 @@ public class Circle {
 	
 	String color;
 	
-	public Circle(String identifier, String label, Apfloat x, Apfloat y, Apfloat squaredRadius){
+	EdgeAP relativeEdge;
+	
+	public Circle(String identifier, String label, Apfloat x, Apfloat y, Apfloat squaredRadius, EdgeAP relativeEdge){
 		this.identifier = identifier;
 		this.label = label;
 		this.x = x;
@@ -30,6 +34,8 @@ public class Circle {
 		
 		leftmostX = getX().subtract(getRadius());
 		rightmostX = getX().add(getRadius());
+		
+		this.relativeEdge = relativeEdge;
 		
 	}
 	
@@ -47,6 +53,10 @@ public class Circle {
 	
 	public Apfloat getY(){
 		return this.y;
+	}
+	
+	public EdgeAP getRelativeEdge(){
+		return this.relativeEdge;
 	}
 	
 	public String toString(){

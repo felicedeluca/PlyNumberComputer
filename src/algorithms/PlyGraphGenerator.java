@@ -32,17 +32,27 @@ public class PlyGraphGenerator{
 			
 			Set<EdgeAP> adjEdges = graph.getIncidentEdges(currVertex);
 			
+			
+			EdgeAP maxEdge = null;
+			
 			for(EdgeAP currEdge : adjEdges){
 				
 				Apfloat squaredLength = currEdge.getSquaredLength();
 				Apfloat currSquaredRadius = squaredLength.multiply(squaredRadiusRatio);
 				
-				maxSquaredRadiusLength = (maxSquaredRadiusLength.compareTo(currSquaredRadius)== 1) ? maxSquaredRadiusLength : currSquaredRadius;
+				if(maxSquaredRadiusLength.compareTo(currSquaredRadius)!= 1){
+					
+					maxEdge = currEdge;
+					maxSquaredRadiusLength = currSquaredRadius;
+					
+				}
+				
+				//maxSquaredRadiusLength = (maxSquaredRadiusLength.compareTo(currSquaredRadius)== 1) ? maxSquaredRadiusLength : currSquaredRadius;
 			}
 			
 			currVertex.setSquaredCircleRadius(maxSquaredRadiusLength);
 			
-			Circle c = new Circle(currVertex.identifier+"", currVertex.label, currVertex.x, currVertex.y, currVertex.getSquaredCircleRadius());
+			Circle c = new Circle(currVertex.identifier+"", currVertex.label, currVertex.x, currVertex.y, currVertex.getSquaredCircleRadius(), maxEdge);
 
 			circles.add(c);
 			

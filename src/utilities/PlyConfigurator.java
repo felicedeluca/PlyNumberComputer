@@ -19,7 +19,7 @@ public class PlyConfigurator {
 	}
 	
 	
-	static int apfloatPrecision = 1000;
+	static int apfloatPrecision = 250;
 	static Apfloat epsilon = null;
 	
 	public static Apfloat zero = new Apfloat("0", PlyConfigurator.apfloatPrecision());

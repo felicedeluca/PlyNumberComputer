@@ -19,6 +19,7 @@ public class CirclesMng {
 		
 	}
 	
+	/*
 	public Set<Circle> convertVerticesToCirlces(Set<VertexAP> vertices){
 		
 		Set<Circle> circlesSet = new HashSet<Circle>();
@@ -35,6 +36,6 @@ public class CirclesMng {
 		
 		
 	}
-	
+	*/
 
 }

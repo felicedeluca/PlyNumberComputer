@@ -162,8 +162,30 @@ public class EventsMng {
 			Apfloat nextKey = keys.get(i+1);
 
 			Apfloat midKey = currKey;
-
+			
+		
 			if(currKey.compareTo(nextKey)!=0){
+				
+				//Check if there is a precisione isse
+				Set<Event> currEvents = completeEventsMap.get(currKey);
+				Set<Event> nextEvents = completeEventsMap.get(nextKey);
+				
+				if(currEvents.size() == 1 && nextEvents.size() == 1){
+					
+					Event currEvent = (Event) currEvents.toArray()[0];
+					Event nextEvent = (Event) nextEvents.toArray()[0];
+					
+					if(currEvent.type == Type.OPENING &&
+							nextEvent.type == Type.CLOSING){
+						
+						Circle c1 = currEvent.circle;
+						Circle c2 = nextEvent.circle;
+						
+						if(c1.getRelativeEdge().equals(c2.getRelativeEdge())){
+							continue; //do not create mid Event -> precision issue
+						}
+					}
+				}
 
 				currKey = new Apfloat(keys.get(i).toString(), PlyConfigurator.apfloatPrecision()+1);
 				nextKey = new Apfloat(keys.get(i+1).toString(), PlyConfigurator.apfloatPrecision()+1);
@@ -206,6 +228,12 @@ public class EventsMng {
 	 */
 	private boolean toIgnore(Circle c0, Circle c1){
 
+		if(c0.getRelativeEdge() != null && c1.getRelativeEdge() != null){
+			if (c0.getRelativeEdge().equals(c1.getRelativeEdge())){
+				return true;
+			}
+		}
+		
 		Apfloat dx = c1.getX().subtract(c0.getX());
 		Apfloat dy = c1.getY().subtract(c0.getY());
 

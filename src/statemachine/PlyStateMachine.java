@@ -35,7 +35,6 @@ public class PlyStateMachine {
 		
 		PlyLogger.logln("Circles: " + circles.size());
 		
-		
 		LineSweepAlgorithm lsa = new LineSweepAlgorithm();
 		
 		

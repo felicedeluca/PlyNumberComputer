@@ -17,7 +17,7 @@ public class Main {
 
 		
 	if (args.length == 0)
-		throw new IllegalArgumentException("Please check input values: filePath [, radiusratio=0.5]");
+		throw new IllegalArgumentException("Please check input values: filePath [radiusratio=0.5]");
 
 		File inputGraphFileName = new File(args[0]);
 		
